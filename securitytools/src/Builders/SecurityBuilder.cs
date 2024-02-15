@@ -320,10 +320,10 @@ public abstract class SecurityBuilder<T>
         });
         if (foundItem != null)
         {
-            Logger.Information("extension already exists.");
+            Logger.Debug("extension already exists.");
             return;
         }
-        Logger.Information("add extension.");
+        Logger.Debug("add extension.");
         csr.CertificateExtensions.Add(ext);
     }
 

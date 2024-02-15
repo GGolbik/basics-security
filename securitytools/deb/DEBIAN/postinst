@@ -1,7 +1,7 @@
 #!/bin/sh
 echo "postinst..."
 
-ln -s /opt/ggolbik/securitytools/securitytools /usr/bin/ggolbik-securitytools
+ln -s /opt/ggolbik/securitytools/SecurityTools /usr/bin/ggolbik-securitytools
 
 if [ -d /run/systemd/system ]; then
   systemctl daemon-reload >/dev/null || true

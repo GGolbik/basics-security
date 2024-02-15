@@ -24,7 +24,7 @@ Architecture: all
 #Essential: no
 #
 # (optional) Packages can declare in their control file that they have certain relationships to other packages - for example, that they may not be installed at the same time as certain other packages, and/or that they depend on the presence of others. This is done using the Depends, Pre-Depends, Recommends, Suggests, Enhances, Breaks and Conflicts control fields. These seven fields are used to declare a dependency relationship by one package on another. Except for Enhances and Breaks.
-Depends: debconf (>= 0.2.26), libldap-2.4-2 (>= 2.4)
+Depends: debconf (>= 0.2.26)
 #Pre-Depends:
 #Recommends: dh-systemd (>= 1.5)
 #Suggests:
