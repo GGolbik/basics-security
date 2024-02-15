@@ -1,0 +1,8 @@
+<mat-checkbox [(ngModel)]="critical" (change)="fire()" matTooltipPosition="right">Critical</mat-checkbox>
+<mat-accordion [multi]="true">
+<app-string-list (configChange)="fire()" [title]="'Email Addresses'" [type]="'email'" [label]="'Email Address'" [placeholder]="'info@example.com'" [(config)]="emailAddresses"></app-string-list>
+<app-string-list (configChange)="fire()" [title]="'DNS Names'" [label]="'DNS Name'" [placeholder]="'www'" [(config)]="dnsNames" ></app-string-list>
+<app-string-list (configChange)="fire()" [title]="'IP Addresses'" [label]="'IP Address'" [placeholder]="'127.0.0.1'" [(config)]="iPAddresses" ></app-string-list>
+<app-string-list (configChange)="fire()" [title]="'URIs'" [label]="'URI'" [placeholder]="'http://www.example.com'" [(config)]="uris" ></app-string-list>
+<app-string-list (configChange)="fire()" [title]="'User Principal Names'" [label]="'User Principal Name'" [placeholder]="'John Doe'" [(config)]="userPrincipalNames" ></app-string-list>
+</mat-accordion>

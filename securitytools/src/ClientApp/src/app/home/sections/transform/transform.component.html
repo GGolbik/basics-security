@@ -1,0 +1,100 @@
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper [selectedIndex]="params.stepperIndex"
+    (selectionChange)="selectedIndexChange($event)">
+    <mat-step [completed]="completedGetStarted">
+        <form>
+            <ng-template matStepLabel>Get Started</ng-template>
+            <mat-card [appearance]="'outlined'">
+                <mat-card-header>
+                    <mat-card-title>Transform</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    Start your journey to transform a list of files. You can find more info in
+                    the <a href="/doc#Transform" matTooltip="Open Documentation" aria-label="Open Documentation icon-button">
+                        documentation</a>.
+                    <p>
+                        <br>
+                        <app-file-input [hideInput]="true" [readPlainText]="true" [label]="'Import'" [isRaw]="true"
+                            (contentChange)="import($event)"></app-file-input>
+                    </p>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-button [color]="completedDone ? '' : 'warn'" (click)="reset()">Reset</button>
+                    <button mat-flat-button color="accent" matStepperNext>Next</button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </mat-step>
+
+    <mat-step [completed]="completedMode" [optional]="false">
+        <ng-template matStepLabel>Transform Mode
+            <a href="/doc#TransformMode" target="_blank" matTooltip="Open Documentation"
+                aria-label="Open Documentation icon-button">(doc)</a>
+        </ng-template>
+
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>Transform Mode</mat-label>
+                    <mat-select [(ngModel)]="config.mode">
+                        <mat-option
+                            *ngFor="let enum of (TransformMode | keyvalue).slice(0, (TransformMode | keyvalue).length / 2)"
+                            [value]="Number(enum.key)">
+                            {{enum.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+    
+    <mat-step [completed]="completedEntries" [optional]="false">
+        <ng-template matStepLabel>Files
+            <a href="/doc#TransformFiles" target="_blank" matTooltip="Open Documentation"
+                aria-label="Open Documentation icon-button">(doc)</a>
+        </ng-template>
+
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <app-file-entries [(config)]="entries"></app-file-entries>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button (click)="entries = undefined" [disabled]="entries == null">Clear</button>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+
+    <mat-step [completed]="completedDone">
+        <ng-template matStepLabel>Create</ng-template>
+
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <span>If you are ready, click create.</span>
+                <mat-form-field appearance="outline">
+                    <mat-label>Container Format</mat-label>
+                    <mat-select [(ngModel)]="accepts">
+                        <mat-option
+                            *ngFor="let enum of (MediaType | keyvalue).slice(0, (MediaType | keyvalue).length / 2)"
+                            [value]="Number(enum.key)">
+                            {{enum.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <p>
+                    <button mat-stroked-button aria-label="Export config icon button" matTooltip="Export config"
+                        (click)="export()"><mat-icon>download</mat-icon> Export</button>
+                </p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-button [color]="completedDone ? '' : 'warn'" (click)="reset()">Reset</button>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="create()" [disabled]="!ready">Create</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+</mat-stepper>

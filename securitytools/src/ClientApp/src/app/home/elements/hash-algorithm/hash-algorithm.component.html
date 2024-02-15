@@ -1,0 +1,11 @@
+
+<mat-form-field>
+    <mat-label>Hash Algorithm</mat-label>
+    <input matInput placeholder="Name or OID" [(ngModel)]="alg" name="hashAlgorithm" [matAutocomplete]="autoRsa">
+    <mat-hint *ngIf="hint != null">{{ hint }}</mat-hint>
+    <mat-autocomplete autoActiveFirstOption #autoRsa="matAutocomplete">
+        <mat-option *ngFor="let option of optionsHash" [value]="option">
+            {{option}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

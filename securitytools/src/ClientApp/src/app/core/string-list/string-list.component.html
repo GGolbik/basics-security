@@ -1,0 +1,21 @@
+<mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{title}}
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div style="display: flex;gap:1em" *ngFor="let entry of list; index as i">
+        <mat-form-field>
+            <mat-label>{{label}}</mat-label>
+            <input matInput [type]="type" [placeholder]="placeholder" [value]="entry" (change)="setV(i, $event);">
+            <mat-icon matSuffix *ngIf="entry == null || entry == ''" matTooltip="Field is empty">warning</mat-icon>
+        </mat-form-field>
+        <button mat-icon-button matTooltip="Delete entry" color="warn" aria-label="Delete entry icon-button"
+            (click)="deleteEntry(i)"><mat-icon>delete_forever</mat-icon></button>
+    </div>
+
+    <mat-action-row>
+        <button mat-stroked-button color="primary" (click)="addEntry()">Add Entry</button>
+    </mat-action-row>
+</mat-expansion-panel>

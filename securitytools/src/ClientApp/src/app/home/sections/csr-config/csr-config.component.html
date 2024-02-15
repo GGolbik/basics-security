@@ -1,0 +1,278 @@
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper [selectedIndex]="params.stepperIndex"
+    (selectionChange)="selectedIndexChange($event)">
+    <mat-step [completed]="completedGetStarted">
+        <form>
+            <ng-template matStepLabel>Get Started</ng-template>
+            <mat-card [appearance]="'outlined'">
+                <mat-card-header>
+                    <mat-card-title>Create a certificate signing request (CSR)</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    Start your journey to the creation of a certificate signing request (CSR). You can find more info in
+                    the <a href="/doc#CSR" matTooltip="Open Documentation" aria-label="Open Documentation icon-button">
+                        documentation</a>.
+                    <p>
+                        <br>
+                        <app-file-input [hideInput]="true" [isRaw]="true" [readPlainText]="true" [label]="'Import'"
+                            (contentChange)="import($event)"></app-file-input>
+                    </p>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-button [color]="completedDone ? '' : 'warn'" (click)="reset()">Reset</button>
+                    <button mat-flat-button color="accent" matStepperNext>Next</button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </mat-step>
+
+    <mat-step [completed]="completedKeyPair" [optional]="true">
+        <ng-template matStepLabel>Private Key
+            <a href="/doc#KeyPair" target="_blank" matTooltip="Open Documentation"
+                aria-label="Open Documentation icon-button">(doc)</a>
+        </ng-template>
+
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <app-privatekey [(config)]="keyPair"></app-privatekey>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button (click)="keyPair = undefined" [disabled]="keyPair == null">Clear</button>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+
+
+    <mat-step [completed]="completedSubjectName" [optional]="true">
+        <ng-template matStepLabel>Subject Name
+            <a href="/doc#SubjectName" target="_blank" matTooltip="Open Documentation"
+                aria-label="Open Documentation icon-button">(doc)</a>
+        </ng-template>
+
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <app-subjectname [(config)]="subjectName"></app-subjectname>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button (click)="subjectName = undefined"
+                    [disabled]="subjectName == null">Clear</button>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+
+    <mat-step [completed]="completedBasicConstraints" [optional]="true">
+        <ng-template matStepLabel>
+            Basic Constraints
+            <a href="/doc#BasicConstraints" target="_blank" matTooltip="Open Documentation"
+                aria-label="Open Documentation icon-button">(doc)</a>
+        </ng-template>
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <app-basic-constraints [(config)]="basicConstraints"></app-basic-constraints>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button (click)="basicConstraints = undefined"
+                    [disabled]="basicConstraints == null">Clear</button>
+                <button mat-stroked-button [matMenuTriggerFor]="basicConstraintsMenu"><span>Default</span></button>
+                <mat-menu #basicConstraintsMenu="matMenu">
+                    <button mat-menu-item (click)="basicConstraints = ExtensionsDefaults.BasicConstraintsExtensionCA">
+                        <span>Set default for CA</span>
+                    </button>
+                    <button mat-menu-item (click)="basicConstraints = ExtensionsDefaults.BasicConstraintsExtensionEndEntity">
+                        <span>Set default for end entity</span>
+                    </button>
+                </mat-menu>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+
+    <mat-step [completed]="completedAuthorityKeyIdentifier" [optional]="true">
+        <ng-template matStepLabel>
+            Authority Key Identifier
+            <a href="/doc#KeyIdentifiers" target="_blank" matTooltip="Open Documentation"
+                aria-label="Open Documentation icon-button">(doc)</a>
+        </ng-template>
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <app-authority-key-identifier [(config)]="authorityKeyIdentifier"></app-authority-key-identifier>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button (click)="authorityKeyIdentifier = undefined"
+                    [disabled]="authorityKeyIdentifier == null">Clear</button>
+                <button mat-stroked-button
+                    (click)="authorityKeyIdentifier = ExtensionsDefaults.AuthorityKeyIdentifierExtension"
+                    [disabled]="authorityKeyIdentifier != null">Default</button>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+
+    <mat-step [completed]="completedSubjectKeyIdentifier" [optional]="true">
+        <ng-template matStepLabel>
+            Subject Key Identifier
+            <a href="/doc#KeyIdentifiers" target="_blank" matTooltip="Open Documentation"
+                aria-label="Open Documentation icon-button">(doc)</a>
+        </ng-template>
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <app-subject-key-identifier [(config)]="subjectKeyIdentifier"></app-subject-key-identifier>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button (click)="subjectKeyIdentifier = undefined"
+                    [disabled]="subjectKeyIdentifier == null">Clear</button>
+                <button mat-stroked-button
+                    (click)="subjectKeyIdentifier = ExtensionsDefaults.SubjectKeyIdentifierExtension"
+                    [disabled]="subjectKeyIdentifier != null">Default</button>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+
+    <mat-step [completed]="completedSubjectAlternativeName" [optional]="true">
+        <ng-template matStepLabel>Subject Alternative Name
+            <a href="/doc#SubjectAlternativeName" target="_blank" matTooltip="Open Documentation"
+                aria-label="Open Documentation icon-button">(doc)</a>
+        </ng-template>
+
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <app-subject-alternative-name [(config)]="subjectAlternativeName"></app-subject-alternative-name>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button (click)="subjectAlternativeName = undefined"
+                    [disabled]="subjectAlternativeName == null">Clear</button>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+
+    <mat-step [completed]="completedKeyUsage" [optional]="true">
+        <ng-template matStepLabel>Key Usage
+            <a href="/doc#Purpose" target="_blank" matTooltip="Open Documentation"
+                aria-label="Open Documentation icon-button">(doc)</a>
+        </ng-template>
+
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <app-key-usage [(config)]="keyUsage"></app-key-usage>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button (click)="keyUsage = undefined" [disabled]="keyUsage == null">Clear</button>
+                <button mat-stroked-button [matMenuTriggerFor]="keyUsageMenu"><span>Default</span></button>
+                <mat-menu #keyUsageMenu="matMenu">
+                    <button mat-menu-item (click)="keyUsage = ExtensionsDefaults.KeyUsageExtensionCa">
+                        <span>Set default for CA</span>
+                    </button>
+                    <button mat-menu-item (click)="keyUsage = ExtensionsDefaults.KeyUsageExtensionServerAuth">
+                        <span>Set default for ServerAuth</span>
+                    </button>
+                    <button mat-menu-item (click)="keyUsage = ExtensionsDefaults.KeyUsageExtensionClientAuth">
+                        <span>Set default for ClientAuth</span>
+                    </button>
+                    <button mat-menu-item (click)="keyUsage = ExtensionsDefaults.KeyUsageExtensionCodeSign">
+                        <span>Set default for CodeSign</span>
+                    </button>
+                    <button mat-menu-item (click)="keyUsage = ExtensionsDefaults.KeyUsageExtensionEmail">
+                        <span>Set default for EmailProtection</span>
+                    </button>
+                    <button mat-menu-item (click)="keyUsage = ExtensionsDefaults.KeyUsageExtensionTimestamping">
+                        <span>Set default for Timestamping</span>
+                    </button>
+                </mat-menu>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+
+    <mat-step [completed]="completedExtendedKeyUsage" [optional]="true">
+        <ng-template matStepLabel>Extended Key Usage
+            <a href="/doc#Purpose" target="_blank" matTooltip="Open Documentation"
+                aria-label="Open Documentation icon-button">(doc)</a>
+        </ng-template>
+
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <app-extended-key-usage [(config)]="extendedKeyUsage"></app-extended-key-usage>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button (click)="extendedKeyUsage = undefined"
+                    [disabled]="extendedKeyUsage == null">Clear</button>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+
+    <mat-step [completed]="compeltedExtensions" [optional]="true">
+        <ng-template matStepLabel>Extensions
+            <a href="/doc#CertificateExtensions" target="_blank" matTooltip="Open Documentation"
+                aria-label="Open Documentation icon-button">(doc)</a>
+        </ng-template>
+
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <app-extensions [(config)]="extensions"></app-extensions>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button (click)="extensions = undefined"
+                    [disabled]="extensions == null">Clear</button>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+
+    <mat-step [completed]="completedDone">
+        <ng-template matStepLabel>Create</ng-template>
+
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <span>If you are ready, click create.</span>
+                <mat-form-field appearance="outline">
+                    <mat-label>Container Format</mat-label>
+                    <mat-select [(ngModel)]="accepts">
+                        <mat-option
+                            *ngFor="let enum of (MediaType | keyvalue).slice(0, (MediaType | keyvalue).length / 2)"
+                            [value]="Number(enum.key)">
+                            {{enum.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Encoding</mat-label>
+                    <mat-select [value]="fileFormat">
+                        <mat-option
+                            *ngFor="let enum of (X509Encoding | keyvalue).slice(0, (X509Encoding | keyvalue).length / 2)"
+                            [value]="Number(enum.key)">
+                            {{enum.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <ng-container *ngIf="warnings.length > 0">
+                    Warnings:
+                    <ul>
+                        <li *ngFor="let warning of warnings">{{ warning }}</li>
+                    </ul>
+                </ng-container>
+                <p>
+                    <button mat-stroked-button aria-label="Export config icon button" matTooltip="Export config"
+                        (click)="export()"><mat-icon>download</mat-icon> Export</button>
+                </p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-button [color]="completedDone ? '' : 'warn'" (click)="reset()">Reset</button>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="create()">Create</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+</mat-stepper>

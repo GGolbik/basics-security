@@ -1,0 +1,46 @@
+# Binary package control file
+#
+# (mandatory) The name of the binary package. Package names (both source and binary, see Package) must consist only of lower case letters (a-z), digits (0-9), plus (+) and minus (-) signs, and periods (.). They must be at least two characters long and must start with an alphanumeric character.
+Package: ggolbik-securitytools
+#
+# (optional) This field identifies the source package name.
+#Source
+#
+# (mandatory) The version number of a package. The format is: [epoch:]upstream_version[-debian_revision].
+Version: 1.0-1
+#
+# (recommended) This field specifies an application area into which the package has been classified. See Sections.
+#Section: unknown
+#
+# (recommended) This field represents how important it is that the user have the package installed. See Priorities.
+Priority: optional
+#
+# (mandatory) Specifying a specific list of architectures
+# "all" indicates an architecture-independent package.
+# "any" matches all Debian machine architectures and is the most frequently used.
+Architecture: all
+#
+# (optional) If set to yes then the package management system will refuse to remove the package (upgrading and replacing it is still possible). The other possible value is no, which is the same as not having the field at all.
+#Essential: no
+#
+# (optional) Packages can declare in their control file that they have certain relationships to other packages - for example, that they may not be installed at the same time as certain other packages, and/or that they depend on the presence of others. This is done using the Depends, Pre-Depends, Recommends, Suggests, Enhances, Breaks and Conflicts control fields. These seven fields are used to declare a dependency relationship by one package on another. Except for Enhances and Breaks.
+Depends: debconf (>= 0.2.26), libldap-2.4-2 (>= 2.4)
+#Pre-Depends:
+#Recommends: dh-systemd (>= 1.5)
+#Suggests:
+#Enhances:
+#Breaks:
+#Conflicts:
+#
+# (mandatory) The package maintainer's name and email address. The name must come first, then the email address inside angle brackets <> (in RFC822 format).
+Maintainer: GGolbik <support@ggolbik.de>
+#
+# (mandatory) In a source or binary control file, the Description field contains a description of the binary package, consisting of two parts, the synopsis or the short description, and the long description. Do not use tab characters. Their effect is not predictable.
+Description: Provides several security related features.
+#
+# (optional) The URL of the web site for this package, preferably (when applicable) the site from which the original source can be obtained and any additional upstream documentation or information may be found. The content of this field is a simple URL without any surrounding characters such as <>.
+Homepage: https://securitytools.ggolbik.de
+#
+# (optional) Some binary packages incorporate parts of other packages when built but do not have to depend on those packages. Examples include linking with static libraries or incorporating source code from another package during the build. In this case, the source packages of those other packages are part of the complete source (the binary package is not reproducible without them).
+# When the license of either the incorporated parts or the incorporating binary package requires that the full source code of the incorporating binary package be made available, the Built-Using field must list the corresponding source package for any affected binary package incorporated during the build, [6] including an “exactly equal” (“=”) version relation on the version that was used to build that version of the incorporating binary package.
+#Built-Using:

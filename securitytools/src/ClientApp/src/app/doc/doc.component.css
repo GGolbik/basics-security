@@ -1,0 +1,16 @@
+mat-card {
+    margin: 1em
+}
+
+.info td {
+    padding:0 .5em;
+    vertical-align: top;
+}
+
+.info tr > td:first-child {
+    text-align: right;
+}
+
+.info tr > td:last-child {
+    font-weight: lighter;
+}

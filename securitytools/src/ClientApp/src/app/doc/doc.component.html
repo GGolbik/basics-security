@@ -1,0 +1,886 @@
+<mat-card id="About">
+    <mat-card-header>
+        <mat-card-title>
+            <div style="display: flex; align-items: center;">
+                <a mat-icon-button href="/doc#About"><mat-icon>help</mat-icon></a>
+                <span>About</span>
+            </div>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <table class="info">
+            <tbody>
+                <tr>
+                    <td>App Name:</td>
+                    <td>{{ programInfo?.title }}</td>
+                </tr>
+                <tr>
+                    <td>Version Name:</td>
+                    <td>{{ programInfo?.version }}</td>
+                </tr>
+                <tr>
+                    <td>Version Number:</td>
+                    <td>{{ getVersion() }}</td>
+                </tr>
+                <tr>
+                    <td>Release Date:</td>
+                    <td>{{ programInfo?.releaseDate }}</td>
+                </tr>
+                <tr>
+                    <td>Manufacturer:</td>
+                    <td>{{ programInfo?.manufacturer }}</td>
+                </tr>
+                <tr>
+                    <td>Description:</td>
+                    <td>{{ programInfo?.description }}</td>
+                </tr>
+                <tr>
+                    <td>Copyright:</td>
+                    <td>{{ programInfo?.copyright }}</td>
+                </tr>
+                <tr>
+                    <td>3rd-Party:</td>
+                    <td><a [href]="get3rdPartyLicenses()" (click)="$event.preventDefault();showInfo()">Show</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </mat-card-content>
+</mat-card>
+
+<mat-card id="KeyPair">
+    <mat-card-header>
+        <mat-card-title>
+            <div style="display: flex; align-items: center;">
+                <a mat-icon-button href="/doc#KeyPair"><mat-icon>link</mat-icon></a>
+                <span>Key Pair</span>
+            </div>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content id="PrivateKey">
+        <p>
+            Public-key cryptography, or asymmetric cryptography, is the field of cryptographic systems that use pairs of
+            related keys. Each key pair consists of a public key and a corresponding private key.
+        </p>
+
+        <p>
+            What makes asymmetric encryption powerful is that a private key can be used to derive a paired public key,
+            but
+            not the other way around.
+            There are three classes of these algorithms commonly used for asymmetric encryption: RSA, DSA, and elliptic
+            curve based algorithms.
+            As of 2020, the most widely adopted algorithms are RSA, DSA, ECDSA, and EdDSA, but it is RSA and EdDSA that
+            provide the best security and performance.
+        </p>
+
+        <p>
+            The focus should be primarily on RSA and ECDSA for digital certificates and digital signatures. While RSA is
+            the
+            most widely adopted public key algorithm, keep an eye on the popularity of ECDSA as greater security
+            strengths
+            will be required and ECDSA stands to be much more performant as security strength requirements increase.
+        </p>
+
+        <mat-card id="RSA" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#RSA"><mat-icon>link</mat-icon></a>
+                        <span>RSA (Rivest-Shamir-Adleman)</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <ul>
+                    <li>RSA (Rivest-Shamir-Adleman) is a widely used public key algorithm applied mostly to the
+                        use of
+                        digital certificates. When using the RSA algorithm with digital certificates in a PKI
+                        (Public
+                        Key Infrastructure), the public key is wrapped in an X.509v3 certificate and the private
+                        key is
+                        kept private in a secure location, preferably accessible to as few people as possible.
+                        Because
+                        RSA is widely adopted, it is supported even in most legacy systems.</li>
+                    <li>Currently, the minimum recommended key length for RSA keys is 2048. The larger the key,
+                        the less
+                        performant the algorithm is. RSA is still widely supported and considered secure for the
+                        near
+                        future.</li>
+                    <li>Advantages
+                        <ul>
+                            <li>RSA is an asymmetric encryption algorithm that has been used for many years. It is based
+                                on the mathematical problem of factoring large numbers, which is difficult for
+                                conventional computers. RSA is compatible with most SSH clients and servers and is often
+                                the default option. In addition, it can be used for both encryption and signing, which
+                                simplifies key management and provides a high level of security if the key size is large
+                                enough.</li>
+                        </ul>
+                    </li>
+                    <li>Disadvantages
+                        <ul>
+                            <li>Although RSA is often used for SSH, it has several disadvantages. First and foremost,
+                                the algorithm is relatively slow and computationally intensive, especially with larger
+                                keys. In addition, RSA is vulnerable to quantum attacks, which could solve the factoring
+                                problem in quantum computers. It is also not immune
+                                from side-channel attacks that use physical or environmental information to reveal the
+                                private key. to reveal the private key.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <hr>
+                Key Size:
+                <ul>
+                    <li>1024</li>
+                    <li>2048</li>
+                    <li>4096</li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card id="DSA" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#DSA"><mat-icon>link</mat-icon></a>
+                        <span>DSA (Digital Signature Algorithm)</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <ul>
+                    <li>DSA (Digital Signature Algorithm) is a public key algorithm used for Digital Signatures. While
+                        DSA can be used for encryption, it is mostly known (and created) for uses in digital signatures.
+                        DSA is not widely supported, however, the ECDSA variant is more rapidly becoming used in
+                        practice with digital certificates.</li>
+                    <li>Vorteile
+                        <ul>
+                            <li>DSA ist ein asymmetrischer Verschlüsselungsalgorithmus, der speziell für das Signieren
+                                und nicht für die Verschlüsselung entwickelt wurde. Es basiert auf dem mathematischen
+                                Problem der diskreten Logarithmen, von dem angenommen wird, dass es für herkömmliche
+                                Computer schwer zu lösen ist. DSA ist schneller und effizienter als RSA zum Signieren,
+                                da es kleinere Schlüssel</li>
+                        </ul>
+                    </li>
+                    <li>Nachteile
+                        <ul>
+                            <li>DSA hat einige Nachteile, wenn es in SSH verwendet wird. Es ist nicht universell mit
+                                allen Clients und Servern kompatibel und erfordert möglicherweise eine zusätzliche
+                                Konfiguration. Darüber hinaus kann es nicht für die Verschlüsselung verwendet werden,
+                                sodass ein anderer Algorithmus verwendet werden muss. Es ist auch anfällig für
+                                Quantenangriffe, die das Problem des diskreten Logarithmus bei Quantencomputern lösen
+                                könnten.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card id="ECC" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#ECC"><mat-icon>link</mat-icon></a>
+                        <span>ECC (Elliptic curve cryptography)</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <ul>
+                    <li>ECDSA (Elliptic Curve Digital Signature Algorithm)
+                        <ul>
+                            <li>ECDSA (Elliptic Curve Digital Signature Algorithm) is related to DSA and uses ECC
+                                (Elliptic Curve Cryptography). ECDSA is commonly applied in a PKI (Public Key
+                                Infrastructure) and digital certificates, requiring a smaller key size than RSA. Because
+                                of this, performance is greater. ECDSA key size is twice as large as the security,
+                                making the required key length much smaller than with RSA. While a 2048 bit RSA private
+                                key provides 112 bits of security, ECDSA only requires a 224-bit private key to provide
+                                the same level of security. The main difference between RSA and ECDSA is not any one
+                                thing, but the ECDSA uses ECC and requires a much smaller key size for the same level of
+                                security as RSA.</li>
+                            <li>Nachteile
+                                <ul>
+                                    <li>ECDSA hat einige Nachteile für SSH, z. B. dass es nicht so kompatibel mit
+                                        älteren oder älteren Systemen ist, komplexer und schwieriger zu implementieren
+                                        ist und bestimmten Seitenkanalangriffen ausgesetzt ist. Diese Probleme können zu
+                                        Fehlern oder Schwachstellen führen und den Stromverbrauch des Geräts ausnutzen
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>EdDSA (Edwards-curve Digital Signature Algorithm)</li>
+                </ul>
+                <hr>
+                ECCurve
+                <ul>
+                    <li>brainpoolP160r1: 1.3.36.3.3.2.8.1.1.1</li>
+                    <li>brainpoolP160t1: 1.3.36.3.3.2.8.1.1.2</li>
+                    <li>brainpoolP192r1: 1.3.36.3.3.2.8.1.1.3</li>
+                    <li>brainpoolP192t1: 1.3.36.3.3.2.8.1.1.4</li>
+                    <li>brainpoolP224r1: 1.3.36.3.3.2.8.1.1.5</li>
+                    <li>brainpoolP224t1: 1.3.36.3.3.2.8.1.1.6</li>
+                    <li>brainpoolP256r1: 1.3.36.3.3.2.8.1.1.7</li>
+                    <li>brainpoolP256t1: 1.3.36.3.3.2.8.1.1.8</li>
+                    <li>brainpoolP320r1: 1.3.36.3.3.2.8.1.1.9</li>
+                    <li>brainpoolP320t1: 1.3.36.3.3.2.8.1.1.10</li>
+                    <li>brainpoolP384r1: 1.3.36.3.3.2.8.1.1.11</li>
+                    <li>brainpoolP384t1: 1.3.36.3.3.2.8.1.1.12</li>
+                    <li>brainpoolP512r1: 1.3.36.3.3.2.8.1.1.13</li>
+                    <li>brainpoolP512t1: 1.3.36.3.3.2.8.1.1.14</li>
+                    <li>nistP256: 1.2.840.10045.3.1.7</li>
+                    <li>nistP384: 1.3.132.0.34</li>
+                    <li>nistP521: 1.3.132.0.35</li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+
+    </mat-card-content>
+    <mat-card-actions [align]="'end'" style="gap:0.5em">
+        <a mat-flat-button color="accent" href="https://www.misterpki.com/rsa-dsa-ecdsa/">RSA vs DSA vs ECDSA</a>
+    </mat-card-actions>
+</mat-card>
+
+
+<mat-card id="Certificate">
+    <mat-card-header>
+        <mat-card-title>
+            <div style="display: flex; align-items: center;">
+                <a mat-icon-button href="/doc#Certificate"><mat-icon>link</mat-icon></a>
+                <span>Certificate</span>
+            </div>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+        <mat-card id="CSR" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#CSR"><mat-icon>link</mat-icon></a>
+                        <span>Certificate signing request (CSR)</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                A certificate signing request or CSR is the first step toward building an SSL/TLS certificate. It's a
+                chunk of
+                encoded text that can be created automatically by the server you wish to have your SSL/TLS certificate
+                installed
+                on. It generates a unique public key that will be used by the browser to match with the private key that
+                is
+                concealed inside the server. This is what makes CSRs a necessary part of constructing an SSL/TLS
+                certificate.
+
+
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card id="self-signed" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#self-signed"><mat-icon>link</mat-icon></a>
+                        <span>Self-signed certificate</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>
+                    A self-signed TLS/SSL certificate is not signed by a publicly trusted certificate authority (CA) but
+                    instead
+                    by the developer or company that is responsible for the website; as they are not signed by a
+                    publicly
+                    trusted CA, they are usually considered unsafe for public applications and websites.
+                </p>
+                <p>
+                    The role of a public CA is to guarantee the validity of the information included in a certificate,
+                    especially
+                    the ownership and/or control of the domain name(s) associated with the certificate in the case of
+                    TLS/SSL.
+                    Therefore, using self-signed certificates is the equivalent of using credentials that have not been
+                    issued
+                    by a
+                    valid authority.
+                </p>
+                <p>
+                    The expression “self-signed certificates” typically refers to TLS/SSL certificates that have been
+                    generated
+                    standalone, without any linkage to a root or intermediate certificate. This can also apply to other
+                    X.509
+                    digital signing certificates such as S/MIME, code signing, and document signing.
+                </p>
+            </mat-card-content>
+        </mat-card>
+
+        <mat-card id="SerialNumber" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#SerialNumber"><mat-icon>link</mat-icon></a>
+                        <span>Serial number</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                The serial number MUST be a positive integer assigned by the CA to
+                each certificate. It MUST be unique for each certificate issued by a
+                given CA. Conformant CAs MUST NOT use serialNumber values longer than 20 octets.
+            </mat-card-content>
+            <mat-card-actions [align]="'end'" style="gap:0.5em">
+                <a mat-flat-button color="primary"
+                    href="https://datatracker.ietf.org/doc/html/rfc3280#section-4.1.2.2">RFC
+                    3280 - Serial number</a>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card id="SubjectName" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#SubjectName"><mat-icon>link</mat-icon></a>
+                        <span>Subject Name</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                The subject field identifies the entity.
+            </mat-card-content>
+            <mat-card-actions [align]="'end'" style="gap:0.5em">
+                <a mat-flat-button color="primary"
+                    href="https://datatracker.ietf.org/doc/html/rfc3280#section-4.1.2.6">RFC
+                    3280 - Subject</a>
+                <a mat-flat-button color="primary" href="https://datatracker.ietf.org/doc/html/rfc2253">RFC 2253 -
+                    DistinguishedName</a>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card id="Issuer" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#Issuer"><mat-icon>link</mat-icon></a>
+                        <span>Issuer</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                The issuer identifies the entity who has signed and issued the
+                certificate. The issuer field MUST contain a non-empty distinguished
+                name (DN).
+            </mat-card-content>
+            <mat-card-actions [align]="'end'" style="gap:0.5em">
+                <a mat-flat-button color="primary"
+                    href="https://datatracker.ietf.org/doc/html/rfc3280#section-4.1.2.4">RFC
+                    3280 - Issuer</a>
+                <a mat-flat-button color="primary" href="https://datatracker.ietf.org/doc/html/rfc2253">RFC 2253 -
+                    DistinguishedName</a>
+            </mat-card-actions>
+        </mat-card>
+        <mat-card id="Validity" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#Validity"><mat-icon>link</mat-icon></a>
+                        <span>Validity</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                The certificate validity period is the time interval during which the
+                CA warrants that it will maintain information about the status of the
+                certificate.
+            </mat-card-content>
+            <mat-card-actions [align]="'end'" style="gap:0.5em">
+                <a mat-flat-button color="primary"
+                    href="https://datatracker.ietf.org/doc/html/rfc3280#section-4.1.2.5">RFC
+                    3280 - Validity</a>
+            </mat-card-actions>
+        </mat-card>
+
+    </mat-card-content>
+    <mat-card-actions [align]="'end'" style="gap:0.5em">
+        <a mat-flat-button color="primary" href="https://datatracker.ietf.org/doc/html/rfc3280">RFC
+            3280</a>
+    </mat-card-actions>
+</mat-card>
+
+
+<mat-card id="CertificateExtensions">
+    <mat-card-header>
+        <mat-card-title>
+            <div style="display: flex; align-items: center;">
+                <a mat-icon-button href="/doc#CertificateExtensions"><mat-icon>link</mat-icon></a>
+                <span>Certificate Extensions</span>
+            </div>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+        <mat-card id="BasicConstraints" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#BasicConstraints"><mat-icon>link</mat-icon></a>
+                        <span>Basic Constraints</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>
+                    The basic constraints extension identifies whether the subject of the
+                    certificate is a CA and the maximum depth of valid certification
+                    paths that include this certificate.
+                </p>
+            </mat-card-content>
+            <mat-card-actions [align]="'end'" style="gap:0.5em">
+                <a mat-flat-button color="primary"
+                    href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.9">RFC 5280
+                    - BasicConstraints</a>
+            </mat-card-actions>
+        </mat-card>
+
+        <div id="Purpose">
+
+            <mat-card id="KeyUsage" appearance="outlined">
+                <mat-card-header>
+                    <mat-card-subtitle>
+                        <div style="display: flex; align-items: center;">
+                            <a mat-icon-button href="/doc#KeyUsage"><mat-icon>link</mat-icon></a>
+                            <span>KeyUsage</span>
+                        </div>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+
+                    <ul>
+                        <li><span
+                                matTooltip="CRL Sign, Sperrlisten-Signaturgeber, Offline Signieren der Zertifikatsperrliste, Signieren der Zertifikatsperrliste (86)">crlSign</span>
+                            <ul>
+                                <li>Use when the subject public key is to verify a signature on revocation information,
+                                    such
+                                    as a
+                                    CRL.</li>
+                                <li><b>Only valid for CA certificates. A CRL is used to revoke issued certificates. Only
+                                        a
+                                        CA can
+                                        issue a certificate.</b></li>
+                            </ul>
+                        </li>
+                        <li><span
+                                matTooltip="Certificate Sign, Zertifikatsignaturgeber, Zertifikatsignatur">KeyCertSign</span>
+                            <ul>
+                                <li>Use when the subject public key is used to verify a signature on certificates. This
+                                    extension
+                                    can be used only in CA certificates.</li>
+                            </ul>
+                        </li>
+                        <li>KeyAgreement
+                            <ul>
+                                <li>Use when the sender and receiver of the public key need to derive the key without
+                                    using
+                                    encryption. This key can then can be used to encrypt messages between the sender and
+                                    receiver.
+                                    Key agreement is typically used with Diffie-Hellman ciphers.</li>
+                            </ul>
+                        </li>
+                        <li>EncipherOnly
+                            <ul>
+                                <li>This enables the public key to be used only for enciphering data while performing
+                                    key
+                                    agreement.
+                                </li>
+                                <li><b>Use only when key agreement is also enabled.</b></li>
+                            </ul>
+                        </li>
+                        <li>DecipherOnly
+                            <ul>
+                                <li>This enables the public key to be used only for deciphering data while performing
+                                    key
+                                    agreement.
+                                </li>
+                                <li><b>Use only when key agreement is also enabled.</b></li>
+                            </ul>
+                        </li>
+                        <li><span matTooltip="Data encryption, Datenverschlüsselung">DataEncipherment</span>
+                            <ul>
+                                <li>Use when the public key is used for encrypting user data, other than cryptographic
+                                    keys.
+                                </li>
+                            </ul>
+                        </li>
+                        <li><span matTooltip="Key encryption, Schlüsselverschlüsselung">KeyEncipherment</span>
+                            <ul>
+                                <li>Use when a certificate will be used with a protocol that encrypts keys. An example
+                                    is
+                                    S/MIME
+                                    enveloping, where a fast (symmetric) key is encrypted with the public key from the
+                                    certificate.
+                                    SSL protocol also performs key encipherment.</li>
+                            </ul>
+                        </li>
+                        <li><span matTooltip="Non-Repudiation, Nichtabstreitbarkeit">NonRepudiation</span>
+                            <ul>
+                                <li>Use when the public key is used to verify digital signatures used to provide a
+                                    non-repudiation
+                                    service. Non-repudiation protects against the signing entity falsely denying some
+                                    action
+                                    (excluding certificate or CRL signing).</li>
+                            </ul>
+                        </li>
+                        <li><span matTooltip="digitalSignature, Signierung">DigitalSignature</span>
+                            <ul>
+                                <li>Use when the public key is used with a digital signature mechanism to support
+                                    security
+                                    services
+                                    other than non-repudiation, certificate signing, or CRL signing. A digital signature
+                                    is
+                                    often
+                                    used for entity authentication and data origin authentication with integrity.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </mat-card-content>
+                <mat-card-actions [align]="'end'" style="gap:0.5em">
+                    <a mat-flat-button color="primary"
+                        href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.3">RFC 5280
+                        - KeyUsage</a>
+                </mat-card-actions>
+            </mat-card>
+
+            <mat-card id="ExtendedKeyUsage" appearance="outlined">
+                <mat-card-header>
+                    <mat-card-subtitle>
+                        <div style="display: flex; align-items: center;">
+                            <a mat-icon-button href="/doc#ExtendedKeyUsage"><mat-icon>link</mat-icon></a>
+                            <span>ExtendedKeyUsage (see openssl/crypto/x509/v3_purp.c)</span>
+                        </div>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+
+                    <ul>
+                        <li>ServerAuth
+                            <ul>
+                                <li>KeyUsage should contain Digital signature, key encipherment or key agreement.</li>
+                            </ul>
+                        </li>
+                        <li>ClientAuth
+                            <ul>
+                                <li>KeyUsage should contain Digital signature and/or key agreement.</li>
+                            </ul>
+                        </li>
+                        <li>CodeSigning
+                            <ul>
+                                <li>ExtendedKeyUsage must be critial</li>
+                                <li>KeyUsage should contain Digital signature</li>
+                            </ul>
+                        </li>
+                        <li>EmailProtection (S-MIME)
+                            <ul>
+                                <li>ExtendedKeyUsage must be critial</li>
+                            </ul>
+                        </li>
+                        <li>TimeStamping
+                            <ul>
+                                <li>Only timestamp key usage is permitted and it's required.</li>
+                                <li>ExtendedKeyUsage must be critial.</li>
+                                <li>KeyUsage should contain Digital signature and non-repudiation. (No others)</li>
+                            </ul>
+                        </li>
+                        <li>OCSPSigning
+                            <ul>
+                                <li>Must be a valid CA</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </mat-card-content>
+                <mat-card-actions [align]="'end'" style="gap:0.5em">
+                    <a mat-flat-button color="primary"
+                        href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.12">RFC
+                        5280 - ExtendedKeyUsage</a>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+
+        <div id="KeyIdentifiers">
+
+            <mat-card id="AuthorityKeyIdentifier" appearance="outlined">
+                <mat-card-header>
+                    <mat-card-subtitle>
+                        <div style="display: flex; align-items: center;">
+                            <a mat-icon-button href="/doc#AuthorityKeyIdentifier"><mat-icon>link</mat-icon></a>
+                            <span>Authority Key Identifier</span>
+                        </div>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <ul>
+                        <li>This extension is used where an issuer has multiple signing keys (either due to multiple
+                            concurrent key pairs or due to changeover).</li>
+                        <li>The identification MAY be based on either
+                            <ul>
+                                <li>the subject key identifier in the issuer's certificate <b>or</b></li>
+                                <li>the issuer name and serial number.</li>
+                            </ul>
+                        </li>
+                        <li>must appear in all CA certificates which contain the basic constraints extension. This is
+                            only
+                            optional for self-signed CA certificates.</li>
+                        <li>must be non-critical</li>
+                    </ul>
+                </mat-card-content>
+                <mat-card-actions [align]="'end'" style="gap:0.5em">
+                    <a mat-flat-button color="primary"
+                        href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.1">RFC 5280 - Authority Key
+                        Identifier</a>
+                </mat-card-actions>
+            </mat-card>
+
+            <mat-card id="SubjectKeyIdentifier" appearance="outlined">
+                <mat-card-header>
+                    <mat-card-subtitle>
+                        <div style="display: flex; align-items: center;">
+                            <a mat-icon-button href="/doc#SubjectKeyIdentifier"><mat-icon>link</mat-icon></a>
+                            <span>Subject Key Identifier</span>
+                        </div>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <ul>
+                        <li>The subject key identifier extension provides a means of identifying certificates that
+                            contain a
+                            particular public key.</li>
+                        <li>For CA certificates, subject key identifiers SHOULD be derived from the public key or a
+                            method
+                            that generates unique values.</li>
+                        <li>must appear in all CA certificates which contain the basic constraints extension.</li>
+                        <li>must be non-critical</li>
+                        <li>should be included in all end entity certificates.</li>
+                    </ul>
+                </mat-card-content>
+                <mat-card-actions [align]="'end'" style="gap:0.5em">
+                    <a mat-flat-button color="primary"
+                        href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.2">RFC 5280 - Subject Key
+                        Identifier</a>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+
+
+        <mat-card id="SubjectAlternativeName" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#SubjectAlternativeName"><mat-icon>link</mat-icon></a>
+                        <span>Subject Alternative Name</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>
+                    The subject alternative names extension allows additional identities
+                    to be bound to the subject of the certificate. Defined options
+                    include an Internet electronic mail address, a DNS name, an IP
+                    address, and a uniform resource identifier (URI).</p>
+                <p>
+                    If the subject field
+                    contains an empty sequence, the subjectAltName extension MUST be
+                    marked critical.
+                </p>
+            </mat-card-content>
+            <mat-card-actions [align]="'end'" style="gap:0.5em">
+                <a mat-flat-button color="primary"
+                    href="https://datatracker.ietf.org/doc/html/rfc3280#section-4.2.1.7">RFC 5280 - Subject Alternative
+                    Name</a>
+            </mat-card-actions>
+        </mat-card>
+
+    </mat-card-content>
+    <mat-card-actions [align]="'end'" style="gap:0.5em">
+    </mat-card-actions>
+</mat-card>
+
+
+
+<mat-card id="CRL">
+    <mat-card-header>
+        <mat-card-title>
+            <div style="display: flex; align-items: center;">
+                <a mat-icon-button href="/doc#CRL"><mat-icon>link</mat-icon></a>
+                <span>Certificate Revocation List (CRL)</span>
+            </div>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        A certificate revocation list (CRL) is a list of digital certificates that have been revoked by the issuing
+        certificate authority (CA) before their scheduled expiration date and should no longer be trusted.
+
+
+        <mat-card id="CRLNumber" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#CRLNumber"><mat-icon>link</mat-icon></a>
+                        <span>CRL Number</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                The CRL number is a non-critical CRL extension that conveys a
+                monotonically increasing sequence number for a given CRL scope and
+                CRL issuer.
+            </mat-card-content>
+            <mat-card-actions [align]="'end'" style="gap:0.5em">
+                <a mat-flat-button color="primary"
+                    href="https://datatracker.ietf.org/doc/html/rfc5280#section-5.2.3">RFC 5280 - CRL Number</a>
+            </mat-card-actions>
+        </mat-card>
+
+        <div id="RevokedCertificates">
+            <mat-card id="RevocationReason" appearance="outlined">
+                <mat-card-header>
+                    <mat-card-subtitle>
+                        <div style="display: flex; align-items: center;">
+                            <a mat-icon-button href="/doc#RevocationReason"><mat-icon>link</mat-icon></a>
+                            <span>Revocation Reason</span>
+                        </div>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <ul>
+                        <li>Unspecified: Revocation occurred for a reason that has no more specific value.</li>
+                        <li>KeyCompromise: The private key, or another validated portion of an end-entity certificate,
+                            is
+                            suspected
+                            to have been compromised.</li>
+                        <li>CACompromise: The private key, or another validated portion of a Certificate Authority (CA)
+                            certificate,
+                            is suspected to have been compromised.</li>
+                        <li>AffiliationChanged: The subject's name, or other validated information in the certificate,
+                            has
+                            changed
+                            without anything being compromised.</li>
+                        <li>Superseded: The certificate has been superseded, but without anything being compromised.
+                        </li>
+                        <li>CessationOfOperation: The certificate is no longer needed, but nothing is suspected to be
+                            compromised.
+                        </li>
+                        <li>CertificateHold: The certificate is temporarily suspended, and may either return to service
+                            or
+                            become
+                            permanently revoked in the future.</li>
+                        <li>RemoveFromCrl: The certificate was revoked with on a base Certificate Revocation List (CRL)
+                            and
+                            is being
+                            returned to service on a delta CRL.</li>
+                        <li>PrivilegeWithdrawn: A privilege contained within the certificate has been withdrawn.</li>
+                        <li>AACompromise: It is known, or suspected, that aspects of the Attribute Authority (AA)
+                            validated
+                            in the
+                            attribute certificate have been compromised.</li>
+                        <li>WeakAlgorithmOrKey: The certificate key uses a weak cryptographic algorithm, or the key is
+                            too
+                            short, or
+                            the key was generated in an unsafe manner.</li>
+                    </ul>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div id="CRLValidity">
+
+            <mat-card id="ThisUpdate" appearance="outlined">
+                <mat-card-header>
+                    <mat-card-subtitle>
+                        <div style="display: flex; align-items: center;">
+                            <a mat-icon-button href="/doc#ThisUpdate"><mat-icon>link</mat-icon></a>
+                            <span>This Update</span>
+                        </div>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    This field indicates the issue date of this CRL.
+                </mat-card-content>
+                <mat-card-actions [align]="'end'" style="gap:0.5em">
+                    <a mat-flat-button color="primary"
+                        href="https://datatracker.ietf.org/doc/html/rfc5280#section-5.1.2.4">RFC 5280 - This Update</a>
+                </mat-card-actions>
+            </mat-card>
+
+            <mat-card id="NextUpdate" appearance="outlined">
+                <mat-card-header>
+                    <mat-card-subtitle>
+                        <div style="display: flex; align-items: center;">
+                            <a mat-icon-button href="/doc#NextUpdate"><mat-icon>link</mat-icon></a>
+                            <span>Next Update</span>
+                        </div>
+                    </mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    This field indicates the date by which the next CRL will be issued.
+                    The next CRL could be issued before the indicated date, but it will
+                    not be issued any later than the indicated date.
+                </mat-card-content>
+                <mat-card-actions [align]="'end'" style="gap:0.5em">
+                    <a mat-flat-button color="primary"
+                        href="https://datatracker.ietf.org/doc/html/rfc5280#section-5.1.2.5">RFC 5280 - Next Update</a>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+        <mat-card id="CrlVerificationProcess" appearance="outlined">
+            <mat-card-header>
+                <mat-card-subtitle>
+                    <div style="display: flex; align-items: center;">
+                        <a mat-icon-button href="/doc#CrlVerificationProcess"><mat-icon>link</mat-icon></a>
+                        <span>Verification Process</span>
+                    </div>
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <ul>
+                    <li>CRL Checking
+                        <ul>
+                            <li>To pass certificate validation, the CRL in the trust store must be from the same CA that
+                                signed
+                                the certificate presented, and the certificate must not be listed in the CRL as revoked.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Full-Chain CRL Checking
+                        <ul>
+                            <li>To pass certificate validation, the trust store must contain a CRL from each
+                                intermediate CA in
+                                the chain of trust, and the certificate cannot be listed in any of the CRLs as revoked.
+                                If the
+                                trust store is missing a CRL for any of the intermediate CAs, or the certificate is
+                                listed as
+                                revoked in any of those CRLs, the certificate is not trusted.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+    </mat-card-content>
+    <mat-card-actions [align]="'end'" style="gap:0.5em">
+        <a mat-flat-button color="primary" href="https://datatracker.ietf.org/doc/html/rfc5280">RFC 5280</a>
+        <a mat-flat-button color="accent" href="https://github.com/openssl/openssl/issues/5081">OpenSSL Issue 5081</a>
+        <a mat-flat-button color="accent"
+            href="https://www.linkedin.com/pulse/why-do-certificate-revocation-checking-mechanisms-never-pfeiffer/">Revocation
+            Check Mechanisms</a>
+    </mat-card-actions>
+</mat-card>
+
+<mat-card id="Organizations">
+    <mat-card-header>
+        <mat-card-title>
+            <div style="display: flex; align-items: center;">
+                <a mat-icon-button href="/doc#Organizations"><mat-icon>link</mat-icon></a>
+                <span>Organizations</span>
+            </div>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <ul>
+            <li>National Institute of Standards and Technology (NIST)</li>
+        </ul>
+    </mat-card-content>
+</mat-card>
+&nbsp;

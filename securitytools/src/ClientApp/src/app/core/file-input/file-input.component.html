@@ -1,0 +1,30 @@
+<mat-form-field *ngIf="!hideInput && !isRaw">
+    <mat-label>{{ label ?? 'File name' }}</mat-label>
+    <input matInput type="text" [value]="filename ?? ''" [disabled]="true">
+    <button mat-icon-button matIconPrefix (click)="display()" [disabled]="disabled || file == null" [matTooltip]="'Show file content'"><mat-icon [class]="disabled || file == null ? '' : 'display'">manage_search</mat-icon></button>
+    <button matSuffix mat-icon-button (click)="fileInput1.click()" [disabled]="disabled" aria-label="Select file icon button" matTooltip="Select file"><mat-icon>file_open</mat-icon></button>
+    <input hidden (change)="onSelectFile($event)" #fileInput1 type="file">
+    <mat-hint align="end">Size: {{ toHumanSize(file?.size ?? 0) }}</mat-hint>
+    <button *ngIf="!hideRaw" mat-icon-button matIconSuffix (click)="isRaw = !isRaw" [disabled]="disabled"><mat-icon [class]="disabled ? '' : 'raw'">{{ isRaw ? 'raw_on' : 'raw_off'}}</mat-icon></button>
+</mat-form-field>
+<mat-form-field *ngIf="!hideInput && isRaw">
+    <mat-label>{{ label ?? 'File content' }}</mat-label>
+    <input matInput type="text" [(ngModel)]="content" placeholder="base64: dGVzdA==" [disabled]="disabled" [name]="name" (change)="contentFile = undefined;fileInput2.value = ''">
+    <button mat-icon-button matIconPrefix (click)="display()" [disabled]="disabled || !isValidBase64()" [matTooltip]="'Show file content'"><mat-icon [class]="disabled || !isValidBase64() ? '' : 'display'">manage_search</mat-icon></button>
+    <button matSuffix mat-icon-button (click)="fileInput2.click()" [disabled]="disabled" aria-label="Select file icon button" matTooltip="Select file"><mat-icon>file_open</mat-icon></button>
+    <input hidden (change)="onSelectContent($event)" #fileInput2 type="file">
+    <mat-hint>{{ contentFile?.name ?? "" }}</mat-hint>
+    <mat-hint align="end">Length: {{ content?.length ?? 0 }}</mat-hint>
+    <button *ngIf="!hideRaw" mat-icon-button matIconSuffix (click)="isRaw = !isRaw" [disabled]="disabled"><mat-icon class="raw" [class]="disabled ? '' : 'raw'">{{ isRaw ? 'raw_on' : 'raw_off'}}</mat-icon></button>
+</mat-form-field>
+
+<ng-container *ngIf="hideInput && !isRaw">
+    <button *ngIf="label == null" mat-icon-button (click)="fileInput3.click()" [disabled]="disabled" aria-label="Select file icon button" matTooltip="Select file"><mat-icon>file_open</mat-icon></button>
+    <button *ngIf="label != null" mat-stroked-button (click)="fileInput3.click()" [disabled]="disabled" aria-label="Select file icon button" matTooltip="Select file"><mat-icon>file_open</mat-icon> {{ label }}</button>
+    <input hidden (change)="onSelectFile($event)" #fileInput3 type="file">
+</ng-container>
+<ng-container *ngIf="hideInput && isRaw">
+    <button *ngIf="label == null" mat-icon-button (click)="fileInput4.click()" [disabled]="disabled" aria-label="Select file icon button" matTooltip="Select file"><mat-icon>file_open</mat-icon></button>
+    <button *ngIf="label != null" mat-stroked-button (click)="fileInput4.click()" [disabled]="disabled" aria-label="Select file icon button" matTooltip="Select file"><mat-icon>file_open</mat-icon> {{ label }}</button>
+    <input hidden (change)="onSelectContent($event)" #fileInput4 type="file">
+</ng-container>

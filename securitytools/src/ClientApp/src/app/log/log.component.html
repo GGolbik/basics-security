@@ -1,0 +1,92 @@
+<div style="display: flex;flex-direction:column; gap:1em; margin: 1em;">
+<mat-card>
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>Log Configuration</mat-card-title>
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-form-field appearance="outline">
+            <mat-label>Log Level</mat-label>
+            <mat-select [(ngModel)]="config.level" (selectionChange)="setConfig()">
+                <mat-option *ngFor="let enum of (Loglevel | keyvalue).slice(0, (Loglevel | keyvalue).length / 2)"
+                    [value]="Number(enum.key)">
+                    {{enum.key}} - {{enum.value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </mat-card-content>
+</mat-card>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>Log Output</mat-card-title>
+        </mat-card-title-group>
+        <button mat-button aria-label="Clear" mat-button (click)="clear()" *ngIf="!recording">
+            <mat-icon color="accent">delete_forever</mat-icon>
+            Clear
+        </button>
+    </mat-card-header>
+    <mat-card-content>
+        <p>
+            <button mat-button aria-label="Recording" mat-button
+                (click)="toggleRecording()">
+                <mat-icon [color]="recording ? 'warn' : 'standard'">{{ recording ? 'radio_button_checked' :
+                    'radio_button_unchecked' }}</mat-icon>
+                {{ recording ? "Stop Refreshing" : "Start Refreshing"}}
+            </button>
+            <button mat-button aria-label="Refresh" mat-button (click)="refresh(true)" *ngIf="!recording">
+                <mat-icon color="accent">refresh</mat-icon>
+                Refresh
+            </button>
+        </p>
+        <div style="display:flex; gap:0.5em">
+            <mat-form-field appearance="outline" style="flex: 1">
+                <mat-label>Log Level</mat-label>
+                <mat-select [(ngModel)]="filter.level" (selectionChange)="refresh(false)">
+                    <mat-option *ngFor="let enum of (Loglevel | keyvalue).slice(0, (Loglevel | keyvalue).length / 2)"
+                        [value]="Number(enum.key)">
+                        {{enum.key}} - {{enum.value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="flex:3">
+                <mat-label>Search</mat-label>
+                <input matInput [(ngModel)]="filter.search" name="search"
+                    (change)="refresh(false)">
+            </mat-form-field>
+        </div>
+        <div style="display: flex; flex-direction: column; margin: .5em;box-sizing:border-box">
+            <table mat-table [dataSource]="dataSource" style="flex:1" *ngIf="dataSource.data.length > 0">
+                <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef> {{column.header}} </mat-header-cell>
+                    <mat-cell style="cursor: pointer;" mat-cell *matCellDef="let row" (click)="openContent(row)"
+                        [class.make-trace]='row?.level == "0"' [class.make-debug]='row?.level == "1"'
+                        [class.make-info]='row?.level == "2"' [class.make-warning]='row?.level == "3"'
+                        [class.make-error]='row?.level == "4"' [class.make-fatal]='row?.level == "5"'>
+                        {{column.cell(row)}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row matRipple *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </table>
+
+            <table mat-table [dataSource]="dataSource" style="flex:1" *ngIf="dataSource.data.length == 0">
+                <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+                    <mat-header-cell mat-header-cell *matHeaderCellDef> {{column.header}} </mat-header-cell>
+                    <mat-cell mat-cell *matCellDef="let row">{{column.cell(row)}} </mat-cell>
+                    <mat-footer-cell *matFooterCellDef>-</mat-footer-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row matRipple *matRowDef="let row; columns: displayedColumns;" cli></mat-row>
+                <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
+            </table>
+
+            <mat-paginator [ngClass]="recording ? 'hide-mat-paginator-range-actions' : ''" [length]="dataSourceLength"
+                [pageSize]="filter.limit" [pageSizeOptions]="pageSizeOptions" [pageIndex]="currentPage"
+                aria-lael="Select page of records"></mat-paginator>
+        </div>
+
+    </mat-card-content>
+</mat-card>
+</div>

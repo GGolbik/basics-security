@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>3rd-Party Licenses</h1>
+
+<mat-dialog-content class="mat-typography">
+  <mat-spinner *ngIf="loadingCount > 0"></mat-spinner>
+  <div class="license-text" [innerHTML]="frontendLicensesHtml"></div>
+</mat-dialog-content>
+<div mat-dialog-actions [align]="'end'">
+  <button mat-button mat-dialog-close>Close</button>
+</div>

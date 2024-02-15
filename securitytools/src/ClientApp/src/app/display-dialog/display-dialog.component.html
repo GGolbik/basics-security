@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>
+    <span *ngIf="loading">{{ progress < 100 ? 'Uploading...' : 'Processing...' }}</span>
+    <mat-icon *ngIf="!loading" [color]="success ? 'primary' : 'warn'"
+        style="vertical-align: middle;margin-right: 0.25em;">{{ success ? 'check_circle' : 'error' }}</mat-icon>
+    <span *ngIf="!loading" style="vertical-align: middle;">{{ success ? "Success" : "Failure" }}</span>
+</h1>
+<div mat-dialog-content>
+    <div *ngIf="loading" style="width:100%;position: relative;">
+        <mat-spinner style="margin: auto;"
+            [mode]="progress == 100 ? 'indeterminate' : 'determinate'"
+            [value]="progress"></mat-spinner>
+        <table style="position: absolute;top:0;height: 100%;width: 100%;">
+            <tr>
+                <td style="text-align: center;">
+                    <span >{{ progress }} %</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="margin: auto;" *ngIf="success">
+        <mat-form-field style="width: 40em; max-width: 100%; overflow: hidden;">
+            <textarea matInput [value]="text"
+            cdkTextareaAutosize
+            style="font-size: 0.9em;"
+            #autosize="cdkTextareaAutosize"></textarea>
+        </mat-form-field>
+    </div>
+    <div style="margin: auto;" *ngIf="error != null">
+        <p><a [href]="error.type">{{ error.title }}</a></p>
+
+        <mat-form-field style="width: 40em; max-width: 100%;overflow: hidden;">
+            <textarea matInput [value]="error.detail"
+            cdkTextareaAutosize
+            style="font-size: 0.9em;"
+            #autosize="cdkTextareaAutosize"></textarea>
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button (click)="onNoClick()" color="warn" *ngIf="loading">Cancel</button>
+    <button mat-button (click)="onNoClick()" *ngIf="!loading">Close</button>
+</div>

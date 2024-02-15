@@ -1,0 +1,44 @@
+<mat-checkbox [(ngModel)]="critical" (change)="fire()">Critical</mat-checkbox>
+
+<ul>
+    <li><mat-checkbox [(ngModel)]="crlSign" (change)="fire()" matTooltipPosition="right" matTooltipShowDelay="500" matTooltip="Only valid for CA certificates.">CrlSign</mat-checkbox></li>
+    <li><mat-checkbox [(ngModel)]="keyCertSign" (change)="fire()" matTooltipPosition="right" matTooltipShowDelay="500" matTooltip="">KeyCertSign</mat-checkbox>
+    </li>
+    <li><mat-checkbox [(ngModel)]="keyAgreement" (change)="fire()"
+            matTooltipPosition="right" matTooltipShowDelay="500" matTooltip="">KeyAgreement</mat-checkbox>
+        <ul>
+            <li><mat-checkbox [(ngModel)]="encipherOnly" (change)="fire()" [disabled]="!keyAgreement" matTooltipPosition="right" matTooltipShowDelay="500"
+                    matTooltip="Use only when key agreement is also enabled.">EncipherOnly</mat-checkbox>
+            </li>
+            <li><mat-checkbox [(ngModel)]="decipherOnly" (change)="fire()"  [disabled]="!keyAgreement" matTooltipPosition="right" matTooltipShowDelay="500"
+                    matTooltip="Use only when key agreement is also enabled. ">DecipherOnly</mat-checkbox>
+            </li>
+        </ul>
+    </li>
+    <li><mat-checkbox [(ngModel)]="dataEncipherment" (change)="fire()"
+            matTooltipPosition="right" matTooltipShowDelay="500" matTooltip="">DataEncipherment</mat-checkbox></li>
+    <li><mat-checkbox [(ngModel)]="keyEncipherment" (change)="fire()" matTooltipPosition="right" matTooltipShowDelay="500" matTooltip="">KeyEncipherment</mat-checkbox>
+    </li>
+    <li><mat-checkbox [(ngModel)]="nonRepudiation" (change)="fire()"
+            matTooltipPosition="right" matTooltipShowDelay="500" matTooltip="">NonRepudiation</mat-checkbox></li>
+    <li><mat-checkbox [(ngModel)]="digitalSignature" (change)="fire()"
+            matTooltipPosition="right" matTooltipShowDelay="500" matTooltip="">DigitalSignature</mat-checkbox></li>
+</ul>
+<!--
+https://www.gradenegger.eu/de/grundlagen-die-key-usage-zertifikaterweiterung/
+
+TLS Webserver-Zertifikate
+Bei TLS Webserver-Zertifikaten kommt es darauf an, welche Art Schlüssel zum Einsatz kommt (siehe RFC 5246 und RFC 4492).
+<br>
+Schlüsselalgorithmus Wert
+RSA Signature and Encryption
+ECDSA Signature
+ECDH Signature and Encryption
+<br>
+Zertifizierungsstellen-Zertifikate müssen gemäß RRC 5280 eine Key Usage Erweiterung besitzen. Diese sollte als kritisch
+markiert sein. Die Erweiterung wird typischerweise keyCertSign und keyCrlSign beinhalten. Die Microsoft
+Zertifizierungsstelle wird außerdem digitalSignature eintragen, was gemäß RFC 5280 aber nicht gemacht werden sollte.
+
+https://help.hcltechsw.com/domino/10.0.1/admin/conf_keyusageextensionsandextendedkeyusage_r.html
+
+-->

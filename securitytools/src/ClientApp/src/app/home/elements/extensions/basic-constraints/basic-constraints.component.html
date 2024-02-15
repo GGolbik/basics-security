@@ -1,0 +1,9 @@
+<mat-checkbox [(ngModel)]="critical" (change)="fire()">Critical</mat-checkbox>
+<br>
+<mat-checkbox [(ngModel)]="ca" (change)="fire()">Certificate Authority (CA)</mat-checkbox>
+<br>
+<mat-form-field>
+    <mat-label>Path Length Constraint</mat-label>
+    <input matInput type="number" min="0" placeholder="1" [(ngModel)]="pathLengthConstraint" [disabled]="!hasPathLengthConstraint" (change)="fire()">
+    <mat-checkbox  matSuffix [(ngModel)]="hasPathLengthConstraint" (change)="fire()"></mat-checkbox>
+</mat-form-field>

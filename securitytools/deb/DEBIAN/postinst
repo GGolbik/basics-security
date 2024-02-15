@@ -1,0 +1,18 @@
+#!/bin/sh
+echo "postinst..."
+
+ln -s /opt/ggolbik/securitytools/securitytools /usr/bin/ggolbik-securitytools
+
+if [ -d /run/systemd/system ]; then
+  systemctl daemon-reload >/dev/null || true
+  echo "Start the service with:"
+  echo "> sudo systemctl start ggolbik-securitytools"
+  echo "Configure the system to start the service at boot time with:"
+  echo "> sudo systemctl enable ggolbik-securitytools"
+  echo "Check the status of the service with:"
+  echo "> sudo systemctl status ggolbik-securitytools"
+  echo "View logs of the service with journalctl:"
+  echo "> sudo journalctl -u ggolbik-securitytools -f"
+fi
+
+echo "postinst done"

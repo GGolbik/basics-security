@@ -1,0 +1,14 @@
+<mat-form-field>
+    <mat-label>This Update</mat-label>
+    <input matInput [matDatepicker]="picker1" [(ngModel)]="thisUpdate" (dateChange)="fire()">
+    <mat-hint>YYYY-MM-DD</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+</mat-form-field>
+<mat-form-field>
+    <mat-label>Next Update</mat-label>
+    <input matInput [matDatepicker]="picker2" [(ngModel)]="nextUpdate" (dateChange)="fire()">
+    <mat-hint>YYYY-MM-DD</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+</mat-form-field>

@@ -1,0 +1,17 @@
+
+
+<ng-container>
+    <app-file-input [(content)]="certData" [label]="'Issuer Certificate'" [password]="password" [isRaw]="true" [hideRaw]="true"></app-file-input>
+    <app-file-input [(content)]="keyData" [label]="'Issuer Key (Optional)'" [password]="password" [isRaw]="true" [hideRaw]="true"></app-file-input>
+
+    <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'"
+            [(ngModel)]="password" name="password">
+            <button mat-icon-button matIconSuffix (click)="hidePassword = !hidePassword"><mat-icon>{{hidePassword ? 'visibility_off'
+            :
+            'visibility'}}
+        </mat-icon></button>
+        <mat-hint>The password of the private key.</mat-hint>
+    </mat-form-field>
+</ng-container>

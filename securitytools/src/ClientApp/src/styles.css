@@ -1,0 +1,80 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'styles/roboto.css';
+@import 'styles/material-icons.css';
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #c2185b;
+  /*color: #0366d6;*/
+}
+
+code {
+  color: #e01a76;
+}
+
+html, body { height: 100%; color:#fff; background-color: #292929; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+input {
+  text-overflow: ellipsis
+}
+
+/* Loading screen */
+
+
+#ggolbik-loading{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(48, 48, 48);
+}
+
+.ggolbik-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ggolbik-loading {
+  width: 100%;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-weight: normal;
+}
+
+/* https://loading.io/css/ */
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* Log */
+.hide-mat-paginator-range-actions .mat-paginator-range-actions {
+  display:none;
+}
