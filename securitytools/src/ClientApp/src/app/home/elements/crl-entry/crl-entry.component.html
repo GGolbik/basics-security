@@ -1,0 +1,7 @@
+
+<div style="display: flex;gap:1em">
+    <app-file-input [(content)]="_entry.crlEntry.cert!.data" style="flex: 1" [label]="'Certificate'" [isRaw]="true" [hideRaw]="true"></app-file-input>
+    <app-byte-number [(config)]="_entry.crlEntry.serialNumber" style="flex: 1" [label]="'Serial Number'" [inputName]="'serialNumber'"></app-byte-number>
+    <button mat-icon-button matTooltip="Delete CRL entry" color="warn" aria-label="Delete CRL entry icon-button"
+        (click)="deleteEntry()"><mat-icon>delete_forever</mat-icon></button>
+</div>

@@ -1,0 +1,101 @@
+<mat-form-field>
+    <mat-label>Common Name (CN)</mat-label>
+    <input matInput placeholder="Test CA" [(ngModel)]="commonName" (change)="fire()">
+    <mat-hint>Your name or your server hostname. Might be a fully qualified domain name (FQDN).</mat-hint>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Organizational Unit name (OU)</mat-label>
+    <input matInput placeholder="Test Department" [(ngModel)]="organizationalUnitName" (change)="fire()">
+    <mat-hint>Department within the organization.</mat-hint>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Organization Name (O)</mat-label>
+    <input matInput placeholder="Default Company Ltd" [(ngModel)]="organizationName" (change)="fire()">
+    <mat-hint>Company's legally registered name.</mat-hint>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>State or Province name (ST or SP or S)</mat-label>
+    <input matInput placeholder="North Rhine-Westphalia" [(ngModel)]="stateOrProvinceName" (change)="fire()">
+    <mat-hint>The state/province where your company is legally located.</mat-hint>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>CountryName (C)</mat-label>
+    <input matInput placeholder="DE" [(ngModel)]="countryName" (change)="fire()">
+    <mat-hint>Two-letter country code (ISO 3166).</mat-hint>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Domain Component (DC)</mat-label>
+    <input matInput placeholder="example.com" [(ngModel)]="domainComponents" (change)="fire()">
+    <mat-hint>Identifies the domain components of a domain. For example, if the domain is example.com, the domain
+        components would be: DC=example, DC=com</mat-hint>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Locality Name (C)</mat-label>
+    <input matInput placeholder="Default City" [(ngModel)]="localityName" (change)="fire()">
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Title</mat-label>
+    <input matInput placeholder="" [(ngModel)]="title" (change)="fire()">
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Surname</mat-label>
+    <input matInput placeholder="Doe" [(ngModel)]="surname" (change)="fire()">
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Given Name</mat-label>
+    <input matInput placeholder="John" [(ngModel)]="givenName" (change)="fire()">
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Initials</mat-label>
+    <input matInput placeholder="" [(ngModel)]="initials" (change)="fire()">
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Pseudonym</mat-label>
+    <input matInput placeholder="" [(ngModel)]="pseudonym" (change)="fire()">
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Generation Qualifier</mat-label>
+    <input matInput placeholder="Jr." [(ngModel)]="generationQualifier" (change)="fire()">
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>Email Address (MAIL or E)</mat-label>
+    <input matInput placeholder="info@example.com" [(ngModel)]="emailAddress" (change)="fire()">
+</mat-form-field>
+
+<mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Additonal Fields
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div style="display: flex;gap:1em" *ngFor="let entry of oids; index as i">
+        <mat-form-field>
+            <mat-label>OID</mat-label>
+            <input matInput placeholder="1.2.3.4" [value]="getKey(entry)" (change)="setK(i, $event);">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Value</mat-label>
+            <input matInput placeholder="abc" [value]="getValue(entry)" (change)="setV(i, $event);">
+        </mat-form-field>
+        <button mat-icon-button matTooltip="Delete entry" color="warn" aria-label="Delete entry icon-button"
+            (click)="deleteEntry(i)"><mat-icon>delete_forever</mat-icon></button>
+    </div>
+
+    <mat-action-row>
+        <button mat-stroked-button color="primary" (click)="addEntry()">Add Entry</button>
+    </mat-action-row>
+</mat-expansion-panel>

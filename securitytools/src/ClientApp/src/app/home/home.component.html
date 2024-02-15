@@ -1,0 +1,13 @@
+<mat-card>
+    <mat-card-content>
+        <mat-tab-group [selectedIndex]="params.tabIndex" (selectedIndexChange)="selectedIndexChange($event)">
+            <mat-tab label="Key Pair"><app-key-pair></app-key-pair></mat-tab>
+            <mat-tab label="CSR"><app-csr-config></app-csr-config></mat-tab>
+            <mat-tab label="Certificate"><app-certificate-config></app-certificate-config></mat-tab>
+            <mat-tab label="Self-Sign Certificate"><app-self-certificate-config></app-self-certificate-config></mat-tab>
+            <mat-tab label="CRL"><app-crl></app-crl></mat-tab>
+            <mat-tab label="Transform"><app-transform></app-transform></mat-tab>
+          </mat-tab-group>
+    </mat-card-content>
+</mat-card>
+&nbsp;

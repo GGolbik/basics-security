@@ -1,0 +1,19 @@
+<mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Certificates
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div style="display: flex;gap:1em" *ngFor="let entry of _entries; index as i">
+        <app-file-input [(content)]="entry.cert!.data" [label]="'Certificate'" style="flex: 1" [isRaw]="true" [hideRaw]="true"></app-file-input>
+        <app-byte-number [(config)]="entry.serialNumber" style="flex: 1" [label]="'Serial Number'" [inputName]="'serialNumber'"></app-byte-number>
+        <button mat-icon-button matTooltip="Delete CRL entry" color="warn" aria-label="Delete CRL entry icon-button"
+            (click)="deleteEntry(i)"><mat-icon>delete_forever</mat-icon></button>
+            
+    </div>
+
+    <mat-action-row>
+        <button mat-stroked-button color="primary" (click)="addEntry()">Add Certificate</button>
+    </mat-action-row>
+</mat-expansion-panel>

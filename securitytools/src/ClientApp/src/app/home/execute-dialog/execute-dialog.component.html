@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>
+    <span *ngIf="loading">Processing...</span>
+    <mat-icon *ngIf="!loading" [color]="success ? 'primary' : 'warn'"
+        style="vertical-align: middle;margin-right: 0.25em;">{{ success ? 'check_circle' : 'error' }}</mat-icon>
+    <span *ngIf="!loading" style="vertical-align: middle;">{{ success ? "Success" : "Failure" }}</span>
+</h1>
+<div mat-dialog-content>
+    <mat-spinner style="margin: auto;" *ngIf="loading"
+        [mode]="(uploadProgress?.progress ?? 0) == 100 ? 'indeterminate' : 'determinate'"
+        [value]="uploadProgress?.progress ?? 0"></mat-spinner>
+    <div style="margin: auto;" *ngIf="error != null">
+        <p><a [href]="error.type">{{ error.title }}</a></p>
+
+        <mat-form-field style="width: 40em; max-width: 100%;overflow: hidden;">
+            <textarea matInput [value]="error.detail"
+            cdkTextareaAutosize
+            style="font-size: 0.9em;"
+            #autosize="cdkTextareaAutosize"></textarea>
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions [align]="'end'">
+    <button mat-button (click)="onNoClick()" color="warn" *ngIf="loading">Cancel</button>
+    <button mat-button (click)="onNoClick()" *ngIf="!loading">Close</button>
+</div>

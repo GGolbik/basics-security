@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "postrm..."
+
+rm /usr/bin/ggolbik-securitytools
+
+echo "postrm done"

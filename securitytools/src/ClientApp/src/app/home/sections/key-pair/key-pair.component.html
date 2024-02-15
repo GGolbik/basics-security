@@ -1,0 +1,80 @@
+<mat-stepper orientation="vertical" [linear]="isLinear" #stepper [selectedIndex]="params.stepperIndex"
+(selectionChange)="selectedIndexChange($event)">
+    <mat-step [completed]="completedGetStarted">
+        <form>
+            <ng-template matStepLabel>Get Started</ng-template>
+            <mat-card [appearance]="'outlined'">
+                <mat-card-header>
+                    <mat-card-title>Create a key pair</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    Start your journey to the creation of a key pair. You can find more info in
+                    the <a href="/doc#KeyPair" matTooltip="Open Documentation" aria-label="Open Documentation icon-button">
+                        documentation</a>.
+                    <p>
+                        <br>
+                        <app-file-input [hideInput]="true" [isRaw]="true" [readPlainText]="true" [label]="'Import'" (contentChange)="import($event)"></app-file-input>
+                    </p>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-button [color]="completedDone ? '' : 'warn'" (click)="reset()">Reset</button>
+                    <button mat-flat-button color="accent" matStepperNext>Next</button>
+                </mat-card-actions>
+            </mat-card>
+        </form>
+    </mat-step>
+    
+    <mat-step [completed]="completedKeyPair" [optional]="true">
+        <ng-template matStepLabel>Private Key
+            <a href="/doc#KeyPair" target="_blank" matTooltip="Open Documentation" aria-label="Open Documentation icon-button">(doc)</a>
+        </ng-template>
+
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <app-privatekey [(config)]="config"></app-privatekey>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-stroked-button (click)="config = undefined" [disabled]="config == null">Clear</button>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-flat-button color="accent" matStepperNext>Next</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+    <mat-step [completed]="completedDone">
+        <ng-template matStepLabel>Create</ng-template>
+
+        <mat-card [appearance]="'outlined'">
+            <mat-card-content>
+                <span>If you are ready, click create.</span>
+                <mat-form-field appearance="outline">
+                    <mat-label>Container Format</mat-label>
+                    <mat-select [(ngModel)]="accepts">
+                        <mat-option
+                            *ngFor="let enum of (MediaType | keyvalue).slice(0, (MediaType | keyvalue).length / 2)"
+                            [value]="Number(enum.key)">
+                            {{enum.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Encoding</mat-label>
+                    <mat-select [value]="fileFormat">
+                        <mat-option
+                            *ngFor="let enum of (X509Encoding | keyvalue).slice(0, (X509Encoding | keyvalue).length / 2)"
+                            [value]="Number(enum.key)">
+                            {{enum.value}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <p>                    
+                    <button mat-stroked-button aria-label="Export config icon button" matTooltip="Export config" (click)="export()"><mat-icon>download</mat-icon> Export</button>
+                </p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-button [color]="completedDone ? '' : 'warn'" (click)="reset()">Reset</button>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="create()">Create</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-step>
+</mat-stepper>

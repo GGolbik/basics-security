@@ -1,0 +1,12 @@
+#!/bin/sh
+echo "prerm..."
+
+if [ -d /run/systemd/system ]; then
+    systemctl stop ggolbik-securitytools
+fi
+
+if [ -d /run/systemd/system ]; then
+    systemctl daemon-reload
+fi
+
+echo "prerm done"

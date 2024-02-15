@@ -1,0 +1,55 @@
+mat-form-field {
+    width: 100%;
+}
+
+.mat-column-Message,
+.mat-column-Level,
+.mat-column-Timestamp {
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    word-break: break-word;
+
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.mat-column-Level,
+.mat-column-Timestamp {
+    flex: 0 0 20% !important;
+    width: 20% !important;
+}
+
+.mat-column-Message {
+    flex: 0 0 60% !important;
+    width: 60% !important;
+}
+
+.make-warning {
+    background-color: gold
+}
+
+.make-info {
+    background: inherit;
+}
+
+.make-error {
+    background-color: red
+}
+
+.make-fatal {
+    background-color: purple;
+    color: white
+}
+
+.make-debug {
+    background-color: #333
+}
+
+.make-trace {
+    background-color: #555
+}

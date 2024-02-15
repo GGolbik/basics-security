@@ -1,0 +1,78 @@
+<p>
+    <mat-radio-group [(ngModel)]="generate">
+        <mat-radio-button [value]="true">Generate Private Key</mat-radio-button>
+        <mat-radio-button [value]="false">Use Existing Private Key</mat-radio-button>
+    </mat-radio-group>
+</p>
+<ng-container *ngIf="generate">
+    <mat-form-field appearance="outline">
+        <mat-label>Signature Algorithm</mat-label>
+        <mat-select [(ngModel)]="algorithm">
+            <mat-option
+                *ngFor="let enum of (SignatureAlgorithmName | keyvalue).slice(0, (SignatureAlgorithmName | keyvalue).length / 2)"
+                [value]="Number(enum.key)">
+                {{enum.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="algorithm == SignatureAlgorithmName.Rsa">
+        <mat-label>Key Size</mat-label>
+        <input matInput placeholder="4096" [(ngModel)]="keySize" name="keySize" [matAutocomplete]="autoRsa">
+
+        <mat-autocomplete autoActiveFirstOption #autoRsa="matAutocomplete">
+            <mat-option *ngFor="let option of optionsRsa" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="algorithm == SignatureAlgorithmName.Ecdsa">
+        <mat-label>ECCurve</mat-label>
+        <input matInput placeholder="Name or OID" [(ngModel)]="eccurve" name="eccurve" [matAutocomplete]="autoEcdsa">
+        
+        <mat-autocomplete autoActiveFirstOption #autoEcdsa="matAutocomplete">
+            <mat-option *ngFor="let option of optionsEcdsa" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Encoding</mat-label>
+        <mat-select [(ngModel)]="encoding">
+            <mat-option *ngFor="let enum of (X509Encoding | keyvalue).slice(0, (X509Encoding | keyvalue).length / 2)"
+                [value]="Number(enum.key)">
+                {{enum.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password"
+            name="password">
+        <mat-icon matIconSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off'
+            :
+            'visibility'}}
+        </mat-icon>
+        <mat-hint>The password which shall be used to protect the key.</mat-hint>
+    </mat-form-field>
+    
+    <app-hash-algorithm *ngIf="showHashAlgorithm && password != null && password.trim().length > 0" [(hashAlgorithm)]="hashAlgorithm" [hint]="'The hash algorithm to use to protect the key.'"></app-hash-algorithm>
+</ng-container>
+
+<ng-container *ngIf="!generate">
+    <app-file-input [(content)]="data" [label]="'Private Key'" [password]="password" [isRaw]="true" [hideRaw]="true"></app-file-input>
+
+    <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password"
+            name="password">
+            <button mat-icon-button matIconSuffix (click)="hidePassword = !hidePassword"><mat-icon>{{hidePassword ? 'visibility_off'
+            :
+            'visibility'}}
+        </mat-icon></button>
+        <mat-hint>The password of the private key.</mat-hint>
+    </mat-form-field>
+</ng-container>

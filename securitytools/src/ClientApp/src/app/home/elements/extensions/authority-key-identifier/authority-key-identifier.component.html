@@ -1,0 +1,5 @@
+<mat-checkbox [(ngModel)]="critical" (change)="fire()" matTooltipPosition="right"  matTooltip="Must be non-critical">Critical</mat-checkbox>
+<br>
+<mat-checkbox [(ngModel)]="includeKeyIdentifier" (change)="fire()">Include Key Identifier</mat-checkbox>
+<br>
+<mat-checkbox [(ngModel)]="includeIssuerAndSerial" (change)="fire()">Include Issuer And Serial</mat-checkbox>

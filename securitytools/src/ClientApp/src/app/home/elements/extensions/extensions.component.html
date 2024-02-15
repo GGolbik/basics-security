@@ -1,0 +1,27 @@
+
+<mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Additonal Extensions
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div style="display: flex;gap:1em" *ngFor="let entry of _extensions; index as i">
+        <mat-checkbox [(ngModel)]="entry.critical" (change)="fire()" matTooltip="Critical" matTooltipShowDelay="500"></mat-checkbox>
+        <mat-form-field>
+            <mat-label>OID</mat-label>
+            <input matInput placeholder="1.2.3.4" [(ngModel)]="entry.oid" (change)="fire()">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Value</mat-label>
+            <input matInput placeholder="dGVzdA==" [(ngModel)]="entry.value" (change)="fire()">
+            <mat-hint [align]="'end'">Base64 ASN.1 encoded string</mat-hint>
+        </mat-form-field>
+        <button mat-icon-button matTooltip="Delete extension" color="warn" aria-label="Delete extension icon-button"
+            (click)="deleteEntry(i)"><mat-icon>delete_forever</mat-icon></button>
+    </div>
+
+    <mat-action-row>
+        <button mat-stroked-button color="primary" (click)="addEntry()">Add Extension</button>
+    </mat-action-row>
+</mat-expansion-panel>

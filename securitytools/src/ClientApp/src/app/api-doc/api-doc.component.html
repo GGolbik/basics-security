@@ -1,0 +1,21 @@
+<div style="position: absolute;top:0; bottom:0; left:0; right:0;display:flex;flex-direction: column;">
+
+    <app-nav-menu></app-nav-menu>
+    <mat-card style="flex:1">
+        <mat-card-header>
+            <mat-card-title>
+                <div style="display: flex; align-items: center;">
+                    <a mat-icon-button href="/api/doc" target="_blank" aria-label="Open API Documentation in new window icon-button"
+                        matTooltip="Open API Documentation in new window">
+                        <mat-icon>open_in_new</mat-icon>
+                    </a>
+                    <span>API Documentation</span>
+                </div>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="height: 100%;">
+            <iframe src="/api/doc"
+                style="width:100%;height:100%;border-radius: var(--mdc-elevated-card-container-shape, var(--mdc-shape-medium, 4px));"></iframe>
+        </mat-card-content>
+    </mat-card>
+</div>

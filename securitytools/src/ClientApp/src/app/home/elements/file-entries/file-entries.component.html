@@ -1,0 +1,18 @@
+<mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Files
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div style="display: flex;gap:1em" *ngFor="let entry of _entries; index as i">
+        <app-file-input [(content)]="entry.data" style="flex: 1" [label]="'File'" [isRaw]="true" [hideRaw]="true"></app-file-input>
+        <button mat-icon-button matTooltip="Delete file entry" color="warn" aria-label="Delete file entry icon-button"
+            (click)="deleteEntry(i)"><mat-icon>delete_forever</mat-icon></button>
+            
+    </div>
+
+    <mat-action-row>
+        <button mat-stroked-button color="primary" (click)="addEntry()">Add File</button>
+    </mat-action-row>
+</mat-expansion-panel>
