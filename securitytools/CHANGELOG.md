@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file.
 
 # v1.0.1
 
-- Update build script for debian package.
+- Remove unnecessary dependency from debian package.
+- Update name of debian package.
 
 # v1.0.0
 
