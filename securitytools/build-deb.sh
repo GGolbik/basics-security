@@ -56,7 +56,9 @@ create_build_dir() {
 }
 
 set_deb_name() {
-  DEB_NAME="ggolbik-securitytools-${VERSION_NUMBER}_x86-64"
+  # The Debian binary package file names conform to the following convention:
+  # <foo>_<VersionNumber>-<DebianRevisionNumber>_<DebianArchitecture>.deb
+  DEB_NAME="ggolbik-securitytools_${VERSION_NUMBER}_amd64"
 }
 
 clear_and_prepare_build() {
