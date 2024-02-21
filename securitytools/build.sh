@@ -13,7 +13,7 @@ TEST_SCRIPT=${SCRIPT_DIR}/test.sh
 DEB_SCRIPT=${SCRIPT_DIR}/build-deb.sh
 VERSION_NUMBER=""
 INFORMATIONAL_VERSION=""
-VERSION_NAME="v1.0.1"
+VERSION_NAME="v1.0.2"
 RELEASE_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
 echoerr() { echo "$@" 1>&2; }

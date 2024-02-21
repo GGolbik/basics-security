@@ -19,7 +19,7 @@
     <Authors>GGolbik</Authors>
     <Copyright>Copyright © GGolbik 2024</Copyright>
     <!-- Version: (<major>.<minor>.<build/patch>) is the only version the Common Language Runtime (CLR) cares about. -->
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <!-- InformationalVersion: is intended to represent the version of your entire product -->
     <InformationalVersion></InformationalVersion>
   </PropertyGroup>
