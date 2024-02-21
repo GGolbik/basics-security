@@ -8,11 +8,11 @@ public enum ExtendedKeyUsageFlags
 {
     None = 0,
     ServerAuth = 1,
-    ClientAuth = 1 << 2,
-    CodeSigning = 1 << 3,
-    EmailProtection = 1 << 4,
-    TimeStamping = 1 << 5,
-    OCSPSigning = 1 << 6
+    ClientAuth = 1 << 1,
+    CodeSigning = 1 << 2,
+    EmailProtection = 1 << 3,
+    TimeStamping = 1 << 4,
+    OCSPSigning = 1 << 5
 }
 
 public static class ExtendedKeyUsageFlagsExtension

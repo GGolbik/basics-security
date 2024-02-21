@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 # [Unreleased]
 
+# v1.0.2
+
+- Fix generation of certificates and CSRs with the ExtendedKeyUsage extension.
+    - The numeric value of the enum flags was wrong.
+
 # v1.0.1
 
 - Remove unnecessary dependency from debian package.
@@ -11,4 +16,4 @@ All notable changes to this project will be documented in this file.
 
 # v1.0.0
 
-- Intial release.
+- Initial release.
