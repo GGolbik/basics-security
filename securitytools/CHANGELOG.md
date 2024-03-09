@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 - Fix different build number for deb package.
     - Now the deb package has the same build number.
+- Fix ignored request for file encoding.
+    - Now the requested file encoding (PEM, DER) is respected.
 
 # v1.0.2
 
