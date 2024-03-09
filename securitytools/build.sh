@@ -13,6 +13,8 @@ TEST_SCRIPT=${SCRIPT_DIR}/test.sh
 DEB_SCRIPT=${SCRIPT_DIR}/build-deb.sh
 VERSION_NUMBER=""
 INFORMATIONAL_VERSION=""
+# use unix time as build number
+BUILD_NUMBER="$(date +%s)"
 VERSION_NAME=""
 RELEASE_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
@@ -40,9 +42,24 @@ main() {
 
 init_args() {
   echo "ARGS: $@"
-  local build_type="$1"
+  local build_type=""
+  local build_number=""
+  # getopts OptionString Name [ Argument ...]
+  # If a character in OptionString is followed by a : (colon), that option is expected to have an argument.
+  while getopts t:b: opt
+  do
+    case $opt in
+        t) build_type=$OPTARG;;
+        b) build_number=$OPTARG;;
+        ?) 
+    esac
+  done
+
   if [ -n "${build_type}" ]; then
     BUILD_TYPE="${build_type}"
+  fi
+  if [ -n "${build_number}" ]; then
+    BUILD_NUMBER="${build_number}"
   fi
 }
 
@@ -72,9 +89,7 @@ read_version() {
   # version is not provided by project.
   local version="$(echo -n $(grep '<Version>' ${SRC_DIR}/SecurityTools.csproj | sed -r 's/<Version>(.*)<\/Version>/\1/'))"
   version=${version%%[[:space:]]}
-  # use unix time as build number
-  local build="$(date +%s)"
-  VERSION_NUMBER="${version}.${build}"
+  VERSION_NUMBER="${version}.${BUILD_NUMBER}"
 }
 
 read_informational_version() {
@@ -84,9 +99,7 @@ read_informational_version() {
     # version is not provided by project.
     local version="$(echo -n $(grep '<Version>' ${SRC_DIR}/SecurityTools.csproj | sed -r 's/<Version>(.*)<\/Version>/\1/'))"
     version=${version%%[[:space:]]}
-    # use unix time as build number
-    local build="$(date +%s)"
-    INFORMATIONAL_VERSION="${version}.${build}"
+    INFORMATIONAL_VERSION="${version}.${BUILD_NUMBER}"
   else
     # version is defined by project.
     INFORMATIONAL_VERSION=$informationalVersion
@@ -131,7 +144,7 @@ package_app() {
     && zip -r \"ggolbik-securitytools_${VERSION_NUMBER}_win10-x86-64.zip\" \"win10-x64-self-contained\" \
     && tar -czvf \"ggolbik-securitytools_${VERSION_NUMBER}_linux-x86-64.tar.gz\" \"linux-x64-self-contained/\""
 
-  /bin/bash "${DEB_SCRIPT}"
+  /bin/bash "${DEB_SCRIPT}" -b "${BUILD_NUMBER}"
 }
 
 # run script

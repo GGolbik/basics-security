@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 # [Unreleased]
 
+- Fix different build number for deb package.
+    - Now the deb package has the same build number.
+
 # v1.0.2
 
 - Fix generation of certificates and CSRs with the ExtendedKeyUsage extension.
