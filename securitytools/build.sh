@@ -15,7 +15,7 @@ VERSION_NUMBER=""
 INFORMATIONAL_VERSION=""
 # use unix time as build number
 BUILD_NUMBER="$(date +%s)"
-VERSION_NAME="v1.0.2"
+VERSION_NAME="v1.0.3"
 RELEASE_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
 echoerr() { echo "$@" 1>&2; }

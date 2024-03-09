@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 # [Unreleased]
 
+# v1.0.3
+
 - Fix different build number for deb package.
     - Now the deb package has the same build number.
 - Fix ignored request for file encoding.
