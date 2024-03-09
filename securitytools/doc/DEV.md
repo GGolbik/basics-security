@@ -293,7 +293,7 @@ Recommended extensions:
   - You may also want to disable the `Add Problems` settings parameter.
 - [Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)
 - [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
-- [shell-format](https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format)S
+- [shell-format](https://marketplace.visualstudio.com/items?itemName=foxundermoon.shell-format)
 
 # Minor Update of Build Environment
 

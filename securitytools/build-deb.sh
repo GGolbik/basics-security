@@ -8,6 +8,7 @@ DEB_DIR="${SCRIPT_DIR}/deb"
 DEB_BUILD_DIR="${SCRIPT_DIR}/build/deb"
 SERVICE_FILE="${SRC_DIR}/Targets/Linux/ggolbik-securitytools.service"
 VERSION_NUMBER=""
+BUILD_NUMBER="$(date +%s)"
 CONTENT_DIR="linux-x64-self-contained"
 DEB_NAME=""
 
@@ -33,7 +34,22 @@ main() {
 
 init_args() {
   echo "ARGS: $@"
-  local content_dir="$1"
+  local content_dir=""
+  local build_number=""
+  # getopts OptionString Name [ Argument ...]
+  # If a character in OptionString is followed by a : (colon), that option is expected to have an argument.
+  while getopts c:b: opt
+  do
+    case $opt in
+        c) content_dir=$OPTARG;;
+        b) build_number=$OPTARG;;
+        ?) 
+    esac
+  done
+
+  if [ -n "${build_number}" ]; then
+    BUILD_NUMBER="${build_number}"
+  fi
   if [ -n "${content_dir}" ]; then
     CONTENT_DIR="${content_dir}"
   fi
@@ -43,9 +59,7 @@ read_version() {
   # version is not provided by project.
   local version="$(echo -n $(grep '<Version>' ${SRC_DIR}/SecurityTools.csproj | sed -r 's/<Version>(.*)<\/Version>/\1/'))"
   version=${version%%[[:space:]]}
-  # use unix time as build number
-  local build="$(date +%s)"
-  VERSION_NUMBER="${version}.${build}"
+  VERSION_NUMBER="${version}.${BUILD_NUMBER}"
 }
 
 create_build_dir() {
