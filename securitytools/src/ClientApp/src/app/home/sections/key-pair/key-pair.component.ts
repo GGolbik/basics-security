@@ -48,8 +48,19 @@ export class KeyPairComponent implements OnInit {
 
   create() {
     this.error = undefined;
+    let config = this.config ?? {};
+    if (this.fileFormat != null) {
+      config.privateKey ??= {};
+      config.privateKey.fileFormat ??= {};
+      if ((config.privateKey.fileFormat.encoding ?? X509Encoding.Default) == X509Encoding.Default) {
+        config.privateKey.fileFormat.encoding = this.fileFormat;
+      }
+      config.publicKey ??= {};
+      config.publicKey.fileFormat ??= {};
+      config.publicKey.fileFormat.encoding = this.fileFormat;
+    }
     const dialogRef = this.dialog.open(ExecuteDialogComponent, {
-      data: { accepts: this.accepts, keyPair: this.config ?? {} } as ExecuteDialogData,
+      data: { accepts: this.accepts, keyPair: config } as ExecuteDialogData,
       closeOnNavigation: false,
       disableClose: true
     });

@@ -58,7 +58,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Encoding</mat-label>
-                    <mat-select [value]="fileFormat">
+                    <mat-select [(ngModel)]="fileFormat">
                         <mat-option
                             *ngFor="let enum of (X509Encoding | keyvalue).slice(0, (X509Encoding | keyvalue).length / 2)"
                             [value]="Number(enum.key)">

@@ -138,8 +138,26 @@ export class CrlComponent  implements OnInit {
   }
   create() {
     this.error = undefined;
+    let config = this.config ?? {};
+    if (this.fileFormat != null) {
+      config.crl ??= {};
+      config.crl.fileFormat ??= {};
+      config.crl.fileFormat.encoding = this.fileFormat;
+      config.issuer ??= {};
+      config.issuer.fileFormat ??= {};
+      config.issuer.fileFormat.encoding = this.fileFormat;
+      config.keyPair ??= {};
+      config.keyPair.privateKey ??= {};
+      config.keyPair.privateKey.fileFormat ??= {};
+      if ((config.keyPair.privateKey.fileFormat.encoding ?? X509Encoding.Default) == X509Encoding.Default) {
+        config.keyPair.privateKey.fileFormat.encoding = this.fileFormat;
+      }
+      config.keyPair.publicKey ??= {};
+      config.keyPair.publicKey.fileFormat ??= {};
+      config.keyPair.publicKey.fileFormat.encoding ??= this.fileFormat;
+    }
     const dialogRef = this.dialog.open(ExecuteDialogComponent, {
-      data: { accepts: this.accepts, crl: this.config ?? {} } as ExecuteDialogData,
+      data: { accepts: this.accepts, crl: config } as ExecuteDialogData,
       closeOnNavigation: false,
       disableClose: true
     });

@@ -49,7 +49,7 @@ export class SelfCertificateConfigComponent implements OnInit {
   get completedHashAlgorithm() {
     return this.hashAlgorithm != null;
   }
-  
+
   get completedBasicConstraints() {
     return this.basicConstraints != null;
   }
@@ -92,12 +92,12 @@ export class SelfCertificateConfigComponent implements OnInit {
     return this.config.csr;
   }
 
-  get keyPair () : ConfigKeyPair | undefined {
+  get keyPair(): ConfigKeyPair | undefined {
     return this.configCsr.keyPair;
   }
 
   set keyPair(value) {
-    if(value == null) {
+    if (value == null) {
       delete this.configCsr.keyPair;
     } else {
       this.configCsr.keyPair = value;
@@ -108,7 +108,7 @@ export class SelfCertificateConfigComponent implements OnInit {
     return this.config.hashAlgorithm;
   }
   set hashAlgorithm(value) {
-    if(value == null) {
+    if (value == null) {
       delete this.config.hashAlgorithm;
     } else {
       this.config.hashAlgorithm = value;
@@ -119,23 +119,23 @@ export class SelfCertificateConfigComponent implements OnInit {
     return this.config.serialNumber;
   }
   set serialNumber(value) {
-    if(value == null) {
+    if (value == null) {
       delete this.config.serialNumber;
     } else {
       this.config.serialNumber = value;
     }
   }
 
-  get subjectName () : ConfigSubjectName | undefined {
+  get subjectName(): ConfigSubjectName | undefined {
     return this.configCsr.subjectName;
   }
 
   set subjectName(value) {
-    if(value == null) {
+    if (value == null) {
       delete this.configCsr.subjectName;
     } else {
       this.configCsr.subjectName = value;
-      if(Object.keys(this.configCsr.subjectName).length == 0) {
+      if (Object.keys(this.configCsr.subjectName).length == 0) {
         delete this.configCsr.subjectName;
       }
     }
@@ -149,129 +149,151 @@ export class SelfCertificateConfigComponent implements OnInit {
     this.config.validity = value;
   }
 
-  get basicConstraints() : ConfigBasicConstraintsExtension | undefined {
+  get basicConstraints(): ConfigBasicConstraintsExtension | undefined {
     return this.configCsr.extensions?.basicConstraints;
   }
 
   set basicConstraints(config: ConfigBasicConstraintsExtension | undefined) {
-    if(this.configCsr.extensions == null) {
+    if (this.configCsr.extensions == null) {
       this.configCsr.extensions = {} as ConfigExtensions;
     }
     this.configCsr.extensions.basicConstraints = config;
-    if(this.configCsr.extensions.basicConstraints == null) {
+    if (this.configCsr.extensions.basicConstraints == null) {
       delete this.configCsr.extensions.basicConstraints;
     }
-    if(Object.keys(this.configCsr.extensions).length == 0) {
+    if (Object.keys(this.configCsr.extensions).length == 0) {
       delete this.configCsr.extensions;
     }
   }
 
-  get authorityKeyIdentifier() : ConfigAuthorityKeyIdentifierExtension | undefined {
+  get authorityKeyIdentifier(): ConfigAuthorityKeyIdentifierExtension | undefined {
     return this.configCsr.extensions?.authorityKeyIdentifier;
   }
 
   set authorityKeyIdentifier(config: ConfigAuthorityKeyIdentifierExtension | undefined) {
-    if(this.configCsr.extensions == null) {
+    if (this.configCsr.extensions == null) {
       this.configCsr.extensions = {} as ConfigExtensions;
     }
     this.configCsr.extensions.authorityKeyIdentifier = config;
-    if(this.configCsr.extensions.authorityKeyIdentifier == null) {
+    if (this.configCsr.extensions.authorityKeyIdentifier == null) {
       delete this.configCsr.extensions.authorityKeyIdentifier;
     }
-    if(Object.keys(this.configCsr.extensions).length == 0) {
+    if (Object.keys(this.configCsr.extensions).length == 0) {
       delete this.configCsr.extensions;
     }
   }
-  
-  get subjectKeyIdentifier() : ConfigSubjectKeyIdentifierExtension | undefined {
+
+  get subjectKeyIdentifier(): ConfigSubjectKeyIdentifierExtension | undefined {
     return this.configCsr.extensions?.subjectKeyIdentifier;
   }
 
   set subjectKeyIdentifier(config: ConfigSubjectKeyIdentifierExtension | undefined) {
-    if(this.configCsr.extensions == null) {
+    if (this.configCsr.extensions == null) {
       this.configCsr.extensions = {} as ConfigExtensions;
     }
     this.configCsr.extensions.subjectKeyIdentifier = config;
-    if(this.configCsr.extensions.subjectKeyIdentifier == null) {
+    if (this.configCsr.extensions.subjectKeyIdentifier == null) {
       delete this.configCsr.extensions.subjectKeyIdentifier;
     }
-    if(Object.keys(this.configCsr.extensions).length == 0) {
+    if (Object.keys(this.configCsr.extensions).length == 0) {
       delete this.configCsr.extensions;
     }
   }
 
-  get subjectAlternativeName() : ConfigSubjectAlternativeName | undefined {
+  get subjectAlternativeName(): ConfigSubjectAlternativeName | undefined {
     return this.configCsr.extensions?.subjectAlternativeName;
   }
 
   set subjectAlternativeName(config: ConfigSubjectAlternativeName | undefined) {
-    if(this.configCsr.extensions == null) {
+    if (this.configCsr.extensions == null) {
       this.configCsr.extensions = {} as ConfigExtensions;
     }
     this.configCsr.extensions.subjectAlternativeName = config;
-    if(this.configCsr.extensions.subjectAlternativeName == null) {
+    if (this.configCsr.extensions.subjectAlternativeName == null) {
       delete this.configCsr.extensions.subjectAlternativeName;
     }
-    if(Object.keys(this.configCsr.extensions).length == 0) {
+    if (Object.keys(this.configCsr.extensions).length == 0) {
       delete this.configCsr.extensions;
     }
   }
 
-  get keyUsage() : ConfigKeyUsageExtension | undefined {
+  get keyUsage(): ConfigKeyUsageExtension | undefined {
     return this.configCsr.extensions?.keyUsage;
   }
 
   set keyUsage(config: ConfigKeyUsageExtension | undefined) {
-    if(this.configCsr.extensions == null) {
+    if (this.configCsr.extensions == null) {
       this.configCsr.extensions = {} as ConfigExtensions;
     }
     this.configCsr.extensions.keyUsage = config;
-    if(this.configCsr.extensions.keyUsage == null) {
+    if (this.configCsr.extensions.keyUsage == null) {
       delete this.configCsr.extensions.keyUsage;
     }
-    if(Object.keys(this.configCsr.extensions).length == 0) {
+    if (Object.keys(this.configCsr.extensions).length == 0) {
       delete this.configCsr.extensions;
     }
   }
 
-  get extendedKeyUsage() : ConfigExtendedKeyUsageExtension | undefined {
+  get extendedKeyUsage(): ConfigExtendedKeyUsageExtension | undefined {
     return this.configCsr.extensions?.extendedKeyUsage;
   }
 
   set extendedKeyUsage(config: ConfigExtendedKeyUsageExtension | undefined) {
-    if(this.configCsr.extensions == null) {
+    if (this.configCsr.extensions == null) {
       this.configCsr.extensions = {} as ConfigExtensions;
     }
     this.configCsr.extensions.extendedKeyUsage = config;
-    if(this.configCsr.extensions.extendedKeyUsage == null) {
+    if (this.configCsr.extensions.extendedKeyUsage == null) {
       delete this.configCsr.extensions.extendedKeyUsage;
     }
-    if(Object.keys(this.configCsr.extensions).length == 0) {
+    if (Object.keys(this.configCsr.extensions).length == 0) {
       delete this.configCsr.extensions;
     }
   }
 
-  get extensions() : ConfigExtensionDefault[] | undefined {
+  get extensions(): ConfigExtensionDefault[] | undefined {
     return this.configCsr.extensions?.extensions;
   }
 
   set extensions(config: ConfigExtensionDefault[] | undefined) {
-    if(this.configCsr.extensions == null) {
+    if (this.configCsr.extensions == null) {
       this.configCsr.extensions = {} as ConfigExtensions;
     }
     this.configCsr.extensions.extensions = config;
-    if(this.configCsr.extensions.extensions == null) {
+    if (this.configCsr.extensions.extensions == null) {
       delete this.configCsr.extensions.extensions;
     }
-    if(Object.keys(this.configCsr.extensions).length == 0) {
+    if (Object.keys(this.configCsr.extensions).length == 0) {
       delete this.config.extensions;
     }
   }
 
   create() {
     this.error = undefined;
+    let config = this.config;
+    if (this.fileFormat != null) {
+      config.cert ??= {};
+      config.cert.fileFormat ??= {};
+      config.cert.fileFormat.encoding = this.fileFormat;
+      config.csr ??= {};
+      config.csr.csr ??= {};
+      config.csr.csr.fileFormat ??= {};
+      config.csr.csr.fileFormat.encoding = this.fileFormat;
+      config.issuer ??= {};
+      config.issuer.fileFormat ??= {};
+      config.issuer.fileFormat.encoding = this.fileFormat;
+      config.keyPair ??= {};
+      config.keyPair.privateKey ??= {};
+      config.keyPair.privateKey.fileFormat ??= {};
+      if ((config.keyPair.privateKey.fileFormat.encoding ?? X509Encoding.Default) == X509Encoding.Default) {
+        config.keyPair.privateKey.fileFormat.encoding = this.fileFormat;
+      }
+      config.keyPair.publicKey ??= {};
+      config.keyPair.publicKey.fileFormat ??= {};
+      config.keyPair.publicKey.fileFormat.encoding ??= this.fileFormat;
+    }
     const dialogRef = this.dialog.open(ExecuteDialogComponent, {
-      data: { accepts: this.accepts, cert: this.config } as ExecuteDialogData,
+      data: { accepts: this.accepts, cert: config } as ExecuteDialogData,
       closeOnNavigation: false,
       disableClose: true
     });
@@ -287,7 +309,7 @@ export class SelfCertificateConfigComponent implements OnInit {
 
   get warnings() {
     let warnings: string[] = [];
-    
+
     return warnings;
   }
 
@@ -317,7 +339,7 @@ export class SelfCertificateConfigComponent implements OnInit {
       });
     }
   }
-  
+
   export() {
     exportJson(this.config);
   }

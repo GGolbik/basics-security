@@ -16,7 +16,7 @@ public class CertBuilder : SecurityBuilder<CertBuilder>
 
         X509Certificate2? issuer = null;
         AsymmetricAlgorithm privateKey;
-        if (config.Issuer != null)
+        if (config.Issuer?.Exists() ?? false)
         {
             Logger.Debug("Load issuer.");
             issuer = this.LoadCertificate(result.Issuer);
