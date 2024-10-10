@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-SRC_DIR="${SCRIPT_DIR}/../src"
+SRC_DIR="${SCRIPT_DIR}/../SecurityToolsApp"
 IMAGE_BUILD_SCRIPT=${SCRIPT_DIR}/../docker-securitytools-build/docker.sh
 IMAGE_NAME=ggolbik/securitytools
 # get tag from version inside AssemblyInfo.cs

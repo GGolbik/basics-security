@@ -2,28 +2,45 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "kill-ng-serve",
+      "linux": {
+        "command": "fuser",
+        "type": "shell",
+        "args": [
+          "-k",
+          "4200/tcp",
+          "||",
+          "echo",
+          "0"
+        ]
+      }
+    },
+    {
       "label": "build-securitytools",
       "command": "dotnet",
       "type": "process",
+      "dependsOn": [
+        "kill-ng-serve"
+      ],
       "args": [
         "build",
-        "${workspaceFolder}/securitytools/src/SecurityTools.csproj",
+        "${workspaceFolder}/securitytools/SecurityToolsApp/SecurityTools.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
       "problemMatcher": "$msCompile"
     },
     {
-        "label": "build-securitytools-test",
-        "command": "dotnet",
-        "type": "process",
-        "args": [
-            "build",
-            "${workspaceFolder}/securitytools/test/SecurityToolsTest.csproj",
-            "/property:GenerateFullPaths=true",
-            "/consoleloggerparameters:NoSummary"
-        ],
-        "problemMatcher": "$msCompile"
+      "label": "build-securitytools-test",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/securitytools/SecurityToolsTest/SecurityToolsTest.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
     }
   ]
 }

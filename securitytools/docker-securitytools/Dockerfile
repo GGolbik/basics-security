@@ -14,8 +14,11 @@ RUN dotnet restore
 # copy everything else and build app
 COPY ./src ./
 
+# To install a tool for local access only (for the current directory and subdirectories), it has to be added to a manifest file.
 RUN dotnet new tool-manifest
+# This command adds the tool to the manifest file that you created in the preceding step
 RUN dotnet tool install dotnet-project-licenses
+# Invoke the tool
 RUN dotnet dotnet-project-licenses -i ./ -o --outfile wwwroot/licenses.txt
 
 RUN dotnet publish -c Release -o out -p:InformationalVersion=${APP_FULLVERSION}
