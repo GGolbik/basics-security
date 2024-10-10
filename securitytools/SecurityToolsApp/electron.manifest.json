@@ -1,0 +1,43 @@
+{
+  "executable": "SecurityTools",
+  "splashscreen": {
+    "imageFile": ""
+  },
+  "name": "SecurityTools",
+  "author": "GGolbik",
+  "singleInstance": false,
+  "environment": "Production",
+  "build": {
+    "appId": "de.ggolbik.securityools",
+    "productName": "SecurityTools",
+    "copyright": "Copyright © 2024",
+    "buildVersion": "1.0.0",
+    "compression": "maximum",
+    "icon": "../../../wwwroot/favicon.ico",
+    "linux": {
+      "category": "Utility",
+      "icon": "../../../wwwroot/favicon.ico"
+    },
+    "win": {
+      "icon": "../../../wwwroot/favicon.ico"
+    },
+    "directories": {
+      "output": "../../../../build/Electron"
+    },
+    "extraResources": [
+      {
+        "from": "./bin",
+        "to": "bin",
+        "filter": [ "**/*" ]
+      }
+    ],
+    "files": [
+      {
+        "from": "./ElectronHostHook/node_modules",
+        "to": "ElectronHostHook/node_modules",
+        "filter": [ "**/*" ]
+      },
+      "**/*"
+    ]
+  }
+}

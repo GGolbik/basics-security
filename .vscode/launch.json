@@ -1,13 +1,14 @@
 {
   "version": "0.2.0",
-  "configurations": [{
+  "configurations": [
+    {
       "name": "SecurityTools Debug",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build-securitytools",
-      "program": "${workspaceFolder}/securitytools/build/SecurityTools/bin/Debug/net7.0/SecurityTools.dll",
+      "program": "${workspaceFolder}/securitytools/build/SecurityTools/bin/Debug/net8.0/SecurityTools.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/securitytools/src",
+      "cwd": "${workspaceFolder}/securitytools/SecurityToolsApp",
       "stopAtEntry": false,
       "logging": {
         "moduleLoad": false
@@ -15,7 +16,7 @@
       "serverReadyAction": {
         "action": "debugWithChrome",
         "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
-        "webRoot": "${workspaceFolder}/securitytools/src/ClientApp",
+        "webRoot": "${workspaceFolder}/securitytools/SecurityToolsWeb",
       },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -25,41 +26,41 @@
       }
     },
     {
-        "name": "SecurityTools Debug XUnit Tests",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build-securitytools-test",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "dotnet",
-        "args": [
-            "test",
-            //"--filter",
-            //"FullyQualifiedName=SecurityToolsTest.Config.ConfigurationServiceTest.Configuration_UpdateApplicationUri",
-            "${workspaceFolder}/securitytools/build/SecurityTools/bin/Debug/net7.0/SecurityToolsTest.dll"
-        ],
-        "env": {
-            "VSTEST_HOST_DEBUG": "1" 
-        },
-        "cwd": "${workspaceFolder}/test",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "internalConsole",
-        "stopAtEntry": false,
-        "logging": {
-          "moduleLoad": false
-        },
+      "name": "SecurityTools Debug XUnit Tests",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-securitytools-test",
+      // If you have changed target frameworks, make sure to update the program path.
+      "program": "dotnet",
+      "args": [
+        "test",
+        //"--filter",
+        //"FullyQualifiedName=SecurityToolsTest.Config.ConfigurationServiceTest.Configuration_UpdateApplicationUri",
+        "${workspaceFolder}/securitytools/build/SecurityToolsTest/bin/Debug/net8.0/SecurityToolsTest.dll"
+      ],
+      "env": {
+        "VSTEST_HOST_DEBUG": "1"
+      },
+      "cwd": "${workspaceFolder}/securitytools/SecurityToolsTest",
+      // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "logging": {
+        "moduleLoad": false
+      },
     },
     {
-        "name": ".NET Core Attach",
-        "type": "coreclr",
-        "request": "attach",
-        "justMyCode": false,
-        "enableStepFiltering": false,
-        "requireExactSource": false,
-        "symbolOptions": {
-            "searchPaths": [],
-            "searchMicrosoftSymbolServer": true,
-            "searchNuGetOrgSymbolServer": true
-        },
+      "name": ".NET Core Attach",
+      "type": "coreclr",
+      "request": "attach",
+      "justMyCode": false,
+      "enableStepFiltering": false,
+      "requireExactSource": false,
+      "symbolOptions": {
+        "searchPaths": [],
+        "searchMicrosoftSymbolServer": true,
+        "searchNuGetOrgSymbolServer": true
+      },
     },
   ]
 }

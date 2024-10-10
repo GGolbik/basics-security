@@ -10,6 +10,7 @@ This is the documentation for developers which describes how to build, test and 
     * [Debian](#debian)
   * [.Net SDK](#net-sdk)
     * [Debian](#debian-1)
+  * [Tools](#Tools)
   * [Node.js and npm](#nodejs-and-npm)
     * [Debian](#debian-2)
     * [Windows](#windows)
@@ -176,6 +177,31 @@ Upgrade .Net SDK
 sudo apt update
 sudo apt list --upgradable
 sudo apt --only-upgrade install dotnet-sdk-7.0
+~~~
+
+## Nuget License
+
+Install tool to print and validate the licenses of .net code. 
+~~~
+dotnet tool install --global nuget-license
+~~~
+
+## Electron
+
+Install tools build electron app (requires .NET 6.0 runtime):
+~~~
+dotnet tool install ElectronNET.CLI -g
+~~~
+
+See also [Add Electron in SETUP.md](./SETUP.md#add-electron).
+
+### Debian
+
+~~~
+sudo apt-get install wine
+sudo dpkg --add-architecture i386
+sudo apt-get update
+sudo apt-get install wine32
 ~~~
 
 ## Node.js and npm

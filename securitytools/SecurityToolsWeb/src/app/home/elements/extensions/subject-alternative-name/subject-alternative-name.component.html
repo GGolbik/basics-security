@@ -1,0 +1,12 @@
+<mat-checkbox [(ngModel)]="critical" (change)="fire()" matTooltipPosition="right">Critical</mat-checkbox>
+<mat-accordion [multi]="true">
+<!-- otherNames -->
+<app-string-list (configChange)="fire()" [title]="'Email Addresses'" [type]="'email'" [label]="'Email Address'" [placeholder]="'info@example.com'" [(config)]="emailAddresses"></app-string-list>
+<app-string-list (configChange)="fire()" [title]="'DNS Names'" [label]="'DNS Name'" [placeholder]="'www'" [(config)]="dnsNames" ></app-string-list>
+<!--<app-string-list (configChange)="fire()" [title]="'X400 Addresses'" [label]="'X400 Address'" [placeholder]="''" [(config)]="x400Addresses" ></app-string-list>-->
+<app-string-list (configChange)="fire()" [title]="'Directory Names'" [label]="'Directory Name'" [placeholder]="''" [(config)]="directoryNames" ></app-string-list>
+<!-- ediPartyNames -->
+<app-string-list (configChange)="fire()" [title]="'URIs'" [label]="'URI'" [placeholder]="'http://www.example.com'" [(config)]="uris" ></app-string-list>
+<app-string-list (configChange)="fire()" [title]="'IP Addresses'" [label]="'IP Address'" [placeholder]="'127.0.0.1'" [(config)]="iPAddresses" ></app-string-list>
+<app-string-list (configChange)="fire()" [title]="'Registered IDs'" [label]="'Registered ID'" [placeholder]="'1.2.3.4'" [(config)]="registeredIds" ></app-string-list>
+</mat-accordion>

@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 # [Unreleased]
 
+- Update from .NET 7.0 to .NET 8.0
+- Extend configuration of subject alternative name.
+- Add transform mode config which allows to transform an object into the related config.
+- Add [Electron](https://www.electronjs.org/).
+
 # v1.0.3
 
 - Fix different build number for deb package.

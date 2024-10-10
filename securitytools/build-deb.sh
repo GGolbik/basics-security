@@ -2,7 +2,7 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-SRC_DIR="${SCRIPT_DIR}/src"
+SRC_DIR="${SCRIPT_DIR}/SecurityToolsApp"
 BUILD_DIR="${SCRIPT_DIR}/build"
 DEB_DIR="${SCRIPT_DIR}/deb"
 DEB_BUILD_DIR="${SCRIPT_DIR}/build/deb"

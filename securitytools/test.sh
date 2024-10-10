@@ -4,8 +4,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 BUILD_DIR="${SCRIPT_DIR}/build"
 TOOLCHAIN_DOTNET="$(which dotnet)"
-TEST_DIR="${SCRIPT_DIR}/test"
-TEST_OUT_DIR="${BUILD_DIR}/test"
+TEST_DIR="${SCRIPT_DIR}/SecurityToolsTest"
+TEST_OUT_DIR="${BUILD_DIR}/SecurityToolsTest"
 REPORT_GENERATOR="$(which reportgenerator)"
 
 echoerr() { echo "$@" 1>&2; }
@@ -40,7 +40,7 @@ build_and_execute_tests() {
 create_coverage_report() {
   install_reportgenerator
 
-  local coverage_file=$(find "${SCRIPT_DIR}/build/test/" -name "coverage.cobertura.xml" -print -quit)
+  local coverage_file=$(find "${TEST_OUT_DIR}/" -name "coverage.cobertura.xml" -print -quit)
   local ret=$?
   if [[ ${ret} -eq 0 ]]; then
     mv "${coverage_file}" ${TEST_OUT_DIR}/coverage.cobertura.xml

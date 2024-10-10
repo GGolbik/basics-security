@@ -1,3 +1,7 @@
 /build
 
 .angular
+
+/SecurityToolsApp/obj
+
+/SecurityToolsApp/wwwroot/licenses.txt
