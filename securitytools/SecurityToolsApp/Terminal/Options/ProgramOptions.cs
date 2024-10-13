@@ -18,12 +18,12 @@ public abstract class ProgramOptions
     public JsonSerializerOptions GetJsonSerializerOptions()
     {
         List<KeyValuePair<string, JsonNamingPolicy>> policies = [
-            new(nameof(JsonNamingPolicy.CamelCase), JsonNamingPolicy.KebabCaseLower),
+            new(nameof(JsonNamingPolicy.CamelCase), JsonNamingPolicy.CamelCase),
             new(nameof(PascalCaseJsonNamingPolicy.PascalCase), PascalCaseJsonNamingPolicy.PascalCase),
             new(nameof(JsonNamingPolicy.KebabCaseLower), JsonNamingPolicy.KebabCaseLower),
-            new(nameof(JsonNamingPolicy.KebabCaseUpper), JsonNamingPolicy.KebabCaseLower),
-            new(nameof(JsonNamingPolicy.SnakeCaseLower), JsonNamingPolicy.KebabCaseLower),
-            new(nameof(JsonNamingPolicy.SnakeCaseUpper), JsonNamingPolicy.KebabCaseLower),
+            new(nameof(JsonNamingPolicy.KebabCaseUpper), JsonNamingPolicy.KebabCaseUpper),
+            new(nameof(JsonNamingPolicy.SnakeCaseLower), JsonNamingPolicy.SnakeCaseLower),
+            new(nameof(JsonNamingPolicy.SnakeCaseUpper), JsonNamingPolicy.SnakeCaseUpper),
         ];
         int index = policies.FindIndex(item =>
         {

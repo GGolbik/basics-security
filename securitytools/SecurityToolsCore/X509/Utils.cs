@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 using GGolbik.SecurityTools.X509.Infos;
 using GGolbik.SecurityTools.X509.Models;
 using Org.BouncyCastle.Asn1;
-using Org.BouncyCastle.Asn1.X500;
 using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.X509;
@@ -303,8 +302,12 @@ public static class UtilsExtensions
         return keyPair.ExportPkcs8PrivateKeyPem();
     }
 
-    public static string ToPem(this AsymmetricAlgorithm keyPair, byte[] password, PbeParameters? pbeParameters = null)
+    public static string ToPem(this AsymmetricAlgorithm keyPair, byte[]? password, PbeParameters? pbeParameters = null)
     {
+        if (password == null || password.Length == 0)
+        {
+            return keyPair.ToPem();
+        }
         pbeParameters ??= new PbeParameters(
             PbeEncryptionAlgorithm.Aes256Cbc,
             HashAlgorithmName.SHA512,
@@ -852,5 +855,14 @@ public static class UtilsExtensions
             }
         }
         return config;
+    }
+
+    public static string ReplaceAll(this string str, char[] chars, char newChar)
+    {
+        foreach (var c in chars)
+        {
+            str = str.Replace(c, newChar);
+        }
+        return str;
     }
 }

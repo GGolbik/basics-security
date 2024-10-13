@@ -28,7 +28,12 @@ public class DirectoryCertificateStore : CertificateStore
     private readonly string _crlPath;
     private readonly string _csrPath;
 
-    public DirectoryCertificateStore(string path)
+    public DirectoryCertificateStore(string path) : this(path, null)
+    {
+
+    }
+
+    public DirectoryCertificateStore(string path, byte[]? password, PbeParameters? pbeParameters = null) : base(password, pbeParameters)
     {
         _certsPath = Path.Combine(path, "certs");
         _privatePath = Path.Combine(path, "private");
@@ -44,6 +49,32 @@ public class DirectoryCertificateStore : CertificateStore
         }
     }
 
+    public override void UpdatePassword(byte[]? password, PbeParameters? pbeParameters = null)
+    {
+        try
+        {
+            DirectoryInfo dir = new(_privatePath);
+            if (!dir.Exists)
+            {
+                return;
+            }
+            foreach (var fileInfo in dir.GetFiles())
+            {
+                var keyPair = this.GetKeyPair(fileInfo.Name, _password);
+                if (keyPair != null)
+                {
+                    var pem = keyPair.ToPem(password, pbeParameters);
+                    File.WriteAllText(fileInfo.FullName, pem);
+                }
+            }
+        }
+        finally
+        {
+            _password = password;
+            _pbeParameters = pbeParameters;
+        }
+    }
+
     private void AddKeyPair(AsymmetricAlgorithm? key)
     {
         if (key == null)
@@ -53,7 +84,7 @@ public class DirectoryCertificateStore : CertificateStore
         var thumbprint = key.ToThumbprint();
         using (var stream = new FileStream(Path.Combine(_privatePath, thumbprint), FileMode.Create, FileAccess.Write, FileShare.Read))
         {
-            string pem = key.ExportPkcs8PrivateKeyPem();
+            string pem = key.ToPem(_password, _pbeParameters);
             stream.Write(Encoding.UTF8.GetBytes(pem));
         }
     }
@@ -141,12 +172,39 @@ public class DirectoryCertificateStore : CertificateStore
 
     public override AsymmetricAlgorithm? GetKeyPair(string thumbprint)
     {
+        return this.GetKeyPair(thumbprint, _password);
+    }
+
+    public AsymmetricAlgorithm? GetKeyPair(string thumbprint, byte[]? password)
+    {
         string path = Path.Combine(_privatePath, thumbprint);
         if (!File.Exists(path))
         {
             return null;
         }
-        return X509Reader.ReadKeyPairFromPem(File.ReadAllBytes(path));
+        using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+        {
+            return X509Reader.ReadKeyPair(stream, password);
+        }
+    }
+
+    public override IList<string> GetKeyPairsWithError()
+    {
+        List<string> result = new();
+        DirectoryInfo dir = new(_privatePath);
+        if (!dir.Exists)
+        {
+            return result;
+        }
+        foreach (var fileInfo in dir.GetFiles())
+        {
+            var keyPair = this.GetKeyPair(fileInfo.Name);
+            if (keyPair == null)
+            {
+                result.Add(fileInfo.Name);
+            }
+        }
+        return result;
     }
 
     public override IList<X509Crl> GetCrls()
@@ -176,7 +234,7 @@ public class DirectoryCertificateStore : CertificateStore
             return null;
         }
         X509CrlParser parser = new();
-        using (var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+        using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
         {
             return parser.ReadCrl(stream);
         }
