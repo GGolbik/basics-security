@@ -27,7 +27,7 @@ public sealed class BufferStream : WrapperStream
         this.BufferSize = bufferSize;
     }
 
-    public void ReadAllBytes(int bufferSize = 255)
+    public void ReadAllBytes(int bufferSize = 4096)
     {
         lock (this)
         {

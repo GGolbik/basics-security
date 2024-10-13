@@ -12,6 +12,15 @@ namespace GGolbik.SecurityTools.X509;
 
 public static class X509Reader
 {
+    public static AsymmetricAlgorithm? ReadKeyPair(Stream input, byte[]? password = null)
+    {
+        BufferStream stream = new BufferStream(input);
+        stream.ReadAllBytes();
+        var result = ReadKeyPairFromPem(stream.ReadBuffer, password);
+        result ??= ReadKeyPairFromDer(stream.ReadBuffer, out var read);
+        return result;
+    }
+
     public static AsymmetricAlgorithm? ReadKeyPairFromPem(byte[] data, byte[]? password = null)
     {
         var span = Encoding.UTF8.GetString(data);

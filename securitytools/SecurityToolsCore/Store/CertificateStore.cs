@@ -10,6 +10,28 @@ namespace GGolbik.SecurityTools.Store;
 
 public abstract class CertificateStore : ICertificateStore
 {
+    /// <summary>
+    /// The password to encrypt and decrypt keys.
+    /// </summary>
+    protected byte[]? _password = null;
+    /// <summary>
+    /// The parameters to encrypt and decrypt keys.
+    /// </summary>
+    protected PbeParameters? _pbeParameters = null;
+
+    protected CertificateStore()
+    {
+
+    }
+
+    protected CertificateStore(byte[]? password, PbeParameters? pbeParameters = null)
+    {
+        _password = password;
+        _pbeParameters = pbeParameters;
+    }
+
+    public abstract void UpdatePassword(byte[]? password, PbeParameters? pbeParameters = null);
+
     public virtual bool MoveCertificateTo(string thumbprint, ICertificateStore store)
     {
         if (store == this)
@@ -42,8 +64,13 @@ public abstract class CertificateStore : ICertificateStore
     public abstract X509Certificate2? GetCertificate(string thumbprint, bool includePrivateKey);
     public abstract IList<AsymmetricAlgorithm> GetKeyPairs();
     public abstract AsymmetricAlgorithm? GetKeyPair(string thumbprint);
+    public abstract IList<string> GetKeyPairsWithError();
     public abstract IList<X509Crl> GetCrls();
     public virtual IList<X509Crl> GetCrlsOfIssuer(string thumbprint)
+    {
+        return this.GetCrlsOfIssuer(thumbprint, false);
+    }
+    public virtual IList<X509Crl> GetCrlsOfIssuer(string thumbprint, bool verify)
     {
         List<X509Crl> result = new();
         var issuerCert = this.GetCertificate(thumbprint);
@@ -60,8 +87,11 @@ public abstract class CertificateStore : ICertificateStore
             }
             try
             {
-                // TODO: Must not be verified. the crl might be issued by a differnt issuer
-                //crl.Verify(new X509CertificateParser().ReadCertificate(issuerCert.ToDer()).GetPublicKey());
+                // Need not to be verified. the crl might be issued by a differnt CA.
+                if(verify)
+                {
+                    crl.Verify(new X509CertificateParser().ReadCertificate(issuerCert.ToDer()).GetPublicKey());
+                }
                 result.Add(crl);
             }
             catch

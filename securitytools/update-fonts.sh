@@ -2,9 +2,9 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-STYLES_DIR="${SCRIPT_DIR}/src/ClientApp/src/styles"
-ASSERTS_DIR="${SCRIPT_DIR}/src/ClientApp/src/assets/fonts/"
-FONTS_FILE="${SCRIPT_DIR}/src/ClientApp/src/assets/fonts/.fonts"
+STYLES_DIR="${SCRIPT_DIR}/SecurityToolsWeb/src/styles"
+ASSERTS_DIR="${SCRIPT_DIR}/SecurityToolsWeb/src/assets/fonts/"
+FONTS_FILE="${SCRIPT_DIR}/SecurityToolsWeb/src/assets/fonts/.fonts"
 ROBOTO_STYLE="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
 ROBOTO_FILE="${STYLES_DIR}/roboto.css"
 MATERIAL_ICONS_STYLE="https://fonts.googleapis.com/icon?family=Material+Icons"

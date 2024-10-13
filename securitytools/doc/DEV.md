@@ -161,14 +161,14 @@ The .NET SDK allows you to develop apps with .NET. If you install the .NET SDK, 
 
 ~~~
 sudo apt-get update && \
-sudo apt-get install -y dotnet-sdk-7.0
+sudo apt-get install -y dotnet-sdk-8.0
 ~~~
 
 Test installation:
 
 ~~~
 dotnet --version
-7.0.403
+8.0.403
 ~~~
 
 Upgrade .Net SDK
@@ -176,7 +176,20 @@ Upgrade .Net SDK
 ~~~
 sudo apt update
 sudo apt list --upgradable
-sudo apt --only-upgrade install dotnet-sdk-7.0
+sudo apt --only-upgrade install dotnet-sdk-8.0
+~~~
+
+You might need the following:
+~~~
+$ dotnet --list-runtimes
+Microsoft.AspNetCore.App 6.0.35 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]
+Microsoft.AspNetCore.App 8.0.10 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]
+Microsoft.NETCore.App 6.0.35 [/usr/share/dotnet/shared/Microsoft.NETCore.App]
+Microsoft.NETCore.App 8.0.10 [/usr/share/dotnet/shared/Microsoft.NETCore.App]
+~~~
+
+~~~
+sudo apt install aspnetcore-runtime-8.0
 ~~~
 
 ## Nuget License

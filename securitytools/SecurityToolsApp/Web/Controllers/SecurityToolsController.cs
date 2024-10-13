@@ -7,6 +7,7 @@ using GGolbik.SecurityTools.Web.Models;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
 using Microsoft.AspNetCore.Mvc;
+using GGolbik.SecurityTools.X509;
 
 namespace GGolbik.SecurityTools.Web.Controllers;
 
@@ -270,7 +271,9 @@ public class SecurityToolsController : Controller
             {
                 if (result.Output.ElementAt(i).Data != null)
                 {
-                    resultFiles.Add("" + i, result.Output.ElementAt(i).Data!);
+                    string name = i + "_" + (result.Output.ElementAt(i).Alias ?? "");
+                    name = name.ReplaceAll(Path.GetInvalidFileNameChars(), '_');
+                    resultFiles.Add(name, result.Output.ElementAt(i).Data!);
                 }
             }
         }

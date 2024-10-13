@@ -140,21 +140,25 @@ public class TransformBuilder : SecurityBuilder<CsrBuilder>
                 {
                     this.SaveCert(fileOutput, cert);
                     config.Output.Add((X509File)fileOutput.Clone());
+                    config.Output.Last().Alias = cert.Subject.ReplaceAll(Path.GetInvalidFileNameChars(), '_') + (pem ? ".pem" : ".crt");
                 }
                 foreach (var key in store.GetKeyPairs())
                 {
                     this.SaveKeyPair(fileOutput, new X509File(), key);
                     config.Output.Add((X509File)fileOutput.Clone());
+                    config.Output.Last().Alias = key.ToThumbprint() + (pem ? ".pem" : ".key");
                 }
                 foreach (var crl in store.GetCrls())
                 {
                     this.SaveCrl(fileOutput, crl);
                     config.Output.Add((X509File)fileOutput.Clone());
+                    config.Output.Last().Alias = crl.IssuerDN.ToString().ReplaceAll(Path.GetInvalidFileNameChars(), '_') + ".crl";
                 }
                 foreach (var csr in store.GetCsrs())
                 {
                     this.SaveCsr(fileOutput, csr);
                     config.Output.Add((X509File)fileOutput.Clone());
+                    config.Output.Last().Alias = csr.SubjectName.Name.ReplaceAll(Path.GetInvalidFileNameChars(), '_') + ".csr";
                 }
             }
         };
@@ -195,6 +199,7 @@ public class TransformBuilder : SecurityBuilder<CsrBuilder>
             store.AddRange(certificateStore.GetCertificates(true).ToArray());
             this.SaveStore(storeFile, store);
         }
+        storeFile.Alias = pem ? "store.pem" : "store.p12";
     }
 
     protected void SaveStorePem(X509File file, CertificateStore store)
@@ -247,7 +252,8 @@ public class TransformBuilder : SecurityBuilder<CsrBuilder>
                     {
                         PropertyNameCaseInsensitive = true,
                         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    }))
+                    })),
+                    Alias = "config_" + cert.Subject.ReplaceAll(Path.GetInvalidFileNameChars(), '_') + ".json"
                 });
             }
         }

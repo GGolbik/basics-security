@@ -13,7 +13,12 @@ public class InMemCertificateStore : CertificateStore
     private Dictionary<string, X509Crl> _crls = new();
     private Dictionary<string, CertificateRequest> _csrs = new();
 
-    public InMemCertificateStore()
+    public InMemCertificateStore() : base()
+    {
+
+    }
+
+    public override void UpdatePassword(byte[]? password, PbeParameters? pbeParameters = null)
     {
 
     }
@@ -69,6 +74,11 @@ public class InMemCertificateStore : CertificateStore
     {
         _keys.TryGetValue(thumbprint, out var key);
         return key;
+    }
+
+    public override IList<string> GetKeyPairsWithError()
+    {
+        return new List<string>();
     }
 
     public override IList<X509Crl> GetCrls()

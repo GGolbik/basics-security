@@ -1,17 +1,12 @@
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using GGolbik.SecurityTools.Store;
 using GGolbik.SecurityTools.X509;
 
 namespace GGolbik.SecurityToolsTest;
 
 public abstract class CertificateStoreTest : IDisposable
 {
-    public interface ICertificateStoreFactory : IDisposable
-    {
-        ICertificateStore Create();
-    }
     protected ICertificateStoreFactory _factory;
     protected CertificateStoreTest(ICertificateStoreFactory factory)
     {
@@ -493,6 +488,28 @@ public abstract class CertificateStoreTest : IDisposable
             Assert.Single(store.GetCrls());
 
             Assert.Single(store.GetCrlsOfIssuer(cert.Thumbprint));
+        }
+        catch (Exception e)
+        {
+            Assert.Fail(e.Message);
+        }
+    }
+
+    [Fact]
+    public virtual void Test_GetCrlsOfIssuerVerify()
+    {
+        try
+        {
+            var store = _factory.Create();
+
+            var cert = new X509Certificate2(Encoding.UTF8.GetBytes(TestData.TestRootCaPem));
+            store.Add(new MemoryStream(cert.Export(X509ContentType.Cert)), null);
+            Assert.Single(store.GetCertificates());
+
+            store.AddCrls(new MemoryStream(TestData.TestRootCaCrl0Der));
+            Assert.Single(store.GetCrls());
+
+            Assert.Single(store.GetCrlsOfIssuer(cert.Thumbprint, true));
         }
         catch (Exception e)
         {

@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 - Extend configuration of subject alternative name.
 - Add transform mode config which allows to transform an object into the related config.
 - Add [Electron](https://www.electronjs.org/).
+- Return human readable names in transform result.
+- Add support to store kay pairs in encrypted form.
+- Add worker to run and cancel tasks.
 
 # v1.0.3
 

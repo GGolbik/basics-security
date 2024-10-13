@@ -291,11 +291,11 @@ export class SubjectnameComponent {
   }
 
   getKey(entry: Dictionary<string, string>) {
-    return Object.keys(entry)[0];
+    return entry['key'];
   }
 
   getValue(entry: Dictionary<string, string>) {
-    return entry[this.getKey(entry)];
+    return entry['value'];
   }
 
   setK(i: number, value:any) {
