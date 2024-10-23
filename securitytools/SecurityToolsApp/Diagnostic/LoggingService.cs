@@ -2,7 +2,7 @@ using Microsoft.Data.Sqlite;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
-namespace GGolbik.SecurityTools.Diagnostic;
+namespace GGolbik.SecurityToolsApp.Diagnostic;
 
 public class LoggingService : ILoggingService
 {

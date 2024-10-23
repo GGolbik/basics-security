@@ -3,26 +3,30 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using GGolbik.SecurityTools.Services;
-using GGolbik.SecurityTools.Web.Swagger;
+using GGolbik.SecurityToolsApp.Web.Swagger;
 using Serilog;
 using System.Security.Cryptography.X509Certificates;
-using GGolbik.SecurityTools.Terminal.Options;
+using GGolbik.SecurityToolsApp.Terminal.Options;
 using Asp.Versioning;
 using Asp.Versioning.ApiExplorer;
-using GGolbik.SecurityTools.Diagnostic;
+using GGolbik.SecurityToolsApp.Diagnostic;
 using GGolbik.SecurityTools.X509;
 using GGolbik.SecurityTools.X509.Models;
 using ElectronNET.API;
+using GGolbik.SecurityToolsApp.Tools;
+using GGolbik.SecurityToolsApp.Work;
+using GGolbik.SecurityToolsApp.Credentials;
 
-namespace GGolbik.SecurityTools.Web;
+namespace GGolbik.SecurityToolsApp.Web;
 
 internal class WebApp : IDisposable
 {
 
     private Serilog.ILogger Logger = Log.ForContext<WebApp>();
     private readonly ILoggingService _loggingService;
+    private readonly IWorkerService _workerService;
     private readonly ISecurityToolsService _securityToolsService;
+    private readonly ICredentialsService _credentialsService;
 
     private X509Certificate2? _webCert;
 
@@ -33,12 +37,16 @@ internal class WebApp : IDisposable
     public WebApp(
         WebOptions options,
         ILoggingService loggingService,
-        ISecurityToolsService securityToolsService
+        IWorkerService workerService,
+        ISecurityToolsService securityToolsService,
+        ICredentialsService credentialsService
     )
     {
         _options = options;
         _loggingService = loggingService;
+        _workerService = workerService;
         _securityToolsService = securityToolsService;
+        _credentialsService = credentialsService;
         this.CreateWebCert();
     }
 
@@ -106,6 +114,10 @@ internal class WebApp : IDisposable
         {
             options.JsonSerializerOptions.PropertyNameCaseInsensitive = _options.GetJsonSerializerOptions().PropertyNameCaseInsensitive;
             options.JsonSerializerOptions.PropertyNamingPolicy = _options.GetJsonSerializerOptions().PropertyNamingPolicy;
+            foreach (var c in _options.GetJsonSerializerOptions().Converters)
+            {
+                options.JsonSerializerOptions.Converters.Add(c);
+            }
         });
     }
 
@@ -185,13 +197,21 @@ internal class WebApp : IDisposable
     /// <param name="builder">The web builder</param>
     private void AddAppServices(WebApplicationBuilder builder)
     {
-        builder.Services.AddSingleton<ILoggingService>((provider) =>
+        builder.Services.AddSingleton((provider) =>
         {
             return _loggingService;
         });
-        builder.Services.AddSingleton<ISecurityToolsService>((provider) =>
+        builder.Services.AddSingleton((provider) =>
+        {
+            return _workerService;
+        });
+        builder.Services.AddSingleton((provider) =>
         {
             return _securityToolsService;
+        });
+        builder.Services.AddSingleton((provider) =>
+        {
+            return _credentialsService;
         });
     }
 
@@ -331,22 +351,22 @@ internal class WebApp : IDisposable
             {
                 Csr = new ConfigCsr()
                 {
-                    SubjectName = new ConfigSubjectName("Web"),
+                    SubjectName = new X50xSubjectName("Web"),
                 },
-                Extensions = new ConfigExtensions()
+                Extensions = new X50xExtensions()
                 {
-                    BasicConstraints = new ConfigBasicConstraintsExtension()
+                    BasicConstraints = new X50xBasicConstraintsExtension()
                     {
                         CertificateAuthority = false,
                         Critical = true,
                         HasPathLengthConstraint = false,
                     },
-                    KeyUsage = new ConfigKeyUsageExtension()
+                    KeyUsage = new X50xKeyUsageExtension()
                     {
                         Critical = true,
                         KeyUsages = X509KeyUsageFlags.KeyCertSign | X509KeyUsageFlags.CrlSign | X509KeyUsageFlags.DigitalSignature | X509KeyUsageFlags.DataEncipherment | X509KeyUsageFlags.KeyEncipherment
                     },
-                    ExtendedKeyUsage = new ConfigExtendedKeyUsageExtension()
+                    ExtendedKeyUsage = new X50xExtendedKeyUsageExtension()
                     {
                         Critical = true,
                         ExtendedKeyUsages = ExtendedKeyUsageFlags.ServerAuth

@@ -30,9 +30,9 @@ public class CsrBuilder : SecurityBuilder<CsrBuilder>
         }
         this.InvokeOnAction(SecurityBuilderEventKind.BuiltCsr);
 
-        result.Csr ??= new X509File();
-        result.KeyPair.PrivateKey ??= new X509File();
-        result.KeyPair.PublicKey ??= new X509File();
+        result.Csr ??= new X50xFile();
+        result.KeyPair.PrivateKey ??= new X50xFile();
+        result.KeyPair.PublicKey ??= new X50xFile();
         HashAlgorithmName? keyAlg = result.KeyPair.HashAlgorithm?.ToHashAlgorithm();
         this.SaveKeyPair(result.KeyPair.PrivateKey, result.KeyPair.PublicKey, privateKey, keyAlg);
         this.SaveCsr(result.Csr, csr);
@@ -63,9 +63,9 @@ public class CsrBuilder : SecurityBuilder<CsrBuilder>
         this.AddExtensions(csr, result.Extensions);
         this.InvokeOnAction(SecurityBuilderEventKind.BuiltCsr);
 
-        result.Csr ??= new X509File();
-        result.KeyPair.PrivateKey ??= new X509File();
-        result.KeyPair.PublicKey ??= new X509File();
+        result.Csr ??= new X50xFile();
+        result.KeyPair.PrivateKey ??= new X50xFile();
+        result.KeyPair.PublicKey ??= new X50xFile();
         HashAlgorithmName? keyAlg = result.KeyPair.HashAlgorithm?.ToHashAlgorithm();
         this.SaveKeyPair(result.KeyPair.PrivateKey, result.KeyPair.PublicKey, privateKey, keyAlg);
         this.SaveCsr(result.Csr, csr);

@@ -1,12 +1,14 @@
-namespace GGolbik.SecurityTools;
+namespace GGolbik.SecurityToolsApp;
 
-using GGolbik.SecurityTools.Web;
-using GGolbik.SecurityTools.Services;
-using GGolbik.SecurityTools.Terminal;
+using GGolbik.SecurityToolsApp.Web;
+using GGolbik.SecurityToolsApp.Terminal;
 using CommandLine;
-using GGolbik.SecurityTools.Terminal.Options;
+using GGolbik.SecurityToolsApp.Terminal.Options;
 using CommandLine.Text;
-using GGolbik.SecurityTools.Diagnostic;
+using GGolbik.SecurityToolsApp.Diagnostic;
+using GGolbik.SecurityToolsApp.Work;
+using GGolbik.SecurityToolsApp.Tools;
+using GGolbik.SecurityToolsApp.Credentials;
 
 public class Program
 {
@@ -53,11 +55,13 @@ public class Program
                 }
             }
 
+            using (var workerService = new WorkerService())
             using (var securityToolsService = new SecurityToolsService())
+            using (var credentialsService = new CredentialsService())
             {
                 if (result.Value is WebOptions webOptions)
                 {
-                    return Program.RunWebApp(webOptions, args, loggingService, securityToolsService);
+                    return Program.RunWebApp(webOptions, args, loggingService, workerService, securityToolsService, credentialsService);
                 }
                 else if(result.Value is ConfigOptions terminalOptions)
                 {
@@ -81,9 +85,9 @@ public class Program
         }
     }
 
-    private static int RunWebApp(WebOptions options, string[] args, ILoggingService loggingService, ISecurityToolsService securityToolsService)
+    private static int RunWebApp(WebOptions options, string[] args, ILoggingService loggingService, IWorkerService workerService, ISecurityToolsService securityToolsService, ICredentialsService credentialsService)
     {
-        using (var webApp = new WebApp(options, loggingService, securityToolsService))
+        using (var webApp = new WebApp(options, loggingService, workerService, securityToolsService, credentialsService))
         {
             // create and start webapp
             Task? waitForShutdownTask; ;

@@ -1,15 +1,16 @@
 using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
-using GGolbik.SecurityTools.Services;
-using GGolbik.SecurityTools.Terminal.Options;
-using GGolbik.SecurityTools.Web.Models;
+using GGolbik.SecurityToolsApp.Terminal.Options;
+using GGolbik.SecurityToolsApp.Web.Models;
 using GGolbik.SecurityTools.X509.Models;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
 using Serilog;
+using GGolbik.SecurityToolsApp.Tools;
+using GGolbik.SecurityTools;
 
-namespace GGolbik.SecurityTools.Terminal;
+namespace GGolbik.SecurityToolsApp.Terminal;
 
 public class TerminalApp : IDisposable
 {
@@ -289,9 +290,9 @@ public class TerminalApp : IDisposable
         var request = new ConfigTransform()
         {
             Mode = TransformMode.Print,
-            Input = new List<X509File>()
+            Input = new List<X50xFile>()
             {
-                new X509File()
+                new X50xFile()
                 {
                     FileName = printOptions.InputFile
                 }

@@ -1,4 +1,4 @@
-namespace GGolbik.SecurityTools;
+namespace GGolbik.SecurityToolsApp;
 
 /// <summary>
 /// The exit codes for the program.

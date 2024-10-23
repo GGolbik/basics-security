@@ -1,4 +1,4 @@
-namespace GGolbik.SecurityTools.Diagnostic;
+namespace GGolbik.SecurityToolsApp.Diagnostic;
 
 public interface ILoggingService : IDisposable
 {

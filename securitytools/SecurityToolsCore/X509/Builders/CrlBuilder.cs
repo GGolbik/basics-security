@@ -52,7 +52,7 @@ public class CrlBuilder : SecurityBuilder<CsrBuilder>
         crl = new X509Crl(builder.Build(issuer, crlNumber, result.Validity?.NextUpdate ?? DateTimeOffset.MaxValue.ToUniversalTime(), hashAlgorithm, RSASignaturePadding.Pkcs1, result.Validity?.ThisUpdate));
         this.InvokeOnAction(SecurityBuilderEventKind.BuiltCrl);
 
-        result.Crl ??= new X509File();
+        result.Crl ??= new X50xFile();
         this.SaveCrl(result.Crl, crl);
 
         return result;

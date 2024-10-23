@@ -18,12 +18,12 @@ public class ConfigCrl : ICloneable
     /// <summary>
     /// The CRL.
     /// </summary>
-    public X509File? Crl { get; set; }
+    public X50xFile? Crl { get; set; }
 
     /// <summary>
     /// The issuer certificate.
     /// </summary>
-    public X509File? Issuer { get; set; }
+    public X50xFile? Issuer { get; set; }
 
     /// <summary>
     /// The issuer key.
@@ -46,7 +46,7 @@ public class ConfigCrl : ICloneable
     /// <summary>
     /// The valid time span of the CRL.
     /// </summary>
-    public ConfigCrlValidity? Validity { get; set; }
+    public X50xCrlValidity? Validity { get; set; }
 
     /// <summary>
     /// The name or OID of the hash algorithm to use for signing the CRL e.g.:

@@ -58,7 +58,7 @@ public abstract class SecurityBuilder<T>
         }
     }
 
-    protected bool TryLoadPrivateKey(X509File? file, [NotNullWhen(true)] out AsymmetricAlgorithm? privateKey)
+    protected bool TryLoadPrivateKey(X50xFile? file, [NotNullWhen(true)] out AsymmetricAlgorithm? privateKey)
     {
         try
         {
@@ -72,7 +72,7 @@ public abstract class SecurityBuilder<T>
         }
     }
 
-    protected AsymmetricAlgorithm LoadPrivateKey(X509File? file)
+    protected AsymmetricAlgorithm LoadPrivateKey(X50xFile? file)
     {
         AsymmetricAlgorithm? keyPair = null;
         if (file?.Exists() ?? false)
@@ -92,7 +92,7 @@ public abstract class SecurityBuilder<T>
         throw new ArgumentNullException("private key");
     }
 
-    protected CertificateRequest InitCsr(AsymmetricAlgorithm privateKey, HashAlgorithmName hashAlgorithm, ConfigSubjectName? subjectName)
+    protected CertificateRequest InitCsr(AsymmetricAlgorithm privateKey, HashAlgorithmName hashAlgorithm, X50xSubjectName? subjectName)
     {
         if (subjectName == null)
         {
@@ -166,7 +166,7 @@ public abstract class SecurityBuilder<T>
     }
 
 
-    protected void AddExtensions(CertificateRequest csr, ConfigExtensions? extensions, bool replace = true)
+    protected void AddExtensions(CertificateRequest csr, X50xExtensions? extensions, bool replace = true)
     {
         var before = csr.CertificateExtensions.Count();
 
@@ -204,12 +204,12 @@ public abstract class SecurityBuilder<T>
     /// <param name="publicKeyFile"></param>
     /// <param name="privateKey"></param>
     /// <param name="hashAlgorithm">The name of a hash algorithm to use with the Key Derivation Function (KDF) to turn a password into an encryption key.</param>
-    protected void SaveKeyPair(X509File privateKeyFile, X509File publicKeyFile, AsymmetricAlgorithm privateKey, HashAlgorithmName? hashAlgorithm = null)
+    protected void SaveKeyPair(X50xFile privateKeyFile, X50xFile publicKeyFile, AsymmetricAlgorithm privateKey, HashAlgorithmName? hashAlgorithm = null)
     {
         this.SavePrivateKey(privateKeyFile, privateKey, hashAlgorithm);
         this.SavePublicKey(publicKeyFile, privateKey);
     }
-    protected void SavePrivateKey(X509File privateKeyFile, AsymmetricAlgorithm privateKey, HashAlgorithmName? hashAlgorithm = null)
+    protected void SavePrivateKey(X50xFile privateKeyFile, AsymmetricAlgorithm privateKey, HashAlgorithmName? hashAlgorithm = null)
     {
         hashAlgorithm ??= HashAlgorithmName.SHA512;
 
@@ -252,7 +252,7 @@ public abstract class SecurityBuilder<T>
                 der = privateKey.ExportPkcs8PrivateKey();
             }
             privateKeyFile.Data = der;
-            privateKeyFile.FileFormat = new X509FileFormat(X509Encoding.Der);
+            privateKeyFile.FileFormat = new X50xFileFormat(X509Encoding.Der);
         }
         // save to file
         if (!String.IsNullOrEmpty(privateKeyFile?.FileName))
@@ -265,7 +265,7 @@ public abstract class SecurityBuilder<T>
             File.WriteAllBytes(privateKeyFile.FileName, privateKeyFile.Data!);
         }
     }
-    protected void SavePublicKey(X509File publicKeyFile, AsymmetricAlgorithm privateKey)
+    protected void SavePublicKey(X50xFile publicKeyFile, AsymmetricAlgorithm privateKey)
     {
         if (publicKeyFile.FileFormat?.Encoding == X509Encoding.Pem)
         {
@@ -274,7 +274,7 @@ public abstract class SecurityBuilder<T>
         else
         {
             publicKeyFile.Data = privateKey.ExportSubjectPublicKeyInfo();
-            publicKeyFile.FileFormat = new X509FileFormat(X509Encoding.Der);
+            publicKeyFile.FileFormat = new X50xFileFormat(X509Encoding.Der);
         }
         // save to file
         if (!String.IsNullOrEmpty(publicKeyFile.FileName))
@@ -288,10 +288,10 @@ public abstract class SecurityBuilder<T>
         }
     }
 
-    protected void SaveCsr(X509File file, CertificateRequest csr)
+    protected void SaveCsr(X50xFile file, CertificateRequest csr)
     {
         var stream = new MemoryStream();
-        file ??= new X509File();
+        file ??= new X50xFile();
         if (file.FileFormat?.Encoding == X509Encoding.Pem)
         {
             csr.SavePem(stream);
@@ -299,7 +299,7 @@ public abstract class SecurityBuilder<T>
         else
         {
             csr.SaveDer(stream);
-            file.FileFormat = new X509FileFormat(X509Encoding.Der);
+            file.FileFormat = new X50xFileFormat(X509Encoding.Der);
         }
         file.Data = stream.ToArray();
 
@@ -316,7 +316,7 @@ public abstract class SecurityBuilder<T>
     }
 
 
-    protected void SaveCert(X509File file, X509Certificate2 cert)
+    protected void SaveCert(X50xFile file, X509Certificate2 cert)
     {
         if (file.FileFormat?.Encoding == X509Encoding.Pem)
         {
@@ -327,7 +327,7 @@ public abstract class SecurityBuilder<T>
         {
             var der = cert.Export(X509ContentType.Cert);
             file.Data = der;
-            file.FileFormat = new X509FileFormat(X509ContentType.Cert, X509Encoding.Der);
+            file.FileFormat = new X50xFileFormat(X509ContentType.Cert, X509Encoding.Der);
         }
 
         // save to file
@@ -418,7 +418,7 @@ public abstract class SecurityBuilder<T>
         }
     }
 
-    protected bool TryLoadCertificate(X509File? file, [NotNullWhen(true)] out X509Certificate2? certificate)
+    protected bool TryLoadCertificate(X50xFile? file, [NotNullWhen(true)] out X509Certificate2? certificate)
     {
         try
         {
@@ -432,7 +432,7 @@ public abstract class SecurityBuilder<T>
         }
     }
 
-    protected X509Certificate2 LoadCertificate(X509File? file)
+    protected X509Certificate2 LoadCertificate(X50xFile? file)
     {
         X509Certificate2? result = null;
         if (!(file?.Exists() ?? false))
@@ -454,7 +454,7 @@ public abstract class SecurityBuilder<T>
         return result;
     }
 
-    private bool TryLoadCrl(X509File? file, [NotNullWhen(true)] out CertificateRevocationListBuilder? crl, [NotNullWhen(true)] out BigInteger? crlNumber)
+    private bool TryLoadCrl(X50xFile? file, [NotNullWhen(true)] out CertificateRevocationListBuilder? crl, [NotNullWhen(true)] out BigInteger? crlNumber)
     {
         try
         {
@@ -470,7 +470,7 @@ public abstract class SecurityBuilder<T>
         }
     }
 
-    public CertificateRevocationListBuilder LoadCrl(X509File? file, out BigInteger crlNumber)
+    public CertificateRevocationListBuilder LoadCrl(X50xFile? file, out BigInteger crlNumber)
     {
         if (!(file?.Exists() ?? false))
         {
@@ -492,7 +492,7 @@ public abstract class SecurityBuilder<T>
         throw new ArgumentNullException("Failed to load CRL");
     }
 
-    protected void SaveCrl(X509File config, X509Crl crl)
+    protected void SaveCrl(X50xFile config, X509Crl crl)
     {
         if (config.FileFormat?.Encoding == X509Encoding.Pem)
         {
@@ -501,7 +501,7 @@ public abstract class SecurityBuilder<T>
         else
         {
             config.Data = crl.ToDer();
-            config.FileFormat = new X509FileFormat(X509ContentType.Cert, X509Encoding.Der);
+            config.FileFormat = new X50xFileFormat(X509ContentType.Cert, X509Encoding.Der);
         }
 
         // save to file
@@ -516,7 +516,7 @@ public abstract class SecurityBuilder<T>
         }
     }
 
-    protected void SaveStore(X509File file, X509Certificate2Collection store)
+    protected void SaveStore(X50xFile file, X509Certificate2Collection store)
     {
         file.Data = store.Export(X509ContentType.Pkcs12, file.Password);
 

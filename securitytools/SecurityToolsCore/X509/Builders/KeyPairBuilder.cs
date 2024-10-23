@@ -18,8 +18,8 @@ public class KeyPairBuilder : SecurityBuilder<CsrBuilder>
         privateKey = this.LoadKeyPair(result);
         this.InvokeOnAction(SecurityBuilderEventKind.BuiltKeyPair);
 
-        result.PrivateKey ??= new X509File();
-        result.PublicKey ??= new X509File();
+        result.PrivateKey ??= new X50xFile();
+        result.PublicKey ??= new X50xFile();
         HashAlgorithmName? keyAlg = result.HashAlgorithm?.ToHashAlgorithm();
         this.SaveKeyPair(result.PrivateKey, result.PublicKey, privateKey, keyAlg);
         return result;

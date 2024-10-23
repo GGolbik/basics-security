@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace GGolbik.SecurityTools.Core;
+namespace GGolbik.SecurityToolsApp.Core;
 
 public static class Errors
 {

@@ -81,7 +81,7 @@ public class TransformBuilder : SecurityBuilder<CsrBuilder>
     private void Print(ConfigTransform config)
     {
         var list = this.Load(config);
-        config.Output ??= new List<X509File>();
+        config.Output ??= new List<X50xFile>();
         var mem = new MemoryStream();
         foreach (var item in list)
         {
@@ -102,7 +102,7 @@ public class TransformBuilder : SecurityBuilder<CsrBuilder>
                 csr.Print(mem);
             }
         }
-        config.Output.Add(new X509File()
+        config.Output.Add(new X50xFile()
         {
             Data = mem.ToArray()
         });
@@ -114,18 +114,18 @@ public class TransformBuilder : SecurityBuilder<CsrBuilder>
         {
             return;
         }
-        config.Output ??= new List<X509File>();
+        config.Output ??= new List<X50xFile>();
         if (config.Input != null)
         {
             for (int i = 0; i < config.Input.Count(); i++)
             {
                 var file = config.Input[i];
-                var fileOutput = new X509File();
+                var fileOutput = new X50xFile();
                 if (config.Output.Count() < i)
                 {
                     fileOutput = config.Output[i];
                 }
-                fileOutput.FileFormat = new X509FileFormat(pem ? X509Encoding.Pem : X509Encoding.Der);
+                fileOutput.FileFormat = new X50xFileFormat(pem ? X509Encoding.Pem : X509Encoding.Der);
 
                 if (!file.Exists())
                 {
@@ -139,25 +139,25 @@ public class TransformBuilder : SecurityBuilder<CsrBuilder>
                 foreach (var cert in store.GetCertificates())
                 {
                     this.SaveCert(fileOutput, cert);
-                    config.Output.Add((X509File)fileOutput.Clone());
+                    config.Output.Add((X50xFile)fileOutput.Clone());
                     config.Output.Last().Alias = cert.Subject.ReplaceAll(Path.GetInvalidFileNameChars(), '_') + (pem ? ".pem" : ".crt");
                 }
                 foreach (var key in store.GetKeyPairs())
                 {
-                    this.SaveKeyPair(fileOutput, new X509File(), key);
-                    config.Output.Add((X509File)fileOutput.Clone());
+                    this.SaveKeyPair(fileOutput, new X50xFile(), key);
+                    config.Output.Add((X50xFile)fileOutput.Clone());
                     config.Output.Last().Alias = key.ToThumbprint() + (pem ? ".pem" : ".key");
                 }
                 foreach (var crl in store.GetCrls())
                 {
                     this.SaveCrl(fileOutput, crl);
-                    config.Output.Add((X509File)fileOutput.Clone());
+                    config.Output.Add((X50xFile)fileOutput.Clone());
                     config.Output.Last().Alias = crl.IssuerDN.ToString().ReplaceAll(Path.GetInvalidFileNameChars(), '_') + ".crl";
                 }
                 foreach (var csr in store.GetCsrs())
                 {
                     this.SaveCsr(fileOutput, csr);
-                    config.Output.Add((X509File)fileOutput.Clone());
+                    config.Output.Add((X50xFile)fileOutput.Clone());
                     config.Output.Last().Alias = csr.SubjectName.Name.ReplaceAll(Path.GetInvalidFileNameChars(), '_') + ".csr";
                 }
             }
@@ -182,13 +182,13 @@ public class TransformBuilder : SecurityBuilder<CsrBuilder>
             }
         }
 
-        config.Output ??= new List<X509File>();
+        config.Output ??= new List<X50xFile>();
         if (config.Output.Count() == 0)
         {
-            config.Output.Add(new X509File());
+            config.Output.Add(new X50xFile());
         }
         var storeFile = config.Output.ElementAt(0);
-        storeFile.FileFormat = new X509FileFormat(X509ContentType.Pkcs12, pem ? X509Encoding.Pem : X509Encoding.Der);
+        storeFile.FileFormat = new X50xFileFormat(X509ContentType.Pkcs12, pem ? X509Encoding.Pem : X509Encoding.Der);
         if (pem)
         {
             this.SaveStorePem(storeFile, certificateStore);
@@ -202,7 +202,7 @@ public class TransformBuilder : SecurityBuilder<CsrBuilder>
         storeFile.Alias = pem ? "store.pem" : "store.p12";
     }
 
-    protected void SaveStorePem(X509File file, CertificateStore store)
+    protected void SaveStorePem(X50xFile file, CertificateStore store)
     {
         MemoryStream stream = new();
         using (StreamWriter writer = new(stream))
@@ -241,12 +241,12 @@ public class TransformBuilder : SecurityBuilder<CsrBuilder>
     private void TransFormConfig(ConfigTransform config)
     {
         var list = this.Load(config);
-        config.Output ??= new List<X509File>();
+        config.Output ??= new List<X50xFile>();
         foreach (var obj in list)
         {
             if (obj is X509Certificate2 cert)
             {
-                config.Output.Add(new X509File()
+                config.Output.Add(new X50xFile()
                 {
                     Data = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(cert.ToConfigCsr(), new JsonSerializerOptions()
                     {

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { SecurityToolsService } from '../services/tool.service';
-import { ProgramInfo } from '../services/models';
-import { LicenseDialogComponent } from '../license-dialog/license-dialog.component';
+import { SecurityToolsService } from '../tools/services/tool.service';
+import { ProgramInfo } from '../tools/services/models';
+import { LicenseDialogComponent } from './license-dialog/license-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

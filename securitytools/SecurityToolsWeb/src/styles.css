@@ -2,6 +2,7 @@
 
 @import 'styles/roboto.css';
 @import 'styles/material-icons.css';
+@import 'styles/material-symbols-outlined.css';
 
 /* Provide sufficient contrast against white background */
 a {

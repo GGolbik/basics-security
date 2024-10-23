@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace GGolbik.SecurityTools.Web.Swagger;
+namespace GGolbik.SecurityToolsApp.Web.Swagger;
 
 public class SwaggerDefaultValues : IOperationFilter
 {

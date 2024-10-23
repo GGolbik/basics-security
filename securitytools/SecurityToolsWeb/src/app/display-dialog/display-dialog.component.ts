@@ -2,8 +2,8 @@ import { HttpEvent, HttpProgressEvent, HttpEventType, HttpErrorResponse } from '
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject, Observable, tap, takeUntil } from 'rxjs';
-import { ProblemDetails, ExecuteProgress, X509File } from '../services/models';
-import { SecurityToolsService } from '../services/tool.service';
+import { ProblemDetails, ExecuteProgress, X509File } from '../tools/services/models';
+import { SecurityToolsService } from '../tools/services/tool.service';
 
 @Component({
   selector: 'app-display-dialog',

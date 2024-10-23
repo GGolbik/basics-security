@@ -5,12 +5,13 @@ All notable changes to this project will be documented in this file.
 # [Unreleased]
 
 - Update from .NET 7.0 to .NET 8.0
-- Extend configuration of subject alternative name.
+- Extend configuration of subject alternative name to support full specification.
 - Add transform mode config which allows to transform an object into the related config.
 - Add [Electron](https://www.electronjs.org/).
 - Return human readable names in transform result.
-- Add support to store kay pairs in encrypted form.
-- Add worker to run and cancel tasks.
+- Add worker which can be used to run and cancel tasks.
+- Add support to store key pairs in encrypted form.
+- Add support for credentials.
 
 # v1.0.3
 

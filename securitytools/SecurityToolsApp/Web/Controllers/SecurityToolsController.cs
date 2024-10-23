@@ -2,14 +2,18 @@ using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
 using GGolbik.SecurityTools.X509.Models;
-using GGolbik.SecurityTools.Services;
-using GGolbik.SecurityTools.Web.Models;
+using GGolbik.SecurityToolsApp.Web.Models;
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
 using Microsoft.AspNetCore.Mvc;
 using GGolbik.SecurityTools.X509;
+using GGolbik.SecurityToolsApp.Work;
+using GGolbik.SecurityToolsApp.Tools;
+using GGolbik.SecurityTools.Work;
+using GGolbik.SecurityToolsApp.Web.Requests;
+using Microsoft.Extensions.Options;
 
-namespace GGolbik.SecurityTools.Web.Controllers;
+namespace GGolbik.SecurityToolsApp.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -19,10 +23,25 @@ public class SecurityToolsController : Controller
 
     private readonly ISecurityToolsService _service;
 
-    public SecurityToolsController(ILogger<SecurityToolsController> logger, ISecurityToolsService service)
+    private readonly IWorkerService _workerService;
+
+    private readonly IOptions<JsonOptions> _options;
+
+    private ProgramInfo _info = new();
+
+
+    public SecurityToolsController(ILogger<SecurityToolsController> logger, ISecurityToolsService service, IWorkerService workerService, IOptions<JsonOptions> options)
     {
         _logger = logger;
         _service = service;
+        _workerService = workerService;
+        _options = options;
+        _workerService.SetRequestHandler(GetInfoRequest.Name, this.HandleGetInfo);
+        _workerService.SetRequestHandler(BuildCertRequest.Name, this.HandleBuildCert);
+        _workerService.SetRequestHandler(BuildCsrRequest.Name, this.HandleBuildCsr);
+        _workerService.SetRequestHandler(BuildCrlRequest.Name, this.HandleBuildCrl);
+        _workerService.SetRequestHandler(BuildKeyPairRequest.Name, this.HandleBuildKeyPair);
+        _workerService.SetRequestHandler(TransformRequest.Name, this.HandleBuildTransform);
     }
 
     /// <summary>
@@ -38,7 +57,12 @@ public class SecurityToolsController : Controller
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public IActionResult GetInfo()
     {
-        return Ok(new ProgramInfo());
+        return _workerService.GetResponse(new GetInfoRequest());
+    }
+
+    private object? HandleGetInfo(WorkRequest request, CancellationToken token)
+    {
+        return Ok(_info);
     }
 
     /// <summary>
@@ -58,8 +82,20 @@ public class SecurityToolsController : Controller
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError, "application/json")]
     public IActionResult BuildCert(IFormFile config, List<IFormFile> files)
     {
+        return _workerService.GetResponse(new BuildCertRequest(config, files));
+    }
+
+    private object? HandleBuildCert(WorkRequest request, CancellationToken token)
+    {
+        if (request.Data is not BuildCertRequest buildCertRequest)
+        {
+            throw new ArgumentException();
+        }
+        var config = buildCertRequest.Config;
+        var files = buildCertRequest.Files;
+
         var x_config = this.GetConfig<ConfigCert>(config);
-        var configFiles = new HashSet<X509File>();
+        var configFiles = new HashSet<X50xFile>();
         FindAllFiles(configFiles, x_config);
         ReplaceFilename(configFiles, files);
 
@@ -69,8 +105,8 @@ public class SecurityToolsController : Controller
         // create files
         var resultFiles = new Dictionary<string, byte[]>
         {
-            { "input.conf.json", Encoding.UTF8.GetBytes(this.Json(x_config).ToString() ?? "") },
-            { "output.conf.json", Encoding.UTF8.GetBytes(this.Json(result).ToString() ?? "") },
+            { "input.conf.json", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(x_config, _options.Value.JsonSerializerOptions) ?? "") },
+            { "output.conf.json", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(result, _options.Value.JsonSerializerOptions) ?? "") },
             { "result.csr", result.Csr!.Csr!.Data! },
             { "issuer.key", result.KeyPair!.PrivateKey!.Data! },
             { "issuer.key.pub", result.KeyPair!.PublicKey!.Data! },
@@ -107,8 +143,20 @@ public class SecurityToolsController : Controller
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError, "application/json")]
     public IActionResult BuildCsr(IFormFile config, List<IFormFile> files)
     {
+        return _workerService.GetResponse(new BuildCsrRequest(config, files));
+    }
+
+    private object? HandleBuildCsr(WorkRequest request, CancellationToken token)
+    {
+        if (request.Data is not BuildCsrRequest buildCsrRequest)
+        {
+            throw new ArgumentException();
+        }
+        var config = buildCsrRequest.Config;
+        var files = buildCsrRequest.Files;
+
         var x_config = this.GetConfig<ConfigCsr>(config);
-        var configFiles = new HashSet<X509File>();
+        var configFiles = new HashSet<X50xFile>();
         FindAllFiles(configFiles, x_config);
         ReplaceFilename(configFiles, files);
 
@@ -118,8 +166,8 @@ public class SecurityToolsController : Controller
         // create files
         var resultFiles = new Dictionary<string, byte[]>
         {
-            { "input.conf.json", Encoding.UTF8.GetBytes(this.Json(x_config).ToString() ?? "") },
-            { "output.conf.json", Encoding.UTF8.GetBytes(this.Json(result).ToString() ?? "") },
+            { "input.conf.json", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(x_config, _options.Value.JsonSerializerOptions) ?? "") },
+            { "output.conf.json", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(result, _options.Value.JsonSerializerOptions) ?? "") },
             { "result.csr", result.Csr!.Data! },
             { "issuer.key", result.KeyPair!.PrivateKey!.Data! },
             { "issuer.key.pub", result.KeyPair!.PublicKey!.Data! },
@@ -157,8 +205,20 @@ public class SecurityToolsController : Controller
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError, "application/json")]
     public IActionResult BuildCrl(IFormFile config, List<IFormFile> files)
     {
+        return _workerService.GetResponse(new BuildCrlRequest(config, files));
+    }
+
+    private object? HandleBuildCrl(WorkRequest request, CancellationToken token)
+    {
+        if (request.Data is not BuildCrlRequest buildCrlRequest)
+        {
+            throw new ArgumentException();
+        }
+        var config = buildCrlRequest.Config;
+        var files = buildCrlRequest.Files;
+
         var x_config = this.GetConfig<ConfigCrl>(config);
-        var configFiles = new HashSet<X509File>();
+        var configFiles = new HashSet<X50xFile>();
         FindAllFiles(configFiles, x_config);
         ReplaceFilename(configFiles, files);
 
@@ -168,8 +228,8 @@ public class SecurityToolsController : Controller
         // create files
         var resultFiles = new Dictionary<string, byte[]>
         {
-            { "input.conf.json", Encoding.UTF8.GetBytes(this.Json(x_config).ToString() ?? "") },
-            { "output.conf.json", Encoding.UTF8.GetBytes(this.Json(result).ToString() ?? "") },
+            { "input.conf.json", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(x_config, _options.Value.JsonSerializerOptions) ?? "") },
+            { "output.conf.json", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(result, _options.Value.JsonSerializerOptions) ?? "") },
             { "issuer.key", result.KeyPair!.PrivateKey!.Data! },
             { "issuer.crt", result.Issuer!.Data! },
             { "result.crl", result.Crl!.Data! },
@@ -204,8 +264,20 @@ public class SecurityToolsController : Controller
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError, "application/json")]
     public IActionResult BuildKeyPair(IFormFile config, List<IFormFile> files)
     {
+        return _workerService.GetResponse(new BuildKeyPairRequest(config, files));
+    }
+
+    private object? HandleBuildKeyPair(WorkRequest request, CancellationToken token)
+    {
+        if (request.Data is not BuildKeyPairRequest buildKeyPairRequest)
+        {
+            throw new ArgumentException();
+        }
+        var config = buildKeyPairRequest.Config;
+        var files = buildKeyPairRequest.Files;
+
         var x_config = this.GetConfig<ConfigKeyPair>(config);
-        var configFiles = new HashSet<X509File>();
+        var configFiles = new HashSet<X50xFile>();
         FindAllFiles(configFiles, x_config);
         ReplaceFilename(configFiles, files);
 
@@ -215,8 +287,8 @@ public class SecurityToolsController : Controller
         // create files
         var resultFiles = new Dictionary<string, byte[]>
         {
-            { "input.conf.json", Encoding.UTF8.GetBytes(this.Json(x_config).ToString() ?? "") },
-            { "output.conf.json", Encoding.UTF8.GetBytes(this.Json(result).ToString() ?? "") },
+            { "input.conf.json", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(x_config, _options.Value.JsonSerializerOptions) ?? "") },
+            { "output.conf.json", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(result, _options.Value.JsonSerializerOptions) ?? "") },
             { "result.key", result.PrivateKey!.Data! },
             { "result.key.pub", result.PublicKey!.Data! },
         };
@@ -250,8 +322,20 @@ public class SecurityToolsController : Controller
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError, "application/json")]
     public IActionResult Transform(IFormFile config, List<IFormFile> files)
     {
+        return _workerService.GetResponse(new TransformRequest(config, files));
+    }
+
+    private object? HandleBuildTransform(WorkRequest request, CancellationToken token)
+    {
+        if (request.Data is not TransformRequest transformRequest)
+        {
+            throw new ArgumentException();
+        }
+        var config = transformRequest.Config;
+        var files = transformRequest.Files;
+
         var x_config = this.GetConfig<ConfigTransform>(config);
-        var configFiles = new HashSet<X509File>();
+        var configFiles = new HashSet<X50xFile>();
         FindAllFiles(configFiles, x_config);
         ReplaceFilename(configFiles, files);
 
@@ -261,8 +345,8 @@ public class SecurityToolsController : Controller
         // create files
         var resultFiles = new Dictionary<string, byte[]>
         {
-            { "input.conf.json", Encoding.UTF8.GetBytes(this.Json(x_config).ToString() ?? "") },
-            { "output.conf.json", Encoding.UTF8.GetBytes(this.Json(result).ToString() ?? "") },
+            { "input.conf.json", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(x_config, _options.Value.JsonSerializerOptions) ?? "") },
+            { "output.conf.json", Encoding.UTF8.GetBytes(JsonSerializer.Serialize(result, _options.Value.JsonSerializerOptions) ?? "") },
         };
 
         if (result.Output != null)
@@ -303,12 +387,12 @@ public class SecurityToolsController : Controller
     [ProducesResponseType(typeof(IList<string>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest, "application/json")]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError, "application/json")]
-    public IActionResult Print([FromBody] X509File request)
+    public IActionResult Print([FromBody] X50xFile request)
     {
         var reqConfig = new ConfigTransform
         {
             Mode = TransformMode.Print,
-            Input = new List<X509File>() {
+            Input = new List<X50xFile>() {
                 request
             }
         };
@@ -351,7 +435,7 @@ public class SecurityToolsController : Controller
         var reqConfig = new ConfigTransform
         {
             Mode = TransformMode.Print,
-            Input = new List<X509File>()
+            Input = new List<X50xFile>()
         };
         foreach (var formFile in files)
         {
@@ -361,7 +445,7 @@ public class SecurityToolsController : Controller
                 {
                     stream.CopyTo(mem);
                 }
-                reqConfig.Input.Add(new X509File()
+                reqConfig.Input.Add(new X50xFile()
                 {
                     Data = mem.ToArray()
                 });
@@ -394,7 +478,8 @@ public class SecurityToolsController : Controller
         }
         using (var stream = configFile.OpenReadStream())
         {
-            var config = JsonSerializer.Deserialize<T>(stream, new JsonSerializerOptions() {
+            var config = JsonSerializer.Deserialize<T>(stream, new JsonSerializerOptions()
+            {
                 PropertyNameCaseInsensitive = true
             });
             if (config == null)
@@ -446,7 +531,7 @@ public class SecurityToolsController : Controller
     }
 
 
-    private void FindAllFiles(HashSet<X509File> files, object? obj)
+    private void FindAllFiles(HashSet<X50xFile> files, object? obj)
     {
         if (obj == null)
         {
@@ -454,7 +539,11 @@ public class SecurityToolsController : Controller
         }
 
         var objType = obj.GetType();
-        var array = obj as Array;
+        Array? array = null;
+        if(objType.IsArray)
+        {
+            array = obj as Array;
+        }
         var list = obj as IEnumerable<object>;
         if (array != null)
         {
@@ -474,7 +563,7 @@ public class SecurityToolsController : Controller
                 FindAllFiles(files, item);
             }
         }
-        else
+        else if(objType.Namespace?.StartsWith("GGolbik") ?? false)
         {
             foreach (var propertyInfo in objType.GetProperties())
             {
@@ -483,7 +572,7 @@ public class SecurityToolsController : Controller
                     continue;
                 }
                 var value = propertyInfo.GetValue(obj);
-                if (value != null && value is X509File file)
+                if (value != null && value is X50xFile file)
                 {
                     files.Add(file);
                 }
@@ -495,7 +584,7 @@ public class SecurityToolsController : Controller
         }
     }
 
-    private void ReplaceFilename(HashSet<X509File> configFiles, List<IFormFile> formFiles)
+    private void ReplaceFilename(HashSet<X50xFile> configFiles, List<IFormFile> formFiles)
     {
         foreach (var file in configFiles)
         {

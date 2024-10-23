@@ -1,6 +1,6 @@
 using Serilog.Events;
 
-namespace GGolbik.SecurityTools.Diagnostic;
+namespace GGolbik.SecurityToolsApp.Diagnostic;
 
 public class LogFilter
 {

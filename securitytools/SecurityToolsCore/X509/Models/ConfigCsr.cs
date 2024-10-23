@@ -30,7 +30,7 @@ public class ConfigCsr : ICloneable
     /// <summary>
     /// The certificate signing request.
     /// </summary>
-    public X509File? Csr { get; set; }
+    public X50xFile? Csr { get; set; }
 
     /// <summary>
     /// The key pair of the certificate signing request (CSR).
@@ -40,12 +40,12 @@ public class ConfigCsr : ICloneable
     /// <summary>
     /// Provides the name of the computer, user, network device, or service that the CA issues the certificate to.
     /// </summary>
-    public ConfigSubjectName? SubjectName { get; set; }
+    public X50xSubjectName? SubjectName { get; set; }
 
     /// <summary>
     /// X509 extensions
     /// </summary>
-    public ConfigExtensions? Extensions { get; set; }
+    public X50xExtensions? Extensions { get; set; }
 
     /// <summary>
     /// The name or OID of the hash algorithm to use when signing, e.g.

@@ -1,6 +1,8 @@
-namespace GGolbik.SecurityTools.Terminal.Options;
+namespace GGolbik.SecurityToolsApp.Terminal.Options;
 
+using System.Text.Json;
 using CommandLine;
+using GGolbik.SecurityTools.Credentials;
 
 [Verb("web", isDefault:true, HelpText = "Runs a web application.")]
 public class WebOptions : ProgramOptions
@@ -16,4 +18,17 @@ public class WebOptions : ProgramOptions
 
     [Option("urls", Required = false, Default = null, HelpText = "Vists https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel for more info.")]
     public string? Urls { get; set; }
+
+    [Option("exportCredentials", Required = false, Default = true, HelpText = "Whether credentials shall be exported to the web.")]
+    public bool ExportCredentials { get; set; }
+
+    public override JsonSerializerOptions GetJsonSerializerOptions()
+    {
+        var options = base.GetJsonSerializerOptions();
+        if(!ExportCredentials)
+        {
+            options.Converters.Add(new KeyCredentialsJsonConverter(false));
+        }
+        return options;
+    }
 }

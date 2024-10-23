@@ -45,7 +45,7 @@ public class CertBuilder : SecurityBuilder<CertBuilder>
         this.AddExtensions(csr, result.Extensions, config.ReplaceExtensions ?? true);
 
         result.SerialNumber ??= BitConverter.GetBytes(DateTime.UtcNow.Ticks);
-        result.Validity ??= new ConfigValidity();
+        result.Validity ??= new X50xValidity();
         result.Validity.NotBefore ??= DateTime.UtcNow;
         result.Validity.NotAfter ??= DateTime.MaxValue.ToUniversalTime();
 
@@ -53,9 +53,9 @@ public class CertBuilder : SecurityBuilder<CertBuilder>
         this.InvokeOnAction(SecurityBuilderEventKind.BuiltCertificate);
 
         result.KeyPair ??= new ConfigKeyPair();
-        result.KeyPair.PrivateKey ??= new X509File();
-        result.KeyPair.PublicKey ??= new X509File();
-        result.Cert ??= new X509File();
+        result.KeyPair.PrivateKey ??= new X50xFile();
+        result.KeyPair.PublicKey ??= new X50xFile();
+        result.Cert ??= new X50xFile();
         HashAlgorithmName? keyAlg = result.KeyPair.HashAlgorithm?.ToHashAlgorithm();
         this.SaveKeyPair(result.KeyPair.PrivateKey, result.KeyPair.PublicKey, privateKey, keyAlg);
         this.SaveCert(result.Cert, cert);

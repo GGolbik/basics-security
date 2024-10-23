@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { arrayBufferToBase64, renameFile, toHumanSize } from '../../../main';
-import { ExecuteProgress, X509File } from '../../services/models';
-import { SecurityToolsService } from '../../services/tool.service';
+import { ExecuteProgress, X509File } from '../../tools/services/models';
+import { SecurityToolsService } from '../../tools/services/tool.service';
 import { DisplayDialogComponent, DisplayDialogData } from '../../display-dialog/display-dialog.component';
 
 @Component({
