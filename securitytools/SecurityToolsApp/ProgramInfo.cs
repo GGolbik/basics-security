@@ -1,8 +1,7 @@
-using System.Globalization;
 using System.Reflection;
 using System.Text;
 
-namespace GGolbik.SecurityTools;
+namespace GGolbik.SecurityToolsApp;
 
 /// <summary>
 /// Info about the application.

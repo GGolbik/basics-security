@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace GGolbik.SecurityTools.Web.Swagger;
+namespace GGolbik.SecurityToolsApp.Web.Swagger;
 
 /// <summary>
 /// Configures the Swagger generation options.

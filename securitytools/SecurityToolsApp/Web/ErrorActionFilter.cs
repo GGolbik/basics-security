@@ -1,9 +1,9 @@
-using GGolbik.SecurityTools.Core;
+using GGolbik.SecurityToolsApp.Core;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace GGolbik.SecurityTools.Web;
+namespace GGolbik.SecurityToolsApp.Web;
 
 public class ErrorActionFilter : ActionFilterAttribute
 {

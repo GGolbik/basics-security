@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription, map, timer } from 'rxjs';
-import { LogConfig, LogEntry, LogFilterOptions, LogLevel } from '../services/models';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { toLocalISOString } from '../../main';
-import { LoggingService } from '../services/log.service';
+import { LoggingService } from './services/log.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LogLevel, LogEntry, LogFilterOptions, LogConfig } from './services/models';
 
 @Component({
   selector: 'app-log',
@@ -34,17 +34,17 @@ export class LogComponent implements OnInit, OnDestroy, AfterViewInit {
   recordingInterval: number = 1000;
 
   config = { level: LogLevel.None } as LogConfig;
-  
+
   get columns() {
     let result = [];
-    
+
     result.push({
       columnDef: 'Timestamp',
       header: 'Timestamp',
       cell: (element: LogEntry) => `${this.toLocalDateTime ? toLocalISOString(new Date(element.timestamp ?? "")) : element.timestamp}`,
     });
-  
-  
+
+
     result.push({
       columnDef: 'Level',
       header: 'Level',
@@ -56,7 +56,7 @@ export class LogComponent implements OnInit, OnDestroy, AfterViewInit {
       header: 'Message',
       cell: (element: LogEntry) => `${element.message}`,
     });
-    
+
     return result;
   }
   get displayedColumns() {
@@ -71,12 +71,12 @@ export class LogComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getStyle(row: any) {
-    if(row as LogEntry){
+    if (row as LogEntry) {
       //console.log(row.level);
     }
     return "backround: orange !important";
   }
-  
+
   getTag(entry: LogEntry) {
     return JSON.parse(entry.properties ?? "{}")["SourceContext"] ?? "";
   }
@@ -122,14 +122,14 @@ export class LogComponent implements OnInit, OnDestroy, AfterViewInit {
     ).subscribe();
   }
 
-  
+
   toggleRecording() {
     this.stopTimer();
     this.recording = !this.recording;
     if (this.recording) {
       this.dataSource.data = [] as LogEntry[];
       this.resetPager();
-     
+
       this.startTimer();
     } else {
       this.refresh(true);
@@ -188,7 +188,7 @@ export class LogComponent implements OnInit, OnDestroy, AfterViewInit {
     this.stopTimer();
   }
 
-  
+
   /**
    * Sets the value for autotrust
    */
@@ -225,7 +225,7 @@ export class LogComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  
+
   openContent(value: any) {
     /*
     let data = value as ClientDataValue;

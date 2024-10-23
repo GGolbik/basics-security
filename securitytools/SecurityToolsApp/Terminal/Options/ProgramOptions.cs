@@ -1,8 +1,9 @@
-namespace GGolbik.SecurityTools.Terminal.Options;
+namespace GGolbik.SecurityToolsApp.Terminal.Options;
 
 using System.Text.Json;
 using CommandLine;
 using GGolbik.SecurityTools.Io;
+using GGolbik.SecurityToolsApp.Web.Converter;
 
 public abstract class ProgramOptions
 {
@@ -15,7 +16,7 @@ public abstract class ProgramOptions
     [Option("JsonNamingPolicy", Required = false, Default = "CamelCase", HelpText = "The property naming policy of the JSON serializer.")]
     public string? NamingPolicy { get; set; }
 
-    public JsonSerializerOptions GetJsonSerializerOptions()
+    public virtual JsonSerializerOptions GetJsonSerializerOptions()
     {
         List<KeyValuePair<string, JsonNamingPolicy>> policies = [
             new(nameof(JsonNamingPolicy.CamelCase), JsonNamingPolicy.CamelCase),
@@ -29,18 +30,20 @@ public abstract class ProgramOptions
         {
             return string.Equals(item.Key, this.NamingPolicy, StringComparison.InvariantCultureIgnoreCase);
         });
+        JsonSerializerOptions options = new();
         if (index < 0)
         {
-            return new JsonSerializerOptions()
-            {
-                PropertyNameCaseInsensitive = true,
-                PropertyNamingPolicy = null
-            };
+            options.PropertyNameCaseInsensitive = true;
+            options.PropertyNamingPolicy = null;
         }
-        return new JsonSerializerOptions()
+        else
         {
-            PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = policies[index].Value
-        };
+            options.PropertyNameCaseInsensitive = true;
+            options.PropertyNamingPolicy = policies[index].Value;
+        }
+        options.Converters.Add(new WorkEventArgsJsonConverter());
+        options.Converters.Add(new WorkRequestJsonConverter());
+        options.Converters.Add(new WorkStatusJsonConverter());
+        return options;
     }
 }

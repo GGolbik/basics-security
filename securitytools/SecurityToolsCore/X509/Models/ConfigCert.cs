@@ -19,7 +19,7 @@ public class ConfigCert : ICloneable
     /// <summary>
     /// The certificate.
     /// </summary>
-    public X509File? Cert { get; set; }
+    public X50xFile? Cert { get; set; }
 
     /// <summary>
     /// Specifies behavior when loading a CertificateRequest.
@@ -35,7 +35,7 @@ public class ConfigCert : ICloneable
     /// <summary>
     /// The the issuer certificate
     /// </summary>
-    public X509File? Issuer { get; set; }
+    public X50xFile? Issuer { get; set; }
 
     /// <summary>
     /// The key pair of the issuer.
@@ -57,7 +57,7 @@ public class ConfigCert : ICloneable
     /// The certificate validity period is the time interval during which the CA warrants 
     /// that it will maintain information about the status of the certificate.
     /// </summary>
-    public ConfigValidity? Validity { get; set; }
+    public X50xValidity? Validity { get; set; }
 
     /// <summary>
     /// Whether the <see cref="ConfigCert.Extensions"/> shall overwrite the same CSR extension or shall only be added if not already exist.
@@ -67,7 +67,7 @@ public class ConfigCert : ICloneable
     /// <summary>
     /// X509 extensions
     /// </summary>
-    public ConfigExtensions? Extensions { get; set; }
+    public X50xExtensions? Extensions { get; set; }
 
     /// <summary>
     /// The hash algorithm to use for the signature algorithm

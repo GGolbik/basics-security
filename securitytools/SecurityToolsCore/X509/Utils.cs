@@ -631,15 +631,15 @@ public static class UtilsExtensions
         return config;
     }
 
-    public static ConfigExtensions ToConfigExtensions(this X509ExtensionCollection extensions)
+    public static X50xExtensions ToConfigExtensions(this X509ExtensionCollection extensions)
     {
-        ConfigExtensions config = new();
+        X50xExtensions config = new();
         config.Extensions ??= [];
         foreach (var extension in extensions)
         {
             if (extension is X509BasicConstraintsExtension basicConstraintsExtension)
             {
-                config.BasicConstraints = new ConfigBasicConstraintsExtension()
+                config.BasicConstraints = new X50xBasicConstraintsExtension()
                 {
                     Critical = basicConstraintsExtension.Critical,
                     CertificateAuthority = basicConstraintsExtension.CertificateAuthority,
@@ -649,7 +649,7 @@ public static class UtilsExtensions
             }
             else if (extension is X509AuthorityKeyIdentifierExtension x509AuthorityKeyIdentifierExtension)
             {
-                config.AuthorityKeyIdentifier = new ConfigAuthorityKeyIdentifierExtension()
+                config.AuthorityKeyIdentifier = new X50xAuthorityKeyIdentifierExtension()
                 {
                     Critical = x509AuthorityKeyIdentifierExtension.Critical,
                     IncludeIssuerAndSerial = x509AuthorityKeyIdentifierExtension.SerialNumber != null || x509AuthorityKeyIdentifierExtension.NamedIssuer != null,
@@ -658,14 +658,14 @@ public static class UtilsExtensions
             }
             else if (extension is X509SubjectKeyIdentifierExtension x509SubjectKeyIdentifierExtension)
             {
-                config.SubjectKeyIdentifier = new ConfigSubjectKeyIdentifierExtension()
+                config.SubjectKeyIdentifier = new X50xSubjectKeyIdentifierExtension()
                 {
                     Critical = x509SubjectKeyIdentifierExtension.Critical
                 };
             }
             else if (extension is X509EnhancedKeyUsageExtension x509EnhancedKeyUsageExtension)
             {
-                config.ExtendedKeyUsage = new ConfigExtendedKeyUsageExtension()
+                config.ExtendedKeyUsage = new X50xExtendedKeyUsageExtension()
                 {
                     Critical = x509EnhancedKeyUsageExtension.Critical,
                     Oids = new HashSet<string>()
@@ -682,7 +682,7 @@ public static class UtilsExtensions
             }
             else if (extension is X509KeyUsageExtension x509KeyUsageExtension)
             {
-                config.KeyUsage = new ConfigKeyUsageExtension()
+                config.KeyUsage = new X50xKeyUsageExtension()
                 {
                     Critical = x509KeyUsageExtension.Critical,
                     KeyUsages = x509KeyUsageExtension.KeyUsages
@@ -691,7 +691,7 @@ public static class UtilsExtensions
             else if (extension is X509SubjectAlternativeNameExtension x509SubjectAlternativeNameExtension)
             {
                 // https://www.codeproject.com/Questions/5336056/How-to-add-subject-alternative-names-for-serianumb
-                config.SubjectAlternativeName = new ConfigSubjectAlternativeName()
+                config.SubjectAlternativeName = new X50xSubjectAlternativeName()
                 {
                     Critical = x509SubjectAlternativeNameExtension.Critical
                 };
@@ -702,7 +702,7 @@ public static class UtilsExtensions
                     {
                         case GeneralName.OtherName:
                             var seq = (Asn1Sequence)subname.Name;
-                            var anotherName = new ConfigOtherName()
+                            var anotherName = new X50xOtherName()
                             {
                                 TypeOid = ((DerObjectIdentifier)seq.First()).Id,
                                 Value = seq.Last().GetEncoded()
@@ -760,7 +760,7 @@ public static class UtilsExtensions
                 {
                     continue;
                 }
-                var e = new ConfigExtensionDefault()
+                var e = new X50xExtensionDefault()
                 {
                     Critical = extension.Critical,
                     Value = extension.RawData,
@@ -799,10 +799,10 @@ public static class UtilsExtensions
         return config;
     }
 
-    public static ConfigSubjectName ToConfigSubjectName(this X500DistinguishedName x500DistinguishedName)
+    public static X50xSubjectName ToConfigSubjectName(this X500DistinguishedName x500DistinguishedName)
     {
         var x500Name = X509Name.GetInstance(x500DistinguishedName.RawData);
-        ConfigSubjectName config = new();
+        X50xSubjectName config = new();
         // get all values with OIDs
         List<KeyValuePair<string, string>> oids = new();
         var valueList = x500Name.GetValueList();
@@ -813,7 +813,7 @@ public static class UtilsExtensions
         }
         config.Oids = oids;
         // map oids to fields
-        foreach (var prop in typeof(ConfigSubjectName).GetProperties())
+        foreach (var prop in typeof(X50xSubjectName).GetProperties())
         {
             var attr = prop.GetCustomAttribute<OidAttribute>();
             if (attr == null)

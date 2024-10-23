@@ -1,4 +1,4 @@
-namespace GGolbik.SecurityTools.Terminal.Options;
+namespace GGolbik.SecurityToolsApp.Terminal.Options;
 
 using CommandLine;
 

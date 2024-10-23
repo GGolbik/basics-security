@@ -1,6 +1,6 @@
 using GGolbik.SecurityTools.X509.Models;
 
-namespace GGolbik.SecurityTools.Diagnostic;
+namespace GGolbik.SecurityToolsApp.Diagnostic;
 
 public class LogEntry
 {

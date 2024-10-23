@@ -1,4 +1,4 @@
-namespace GGolbik.SecurityTools.Terminal.Options;
+namespace GGolbik.SecurityToolsApp.Terminal.Options;
 
 using CommandLine;
 
@@ -8,5 +8,5 @@ public class PrintOptions : ProgramOptions
 {
     [Option("inputFile", Required = true, Default = null, HelpText = "The path to the file to print.")]
     public string? InputFile { get; set; }
-    
+
 }

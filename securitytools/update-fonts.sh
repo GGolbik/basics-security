@@ -9,6 +9,8 @@ ROBOTO_STYLE="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&d
 ROBOTO_FILE="${STYLES_DIR}/roboto.css"
 MATERIAL_ICONS_STYLE="https://fonts.googleapis.com/icon?family=Material+Icons"
 MATERIAL_ICONS_FILE="${STYLES_DIR}/material-icons.css"
+MATERIAL_SYMBOLS_OUTLINED_STYLE="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=deployed_code"
+MATERIAL_SYMBOLS_OUTLINED_FONT="https://fonts.gstatic.com/icon/font?kit=kJF1BvYX7BgnkSrUwT8OhrdQw4oELdPIeeII9v6oDMzByHX9rA6RzaxHMPdY43zj-jCxv3fzvRNU22ZXGJpEpjC_1v-p_4MrImHCIJIZrDCvHOejHdcfyVBAtqx9--ue8Mq0&skey=b8dc2088854b122f&v=v213"
 
 rm -f "${ROBOTO_FILE}"
 rm -f "${MATERIAL_ICONS_FILE}"

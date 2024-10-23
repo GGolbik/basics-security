@@ -1,5 +1,5 @@
 
-namespace GGolbik.SecurityTools.Diagnostic;
+namespace GGolbik.SecurityToolsApp.Diagnostic;
 
 public enum SortDirection : int
 {

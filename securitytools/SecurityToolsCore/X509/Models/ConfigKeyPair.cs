@@ -19,7 +19,7 @@ public class ConfigKeyPair : ICloneable
     /// </summary>
     public SignatureAlgorithmName? SignatureAlgorithm { get; set; }
 
-    public X509File? PrivateKey { get; set; }
+    public X50xFile? PrivateKey { get; set; }
 
     /// <summary>
     /// The key size. For RSA 2048 or 4096.
@@ -35,7 +35,7 @@ public class ConfigKeyPair : ICloneable
     /// </summary>
     public string? Eccurve { get; set; }
 
-    public X509File? PublicKey { get; set; }
+    public X50xFile? PublicKey { get; set; }
 
     /// <summary>
     /// The name or OID of the hash algorithm to use when storing enrypted key, e.g.

@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace GGolbik.SecurityTools;
+namespace GGolbik.SecurityToolsApp;
 
 public class Settings
 {

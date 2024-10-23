@@ -1,11 +1,11 @@
 using System.Reflection;
-using GGolbik.SecurityTools.Core;
-using GGolbik.SecurityTools.Diagnostic;
-using GGolbik.SecurityTools.Web.Models;
+using GGolbik.SecurityToolsApp.Core;
+using GGolbik.SecurityToolsApp.Diagnostic;
+using GGolbik.SecurityToolsApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Serilog.Events;
 
-namespace GGolbik.SecurityTools.Web.Controllers;
+namespace GGolbik.SecurityToolsApp.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

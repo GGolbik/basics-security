@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace GGolbik.SecurityTools.Terminal.Options;
+namespace GGolbik.SecurityToolsApp.Terminal.Options;
 
 [Verb("cert", HelpText = "Create a certificate")]
 public class CertOptions : ConfigOptions

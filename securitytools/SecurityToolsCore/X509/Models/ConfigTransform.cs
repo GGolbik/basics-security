@@ -13,9 +13,9 @@ public class ConfigTransform : ICloneable
 
     public TransformMode? Mode { get; set; }
 
-    public IList<X509File>? Input { get; set; }
+    public IList<X50xFile>? Input { get; set; }
 
-    public IList<X509File>? Output { get; set; }
+    public IList<X50xFile>? Output { get; set; }
 
     public object Clone()
     {

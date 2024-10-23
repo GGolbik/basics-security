@@ -1,19 +1,66 @@
 <mat-toolbar color="primary" class="toolbar">
-  <a mat-icon-button [routerLink]="['/']" [routerLinkActive]="['link-active']"
-  [routerLinkActiveOptions]="{ exact: true }" aria-label="Open Home icon-button" matTooltip="Open Home">
-    <mat-icon>home</mat-icon>
+  <mat-toolbar-row>
+    <a mat-icon-button [routerLink]="['/']" [routerLinkActive]="['link-active']"
+      [routerLinkActiveOptions]="{ exact: true }" aria-label="Open Home icon-button" matTooltip="Open Home">
+      <mat-icon>home</mat-icon>
+    </a>
+    <span>SecurityTools</span>
+    <!--
+  <a mat-icon-button [routerLink]="['/assets']" [routerLinkActive]="['link-active']"
+    [routerLinkActiveOptions]="{ exact: true }" aria-label="Open Assets icon-button" matTooltip="Open Assets">
+    <mat-icon>hub</mat-icon>
   </a>
-  <span>SecurityTools</span>
-  <span class="example-spacer"></span>
-  <a mat-icon-button [routerLink]="['/log']" [routerLinkActive]="['link-active']" matTooltip="Open Log" aria-label="Open Log icon-button">
-    <mat-icon>feed</mat-icon>
+  <a mat-icon-button [routerLink]="['/certs']" [routerLinkActive]="['link-active']"
+    [routerLinkActiveOptions]="{ exact: true }" aria-label="Open Certificate Stores icon-button"
+    matTooltip="Open Certificate Stores">
+    <mat-icon>verified_user</mat-icon>
   </a>
-  <a mat-icon-button [routerLink]="['/doc']" [routerLinkActive]="['link-active']" matTooltip="Open Documentation" aria-label="Open Documentation icon-button">
-    <mat-icon>menu_book</mat-icon>
+  -->
+    <a mat-icon-button [routerLink]="['/credentials']" [routerLinkActive]="['link-active']"
+      [routerLinkActiveOptions]="{ exact: true }" aria-label="Open Key Credentials icon-button"
+      matTooltip="Open Key Credentials">
+      <mat-icon>key</mat-icon>
+    </a>
+    <!--
+  <a mat-icon-button [routerLink]="['/software']" [routerLinkActive]="['link-active']"
+    [routerLinkActiveOptions]="{ exact: true }" aria-label="Open Software Package List icon-button"
+    matTooltip="Open Software Package List">
+    <mat-icon><span class="material-symbols-outlined">deployed_code</span></mat-icon>
   </a>
-  <a mat-icon-button [routerLink]="['/api-doc']" [routerLinkActive]="['link-active']" matTooltip="Open API Documentation" aria-label="Open API Documentation icon-button">
-    <mat-icon>api</mat-icon>
+  <a mat-icon-button [routerLink]="['/tools']" [routerLinkActive]="['link-active']"
+    [routerLinkActiveOptions]="{ exact: true }" aria-label="Open Tools icon-button" matTooltip="Open Tools">
+    <mat-icon>handyman</mat-icon>
   </a>
+  -->
+    <span class="example-spacer"></span>
+    <a mat-icon-button [routerLink]="['/tasks']" [routerLinkActive]="['link-active']"
+      [routerLinkActiveOptions]="{ exact: true }" aria-label="Open Tasks icon-button" matTooltip="Open Tasks">
+      <mat-icon>list_alt</mat-icon>
+    </a>
+    <a mat-icon-button [routerLink]="['/log']" [routerLinkActive]="['link-active']" matTooltip="Open Log"
+      aria-label="Open Log icon-button">
+      <mat-icon>feed</mat-icon>
+    </a>
+    <a mat-icon-button [routerLink]="['/doc']" [routerLinkActive]="['link-active']" matTooltip="Open Documentation"
+      aria-label="Open Documentation icon-button">
+      <mat-icon>menu_book</mat-icon>
+    </a>
+    <a mat-icon-button [routerLink]="['/api-doc']" [routerLinkActive]="['link-active']"
+      matTooltip="Open API Documentation" aria-label="Open API Documentation icon-button">
+      <mat-icon>api</mat-icon>
+    </a>
+  </mat-toolbar-row>
+
+  <mat-toolbar-row *ngIf="isTools()">
+    <mat-tab-group [color]="'accent'" [selectedIndex]="index" (selectedIndexChange)="nav($event)">
+      <mat-tab label="Key Pair"></mat-tab>
+      <mat-tab label="CSR"></mat-tab>
+      <mat-tab label="Certificate"></mat-tab>
+      <mat-tab label="Self-Sign Certificate"></mat-tab>
+      <mat-tab label="CRL"></mat-tab>
+      <mat-tab label="Transform"></mat-tab>
+    </mat-tab-group>
+  </mat-toolbar-row>
 </mat-toolbar>
 <!--
 <header>

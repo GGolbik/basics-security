@@ -6,14 +6,9 @@ namespace GGolbik.SecurityTools.X509.Models;
 public class CrlEntry
 {
     /// <summary>
-    /// Indicates a particular version of the <see cref="CrlEntry"/>.
-    /// </summary>
-    public SchemaVersion? SchemaVersion { get; set; } = "1.0";
-
-    /// <summary>
     /// The certificate to revoke.
     /// </summary>
-    public X509File? Cert { get; set; }
+    public X50xFile? Cert { get; set; }
 
     /// <summary>
     /// The serial number to revoke.

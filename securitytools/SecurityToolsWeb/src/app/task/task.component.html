@@ -1,0 +1,63 @@
+<div style="display: flex;flex-direction:column; gap:1em; margin: 1em;">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title-group>
+                <mat-card-title>Tasks</mat-card-title>
+            </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field>
+                <mat-label>Limit</mat-label>
+                <input matInput placeholder="25" [(ngModel)]="limit" (change)="refresh()">
+                <mat-hint>The max number of tasks to display.</mat-hint>
+                <button matSuffix mat-icon-button (click)="refresh()" [disabled]="limit < 0"
+                    aria-label="Refresh request list icon button"
+                    matTooltip="Refresh request list"><mat-icon>refresh</mat-icon></button>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Cancel request with ID:</mat-label>
+                <input matInput placeholder="fb878585-ad18-4986-8931-1e633a123a9a" [(ngModel)]="requestId">
+                <mat-hint>The request ID.</mat-hint>
+                <button matSuffix mat-icon-button (click)="cancel()" [disabled]="requestId.length == 0"
+                    aria-label="Cancel request icon button"
+                    matTooltip="Cancel request"><mat-icon>stop_circle</mat-icon></button>
+            </mat-form-field>
+            <div *ngIf="getKeys().length == 0">
+                <br>
+                <p>There are no running requests</p>
+            </div>
+            <mat-list *ngIf="getKeys().length > 0">
+                <mat-list-item *ngFor="let key of getKeys()">
+                    <span matListItemTitle>{{ key + " # " + WorkState[getValue(key).state]}}</span>
+                    <span matListItemLine *ngIf="getValue(key).enqueued != null">Enqueued at {{ getValue(key).enqueued
+                        }}</span>
+                    <span matListItemLine *ngIf="getValue(key).executionStart != null">Started at {{
+                        getValue(key).executionStart }}</span>
+                </mat-list-item>
+            </mat-list>
+
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div style="display: flex;flex-direction:column; gap:1em; margin: 1em;">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title-group>
+                <mat-card-title>Events</mat-card-title>
+            </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+            <p *ngIf="events.length == 0">No Events</p>
+            <mat-list *ngIf="events.length > 0">
+                <mat-list-item *ngFor="let e of events">
+                    <span matListItemTitle>{{e.kind + " # " + WorkState[e.status.state]}}</span>
+                    <span matListItemLine>{{ e.id + " # "}}<span *ngIf="e.status.executionDuration != null">Duration:
+                        {{e.status.executionDuration}} ms</span></span>
+                    <span matListItemLine *ngIf="e.status.error != null">{{e.status.error}}</span>
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+</div>

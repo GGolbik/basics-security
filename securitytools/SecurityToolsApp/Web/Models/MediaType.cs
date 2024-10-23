@@ -1,5 +1,5 @@
 
-namespace GGolbik.SecurityTools.Web.Models;
+namespace GGolbik.SecurityToolsApp.Web.Models;
 
 public enum MediaType
 {

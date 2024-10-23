@@ -1,7 +1,7 @@
-namespace GGolbik.SecurityTools.Terminal.Options;
+namespace GGolbik.SecurityToolsApp.Terminal.Options;
 
 using CommandLine;
-using GGolbik.SecurityTools.Web.Models;
+using GGolbik.SecurityToolsApp.Web.Models;
 
 public abstract class ConfigOptions : ProgramOptions
 {
